@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "notifications",
-    "slug": "notifications",
+    "slug": "eat-bay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,7 +31,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "52ced679-1376-469d-af55-c19d3d001396"
+        "projectId": "7bca5088-3ab4-412f-9f88-a3e244485015"
       }
     },
     "owner": "keithb"
