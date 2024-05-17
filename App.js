@@ -13,7 +13,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-async function sendPushNotification(expoPushToken: string) {
+async function sendPushNotification(expoPushToken) {
   const message = {
     to: expoPushToken,
     sound: "default",
