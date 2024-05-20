@@ -1,7 +1,10 @@
-import { Text } from "react-native";
-import { Stack } from "expo-router";
+import { Button, Text } from "react-native";
+import { Stack, Redirect } from "expo-router";
+import { useState } from "react";
 
-export default function Login() {
+export default function LoginUser() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <>
       <Stack.Screen
@@ -9,6 +12,16 @@ export default function Login() {
         options={{ headerShown: true, title: "Login" }}
       />
       <Text>This is the login account page</Text>
+      {isLoggedIn ? (
+        <Redirect href={"/account/Account"} />
+      ) : (
+        <Button
+          title="Press to log in"
+          onPress={() => {
+            setIsLoggedIn(true);
+          }}
+        />
+      )}
     </>
   );
 }

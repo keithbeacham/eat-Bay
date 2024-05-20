@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { View, Button, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import * as Notifications from "expo-notifications";
 import MapView from "react-native-maps";
 import {
-  sendPushNotification,
   registerForPushNotificationsAsync,
   setNotificationsHandler,
 } from "../../../src/notifications";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { Stack, Screen, Link } from "expo-router";
 
 export default function index() {
@@ -48,7 +46,7 @@ export default function index() {
       <View
         style={{
           flex: 1,
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
@@ -71,7 +69,7 @@ export default function index() {
           }}
         /> */}
         <View>
-          <Link href={"/home/ViewFoodList"}>
+          <Link href={"/(tabs)/home/ViewFoodList"}>
             <Text>Press to go to View food list</Text>
           </Link>
         </View>
@@ -86,6 +84,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "90%",
+    height: "95%",
   },
 });
