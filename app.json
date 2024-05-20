@@ -1,7 +1,7 @@
 {
-  "scheme": "eat-Bay",
   "expo": {
-    "name": "notifications",
+    "name": "eat-Bay",
+    "scheme": "eat-Bay",
     "slug": "eat-bay",
     "version": "1.0.0",
     "orientation": "portrait",

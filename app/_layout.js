@@ -1,12 +1,19 @@
-import { Stack } from "expo-router";
+import { Stack, Screen } from "expo-router";
+import React from "react";
 
 export default function Layout() {
   return (
-    <>
-      <Stack>
-        <Stack.Screen name="navBar" />
-        <Stack.Screen name="index" />
-      </Stack>
-    </>
+    <Stack
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignContent: "space-between",
+      }}
+    >
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="ViewFoodList" options={{ headerShown: false }} />
+    </Stack>
   );
 }
