@@ -1,4 +1,5 @@
 {
+  "scheme": "eat-Bay",
   "expo": {
     "name": "notifications",
     "slug": "eat-bay",
@@ -21,11 +22,10 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
-    "plugins": [
-      "expo-router"
-    ],
+    "plugins": ["expo-router"],
     "extra": {
       "router": {
         "origin": false
