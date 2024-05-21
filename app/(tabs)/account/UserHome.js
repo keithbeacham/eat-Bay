@@ -51,7 +51,7 @@ export default function UserHome() {
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         options={{ headerShown: true, title: "Account" }}
       />
-      <Text>This is the Shop Home page</Text>
+      <Text>This is the User Home page</Text>
       {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
       {/* <Text>
           Title: {notification && notification.request.content.title}{" "}

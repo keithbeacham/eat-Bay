@@ -7,7 +7,7 @@ export default function AddFood() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "Sell Food" }}
+        options={{ headerShown: true, title: "Add Food" }}
       />
       <Text>This is the shops "add food" page </Text>
       <Button
