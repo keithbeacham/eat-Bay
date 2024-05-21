@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "notifications",
+    "name": "eat-Bay",
+    "scheme": "eat-Bay",
     "slug": "eat-bay",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,11 +22,10 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
-    "plugins": [
-      "expo-router"
-    ],
+    "plugins": ["expo-router"],
     "extra": {
       "router": {
         "origin": false
