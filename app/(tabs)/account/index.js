@@ -13,7 +13,7 @@ export default function LoginUser() {
       />
       <Text>This is the login account page</Text>
       {isLoggedIn ? (
-        <Redirect href={"/account/Account"} />
+        <Redirect href={"/account/CreateAccount"} />
       ) : (
         <Button
           title="Press to log in"
