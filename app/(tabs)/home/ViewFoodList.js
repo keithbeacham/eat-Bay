@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
+import MapView from "react-native-maps";
 
 export default function ViewFood() {
   const params = useLocalSearchParams();
@@ -9,10 +10,25 @@ export default function ViewFood() {
 
   return (
     <>
-      <View>
+      <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} />
+      <View
+        style={{
+          position: "absolute",
+          top: "5%",
+          left: "10%",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "80%",
+          height: "90%",
+          backgroundColor: "rgba(197, 197, 197, 0.9)",
+          borderRadius: "10px",
+        }}
+      >
         <Stack.Screen
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          options={{ headerShown: false, title: "Food List" }}
+          options={{
+            headerShown: false,
+            title: "Food List",
+          }}
         />
         <Text>This is the view-food-list screen</Text>
         <Link href={"/home/food-item-16"}>
@@ -28,3 +44,15 @@ export default function ViewFood() {
     </>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "95%",
+  },
+});
