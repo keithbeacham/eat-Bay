@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const mapSearchAPI = axios.create({
-  baseURL: "http://dev.virtualearth.net/REST/v1",
+  baseURL: "http://dev.virtualearth.net/REST/v1/",
 });
 
 const BingMapsKey =
@@ -15,6 +15,5 @@ export function getLocation(searchString) {
       key: BingMapsKey,
     },
   };
-
-  return mapSearchAPI.get("/Locations", params);
+  return mapSearchAPI.get("Locations", params);
 }

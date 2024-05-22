@@ -1,7 +1,7 @@
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { Stack, Link } from "expo-router";
-import { useEffect, useState } from "react";
+import { Stack, useRouter } from "expo-router";
+import { useState } from "react";
 import { getLocation } from "../../../src/api/mapApi";
 
 const markers = [
@@ -11,6 +11,7 @@ const markers = [
     longitude: -1.49868,
     title: "Greggs",
     description: "Greggs, Romsey",
+    hasFood: true,
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ const markers = [
     longitude: -1.35325,
     title: "Greggs",
     description: "Greggs, Eastleigh",
+    hasFood: false,
   },
   {
     id: 3,
@@ -25,45 +27,70 @@ const markers = [
     longitude: -1.40456,
     title: "Greggs",
     description: "Greggs, Above Bar Street, Southampton",
+    hasFood: true,
   },
 ];
 
 export default function Home() {
+  const [searchText, setSearchText] = useState("");
   const [latitude, setLatitude] = useState(54.093);
   const [longitude, setLongitude] = useState(-2.895);
   const [delta, setDelta] = useState(8);
-  const [searchText, setSearchText] = useState("");
+  const router = useRouter();
 
-  useEffect(() => {}, []);
+  function changeRegion(region) {
+    setLatitude(region.latitude);
+    setLongitude(region.longitude);
+    setDelta(region.latitudeDelta);
+  }
 
   function findLocation() {
-    const searchString = encodeURI(searchText);
+    const searchString = encodeURI(searchText.trim());
+    setSearchText("");
     getLocation(searchString)
       .then((response) => {
-        setLatitude(response.resourceSets[0].point.coordinates[0]);
-        setLongitude(response.resourceSets[0].point.coordinates[1]);
-        setDelta(1);
+        setLatitude(
+          response.data.resourceSets[0].resources[0].point.coordinates[0]
+        );
+        setLongitude(
+          response.data.resourceSets[0].resources[0].point.coordinates[1]
+        );
+        setDelta(0.5);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error>", error);
       });
   }
+
+  function goToShop(shopId) {
+    router.push({
+      pathname: "/home/ViewFoodList",
+      params: { shop_id: shopId },
+    });
+  }
+
   return (
     <>
-      <Stack.Screen options={{ headerShown: false }} />
+      <Stack.Screen
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        options={{ headerShown: true, title: "eatBay" }}
+      />
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
+          justifyContent: "spaceBetween",
           alignItems: "center",
         }}
       >
         <MapView
-          initialRegion={{
+          region={{
             latitude: latitude,
             longitude: longitude,
             latitudeDelta: delta,
             longitudeDelta: delta,
+          }}
+          onRegionChangeComplete={(region) => {
+            changeRegion(region);
           }}
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -76,7 +103,12 @@ export default function Home() {
                 longitude: marker.longitude,
               }}
               title={marker.title}
+              shop_id={marker.id}
               description={marker.description}
+              pinColor={marker.hasFood ? "tomato" : "gold"}
+              onPress={(e) =>
+                goToShop(e._dispatchInstances.memoizedProps.shop_id)
+              }
             />
           ))}
         </MapView>
@@ -100,9 +132,6 @@ export default function Home() {
             onSubmitEditing={findLocation}
           />
         </View>
-        <Link href={"/home/ViewFoodList"}>
-          <Text>Press to go to View food list</Text>
-        </Link>
       </View>
     </>
   );
@@ -114,6 +143,6 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "95%",
+    height: "100%",
   },
 });
