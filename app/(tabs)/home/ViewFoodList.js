@@ -5,28 +5,31 @@ import MapView from "react-native-maps";
 
 export default function ViewFood() {
   const params = useLocalSearchParams();
-  console.log(params);
+  console.log("params:", params);
   const router = useRouter();
 
   return (
     <>
-      <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} />
+      {/* <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} /> */}
       <View
-        style={{
-          position: "absolute",
-          top: "5%",
-          left: "10%",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "80%",
-          height: "90%",
-          backgroundColor: "rgba(197, 197, 197, 0.9)",
-          borderRadius: "10px",
-        }}
+      // style={
+      //   {
+      // position: "absolute",
+      // top: "5%",
+      // left: "10%",
+      // justifyContent: "center",
+      // alignItems: "center",
+      // width: "80%",
+      // height: "90%",
+      // backgroundColor: "rgba(197, 197, 197, 0.9)",
+      // borderRadius: "10",
+      //   }
+      // }
       >
         <Stack.Screen
           options={{
-            headerShown: false,
+            headerShown: true,
+            title: "Shop food list",
           }}
         />
         <Text>This is the view-food-list screen</Text>
