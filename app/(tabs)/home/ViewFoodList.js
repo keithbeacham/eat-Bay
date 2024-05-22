@@ -27,7 +27,6 @@ export default function ViewFood() {
         <Stack.Screen
           options={{
             headerShown: false,
-            title: "Food List",
           }}
         />
         <Text>This is the view-food-list screen</Text>
