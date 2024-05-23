@@ -1,47 +1,28 @@
 import { View, StyleSheet, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getLocation } from "../../../src/api/mapApi";
-
-const markers = [
-  {
-    id: 1,
-    latitude: 51.00252,
-    longitude: -1.49868,
-    title: "Greggs",
-    description: "Greggs, Romsey",
-    hasFood: true,
-  },
-  {
-    id: 2,
-    latitude: 50.97301,
-    longitude: -1.35325,
-    title: "Greggs",
-    description: "Greggs, Eastleigh",
-    hasFood: false,
-  },
-  {
-    id: 3,
-    latitude: 50.90478,
-    longitude: -1.40456,
-    title: "Greggs",
-    description: "Greggs, Above Bar Street, Southampton",
-    hasFood: true,
-  },
-];
+import { getShops } from "../../../src/api/backEndApi";
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
   const [latitude, setLatitude] = useState(54.093);
   const [longitude, setLongitude] = useState(-2.895);
-  const [delta, setDelta] = useState(8);
+  const [latitudeDelta, setLatitudeDelta] = useState(8);
+  const [longitudeDelta, setLongitudeDelta] = useState(8);
   const router = useRouter();
+  const [shopMarkers, setShopMarkers] = useState([]);
+
+  useEffect(() => {
+    setShopMarkers(getShops());
+  }, []);
 
   function changeRegion(region) {
-    setLatitude(region.latitude);
-    setLongitude(region.longitude);
-    setDelta(region.latitudeDelta);
+    // setLatitude(region.latitude);
+    // setLongitude(region.longitude);
+    // setLatitudeDelta(region.latitudeDelta);
+    // setLongitudeDelta(region.longitudeDelta);
   }
 
   function findLocation() {
@@ -55,7 +36,8 @@ export default function Home() {
         setLongitude(
           response.data.resourceSets[0].resources[0].point.coordinates[1]
         );
-        setDelta(0.5);
+        setLatitudeDelta(0.5);
+        setLongitudeDelta(0.5);
       })
       .catch((error) => {
         console.log("error>", error);
@@ -78,7 +60,7 @@ export default function Home() {
       <View
         style={{
           flex: 1,
-          justifyContent: "spaceBetween",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
@@ -86,29 +68,29 @@ export default function Home() {
           region={{
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: delta,
-            longitudeDelta: delta,
+            latitudeDelta: latitudeDelta,
+            longitudeDelta: longitudeDelta,
           }}
           onRegionChangeComplete={(region) => {
             changeRegion(region);
           }}
-          style={styles.map}
+          style={{ width: "100%", height: "100%" }}
           provider={PROVIDER_GOOGLE}
         >
-          {markers.map((marker) => (
+          {shopMarkers.map((shopMarker, index) => (
             <Marker
-              key={marker.id}
+              key={index}
               coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
+                latitude: shopMarker.latitude,
+                longitude: shopMarker.longitude,
               }}
-              title={marker.title}
-              shop_id={marker.id}
-              description={marker.description}
-              pinColor={marker.hasFood ? "tomato" : "gold"}
-              onPress={(e) =>
-                goToShop(e._dispatchInstances.memoizedProps.shop_id)
-              }
+              title={shopMarker.title}
+              shop_id={shopMarker.shop_id}
+              description={shopMarker.description}
+              pinColor={shopMarker.food_count > 0 ? "tomato" : "gold"}
+              onPress={(e) => {
+                goToShop(e._dispatchInstances.memoizedProps.shop_id);
+              }}
             />
           ))}
         </MapView>
@@ -136,13 +118,3 @@ export default function Home() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-  },
-});
