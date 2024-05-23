@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
+import { Image } from "expo-image";
 
 export default function ViewFood() {
   let params = {};
@@ -51,10 +52,10 @@ export default function ViewFood() {
         <Text style={{ textAlign: "center" }}>{pickUpTimes}</Text>
         <View
           style={{
+            overflow: "scroll",
             flex: 1,
             alignItems: "center",
             justifyContent: "center",
-            flexDirection: "column",
           }}
         >
           {foodItems.map((foodItem, index) => {
@@ -62,11 +63,14 @@ export default function ViewFood() {
               <Link key={index} href={`/home/${foodItem.food_id}`}>
                 <View
                   style={{
-                    flex: 1,
-                    flexWrap: "wrap",
+                    // textAlign: "center",
+                    // flex: 1,
+                    // flexWrap: "wrap",
                     backgroundColor: "white",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    // justifyContent: "center",
+                    // alignItems: "center",
+                    // marginTop: "10",
+                    // width: "100%",
                   }}
                 >
                   <Text
@@ -79,17 +83,44 @@ export default function ViewFood() {
                     Name:{foodItem.item_name}
                     {"\n"}
                   </Text>
-                  <Text
+                  <View
                     style={{
-                      textAlign: "center",
-                      fontSize: 20,
-                      flexWrap: "wrap",
                       flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
-                    Description:{foodItem.item_description}
-                    {"\n"}
-                  </Text>
+                    <Image
+                      style={styles.image}
+                      contentFit="cover"
+                      source="https://picsum.photos/seed/696/3000/2000"
+                      // source="https://images.app.goo.gl/iRhwkXD7cPJqE8HN7"
+                    />
+                  </View>
+
+                  <View
+                    style={
+                      {
+                        // flex: 1,
+                        // justifyContent: "center",
+                        // alignItems: "center",
+                        // overflow: "auto",
+                      }
+                    }
+                  >
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        fontSize: 20,
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      Description
+                      {/* Description:{foodItem.item_description} */}
+                      {"\n"}
+                    </Text>
+                  </View>
+
                   <Text
                     style={{
                       textAlign: "center",
@@ -129,4 +160,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "95%",
   },
+  image: { width: "100%", flex: 1 },
 });
