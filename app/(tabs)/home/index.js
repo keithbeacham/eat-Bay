@@ -44,10 +44,11 @@ export default function Home() {
       });
   }
 
-  function goToShop(shopId) {
+  function goToShop(shopObject) {
+    console.log("index>", shopObject);
     router.push({
       pathname: "/home/ViewFoodList",
-      params: { shop_id: shopId },
+      params: shopObject,
     });
   }
 
@@ -84,12 +85,13 @@ export default function Home() {
                 latitude: shopMarker.latitude,
                 longitude: shopMarker.longitude,
               }}
-              title={shopMarker.title}
+              title={shopMarker.shop_name}
               shop_id={shopMarker.shop_id}
-              description={shopMarker.description}
+              address={shopMarker.address}
+              pickUpTimes={shopMarker.pickup_times}
               pinColor={shopMarker.food_count > 0 ? "tomato" : "gold"}
               onPress={(e) => {
-                goToShop(e._dispatchInstances.memoizedProps.shop_id);
+                goToShop(e._dispatchInstances.memoizedProps);
               }}
             />
           ))}
