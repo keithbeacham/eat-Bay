@@ -27,15 +27,11 @@ export default function ViewFood() {
       {/* <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} /> */}
       <View
         style={{
-          position: "absolute",
-          top: "5%",
-          left: "10%",
+          flex: 1,
+          width: "100%",
+          height: "100%",
           justifyContent: "center",
           alignItems: "center",
-          width: "80%",
-          height: "90%",
-          backgroundColor: "rgba(197, 197, 197, 0.9)",
-          // borderRadius: "10",
         }}
       >
         <Stack.Screen
@@ -50,18 +46,11 @@ export default function ViewFood() {
         </Text>
         <Text>{address}</Text>
         <Text style={{ textAlign: "center" }}>{pickUpTimes}</Text>
-        <View
-          style={{
-            overflow: "scroll",
-            flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <View style={styles.listContainer}>
           {foodItems.map((foodItem, index) => {
             return (
               <Link key={index} href={`/home/${foodItem.food_id}`}>
-                <View
+                {/* <View
                   style={{
                     // textAlign: "center",
                     // flex: 1,
@@ -72,65 +61,66 @@ export default function ViewFood() {
                     // marginTop: "10",
                     // width: "100%",
                   }}
+                > */}
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: 20,
+                  }}
+                >
+                  Name:{foodItem.item_name}
+                  {"\n"}
+                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    style={styles.image}
+                    // contentFit="cover"
+                    source="https://picsum.photos/seed/696/3000/2000"
+                    // source="https://images.app.goo.gl/iRhwkXD7cPJqE8HN7"
+                  />
+                </View>
+
+                <View
+                  style={
+                    {
+                      // flex: 1,
+                      // justifyContent: "center",
+                      // alignItems: "center",
+                      // overflow: "auto",
+                    }
+                  }
                 >
                   <Text
                     style={{
                       textAlign: "center",
-                      fontWeight: "bold",
                       fontSize: 20,
+                      display: "flex",
+                      flexWrap: "wrap",
                     }}
                   >
-                    Name:{foodItem.item_name}
+                    {/* Description */}
+                    Description:{foodItem.item_description}
                     {"\n"}
                   </Text>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Image
-                      style={styles.image}
-                      contentFit="cover"
-                      source="https://picsum.photos/seed/696/3000/2000"
-                      // source="https://images.app.goo.gl/iRhwkXD7cPJqE8HN7"
-                    />
-                  </View>
-
-                  <View
-                    style={
-                      {
-                        // flex: 1,
-                        // justifyContent: "center",
-                        // alignItems: "center",
-                        // overflow: "auto",
-                      }
-                    }
-                  >
-                    <Text
-                      style={{
-                        textAlign: "center",
-                        fontSize: 20,
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      Description
-                      {/* Description:{foodItem.item_description} */}
-                      {"\n"}
-                    </Text>
-                  </View>
-
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      fontSize: 20,
-                    }}
-                  >
-                    Quantity Available:{foodItem.quantity}
-                  </Text>
                 </View>
+
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: 20,
+                  }}
+                >
+                  Quantity Available:{foodItem.quantity}
+                </Text>
+                {/* </View> */}
               </Link>
             );
           })}
@@ -160,5 +150,26 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "95%",
   },
-  image: { width: "100%", flex: 1 },
+  image: { width: "100%", flex: 1, resizeMode: "cover" },
+  overlay: {
+    position: "absolute",
+    top: "5%",
+    left: "10%",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
+    height: "90%",
+    backgroundColor: "rgba(197, 197, 197, 0.9)",
+    // borderRadius: "10",
+  },
+  listContainer: {
+    overflow: "scroll",
+    flex: 1,
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    height: "80%",
+    backgroundColor: "blue",
+  },
 });
