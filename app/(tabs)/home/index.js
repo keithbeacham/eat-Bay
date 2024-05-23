@@ -7,10 +7,10 @@ import { getShops } from "../../../src/api/backEndApi";
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
-  const [latitude, setLatitude] = useState(54.093);
-  const [longitude, setLongitude] = useState(-2.895);
-  const [latitudeDelta, setLatitudeDelta] = useState(8);
-  const [longitudeDelta, setLongitudeDelta] = useState(8);
+  const [latitude, setLatitude] = useState(50.95);
+  const [longitude, setLongitude] = useState(-1.4);
+  const [latitudeDelta, setLatitudeDelta] = useState(0.2);
+  const [longitudeDelta, setLongitudeDelta] = useState(0.2);
   const router = useRouter();
   const [shopMarkers, setShopMarkers] = useState([]);
 
