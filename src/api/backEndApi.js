@@ -11,7 +11,5 @@ export function getShopById(shop_id) {
 }
 
 export function getFoodByShopId(shop_id) {
-  return foodData.filter((foodItem) => {
-    return foodItem.shop_id === shop_id;
-  });
+  return foodData.filter((foodItem) => foodItem.shop_id === Number(shop_id));
 }

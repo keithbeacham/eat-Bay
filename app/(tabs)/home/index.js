@@ -45,7 +45,6 @@ export default function Home() {
   }
 
   function goToShop(shopObject) {
-    console.log("index>", shopObject);
     router.push({
       pathname: "/home/ViewFoodList",
       params: shopObject,
