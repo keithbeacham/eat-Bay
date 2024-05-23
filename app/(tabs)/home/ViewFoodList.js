@@ -16,14 +16,11 @@ export default function ViewFood() {
     setShopName(params.title);
     setAddress(params.address);
     setPickUpTimes(params.pickUpTimes);
-    const foodItemsData = getFoodByShopId(params.shop_id);
-    console.log(foodItemsData);
     setFoodItems(getFoodByShopId(params.shop_id));
   }, []);
 
   const router = useRouter();
-  //retrieve shop details
-  //retrieve food at shop
+
   return (
     <>
       {/* <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} /> */}
@@ -52,15 +49,62 @@ export default function ViewFood() {
         </Text>
         <Text>{address}</Text>
         <Text style={{ textAlign: "center" }}>{pickUpTimes}</Text>
-        {foodItems.map((foodItem, index) => {
-          return (
-            <Link key={index} href={`/home/${foodItem.food_id}`}>
-              <Text>Name:{foodItem.item_name}</Text>
-              <Text>Description:{foodItem.item_description}</Text>
-              <Text>Quantity Available:{foodItem.quantity}</Text>
-            </Link>
-          );
-        })}
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          {foodItems.map((foodItem, index) => {
+            return (
+              <Link key={index} href={`/home/${foodItem.food_id}`}>
+                <View
+                  style={{
+                    flex: 1,
+                    flexWrap: "wrap",
+                    backgroundColor: "white",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      fontSize: 20,
+                    }}
+                  >
+                    Name:{foodItem.item_name}
+                    {"\n"}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 20,
+                      flexWrap: "wrap",
+                      flex: 1,
+                    }}
+                  >
+                    Description:{foodItem.item_description}
+                    {"\n"}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      fontSize: 20,
+                    }}
+                  >
+                    Quantity Available:{foodItem.quantity}
+                  </Text>
+                </View>
+              </Link>
+            );
+          })}
+        </View>
+
         <Link href={"/home/food-item-16"}>
           <Text>click here to go to the food item page</Text>
         </Link>
