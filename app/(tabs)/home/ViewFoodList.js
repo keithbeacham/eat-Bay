@@ -27,11 +27,20 @@ export default function ViewFood() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: "",
+          title: "eatBay",
         }}
       />
-      <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} />
-      <View style={styles.foodListContainer}>
+      <MapView
+        style={styles.map}
+        provider={MapView.PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: 50.95,
+          longitude: -1.4,
+          latitudeDelta: 0.15,
+          longitudeDelta: 0.15,
+        }}
+      />
+      <View style={styles.pageContainer}>
         <Text style={styles.bold30}>{shopName}</Text>
         <Text>{address}</Text>
         <Text>{pickUpTimes}</Text>
@@ -72,15 +81,24 @@ export default function ViewFood() {
   );
 }
 const styles = StyleSheet.create({
-  foodListContainer1: { alignItems: "center", flex: 1 },
-  foodListContainer: {
+  map: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
+  pageContainer: {
     position: "absolute",
     top: "5%",
     left: "10%",
     width: "80%",
     height: "90%",
-    backgroundColor: "rgba(255,255,255,0.7)",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.8)",
     padding: 10,
+    borderRadius: 10,
   },
   foodItem: {
     flex: 1,
@@ -100,12 +118,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   container: {},
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "95%",
-  },
   image: {
     // flex: 1,
     width: 50,

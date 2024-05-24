@@ -13,3 +13,10 @@ export function getShopById(shop_id) {
 export function getFoodByShopId(shop_id) {
   return foodData.filter((foodItem) => foodItem.shop_id === Number(shop_id));
 }
+
+export function getFoodByFoodId(food_id) {
+  const [foodItem] = foodData.filter(
+    (foodItem) => foodItem.food_id === Number(food_id)
+  );
+  return foodItem;
+}
