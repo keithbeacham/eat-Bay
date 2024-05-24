@@ -24,59 +24,43 @@ export default function ViewFood() {
 
   return (
     <>
-      {/* <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} /> */}
-      <View
-        style={{
-          position: "absolute",
-          top: "5%",
-          left: "10%",
-          width: "80%",
-          height: "90%",
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          title: "",
         }}
-      >
-        <Stack.Screen
-          options={{
-            headerShown: true,
-            title: "Food Available",
-          }}
-        />
-        <View style={{ alignItems: "center", flex: 1}}>
-          <Text style={styles.bold30}>
-            {shopName}
-          </Text>
-          <Text>{address}</Text>
-          <Text>{pickUpTimes}</Text>
-          {foodItems.map((foodItem, index) => {
-            return (
-              <Link key={index} href={`/home/${foodItem.food_id}`}>
-                <Image source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.image}/>
-                <Text
-                  style={styles.bold16}
-                >
-                  {"\n"}
-                  Name: {foodItem.item_name}
-                </Text>
-                <Text
-                  style={styles.text}
-                >
-                  {"\n"}
-                  Description: {foodItem.item_description}
-                </Text>
-                <Text
-                  style={styles.bold16}
-                >
-                  {"\n"}
-                  Quantity Available:{foodItem.quantity}
-                </Text>
-
-              </Link>
-            );
-          })}
-        </View>
-
-        <Link href={"/home/food-item-16"}>
-          <Text>click here to go to the food item page</Text>
-        </Link>
+      />
+      <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} />
+      <View style={styles.foodListContainer}>
+        <Text style={styles.bold30}>{shopName}</Text>
+        <Text>{address}</Text>
+        <Text>{pickUpTimes}</Text>
+        {foodItems.map((foodItem, index) => {
+          return (
+            <Link
+              key={index}
+              href={`/home/${foodItem.food_id}`}
+              style={styles.foodItem}
+            >
+              <Image
+                source={{ uri: "https://reactjs.org/logo-og.png" }}
+                style={styles.image}
+              />
+              <Text style={styles.bold16}>
+                {"\n"}
+                Name: {foodItem.item_name}
+              </Text>
+              <Text style={styles.text15}>
+                {"\n"}
+                Description: {foodItem.item_description}
+              </Text>
+              <Text style={styles.bold16}>
+                {"\n"}
+                Quantity Available:{foodItem.quantity}
+              </Text>
+            </Link>
+          );
+        })}
         <Button
           title="Add Item (if you are a shop)"
           onPress={() => {
@@ -88,8 +72,23 @@ export default function ViewFood() {
   );
 }
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 15
+  foodListContainer1: { alignItems: "center", flex: 1 },
+  foodListContainer: {
+    position: "absolute",
+    top: "5%",
+    left: "10%",
+    width: "80%",
+    height: "90%",
+    backgroundColor: "rgba(255,255,255,0.7)",
+    padding: 10,
+  },
+  foodItem: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text15: {
+    fontSize: 15,
   },
   bold30: {
     fontWeight: "bold",
@@ -98,9 +97,9 @@ const styles = StyleSheet.create({
   bold16: {
     fontWeight: "bold",
     fontSize: 16,
+    textAlign: "center",
   },
-  container: {
-  },
+  container: {},
   map: {
     justifyContent: "center",
     alignItems: "center",
@@ -108,9 +107,9 @@ const styles = StyleSheet.create({
     height: "95%",
   },
   image: {
+    // flex: 1,
     width: 50,
     height: 50,
-    backgroundColor: '#0553',
-  }
-
+    backgroundColor: "#0553",
+  },
 });

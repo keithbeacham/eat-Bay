@@ -39,7 +39,7 @@ module.exports = [
     picture_url:
       "https://lh3.googleusercontent.com/p/AF1QipMOdxmCOz-G-b3LZbDfaLKksXuaSP87XiO3Ym7y=s680-w680-h510",
     notifications: true,
-    food_count: 0,
+    food_count: 1,
   },
   {
     shop_id: 4,
