@@ -47,10 +47,7 @@ export default function ShopHome() {
 
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "Account" }}
-      />
+      <Stack.Screen options={{ headerShown: true, title: "eatBay" }} />
       <Text>This is the User Home page, user agrees to push notifications</Text>
       {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
       {/* <Text>
@@ -73,19 +70,14 @@ export default function ShopHome() {
         onPress={() => setUpPushNotifications()}
       />
       <Button
-        title="view current transactions"
-        onPress={() => router.replace("/account/SellFood")}
+        title="view current reservations"
+        onPress={() => router.push("/account/SellFood")}
       />
       <Button
         title="view food list"
-        onPress={() =>
-          router.replace("/home/ViewFoodList").setParams("shop-id")
-        }
+        onPress={() => router.push("/home/ViewFoodList").setParams("shop-id")}
       />
-      <Button
-        title="Add food"
-        onPress={() => router.replace("/home/AddFood")}
-      />
+      <Button title="Add food" onPress={() => router.push("/home/AddFood")} />
     </>
   );
 }

@@ -6,21 +6,18 @@ export default function Account() {
 
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "Account" }}
-      />
+      <Stack.Screen options={{ headerShown: true, title: "eatBay" }} />
       <Text>
         This is the Create Account page, user selects whether they are a shop or
         a user
       </Text>
       <Button
         title="create account (customer)"
-        onPress={() => router.replace("/account/UserHome")}
+        onPress={() => router.push("/account/UserHome")}
       />
       <Button
         title="create account (shop)"
-        onPress={() => router.replace("/account/ShopHome")}
+        onPress={() => router.push("/account/ShopHome")}
       />
     </>
   );
