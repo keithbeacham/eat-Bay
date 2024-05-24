@@ -9,8 +9,8 @@ export default function Home() {
   const [searchText, setSearchText] = useState("");
   const [latitude, setLatitude] = useState(50.95);
   const [longitude, setLongitude] = useState(-1.4);
-  const [latitudeDelta, setLatitudeDelta] = useState(0.2);
-  const [longitudeDelta, setLongitudeDelta] = useState(0.2);
+  const [latitudeDelta, setLatitudeDelta] = useState(0.15);
+  const [longitudeDelta, setLongitudeDelta] = useState(0.15);
   const router = useRouter();
   const [shopMarkers, setShopMarkers] = useState([]);
 
