@@ -4,10 +4,21 @@ import {
   usersData,
   reservationsData,
 } from "../../data/test-data/index";
+
 import generateReservationCode from "../reservationCode";
 
+import axios from 'axios'
+
+//export function getShops() {
+//  return shopsData;
+//}
+
+const eatbayApi = axios.create({
+  baseURL: "https://eatbay-be.onrender.com/api"
+})
+
 export function getShops() {
-  return shopsData;
+  return eatbayApi.get('/shops')
 }
 
 export function getShopById(shop_id) {

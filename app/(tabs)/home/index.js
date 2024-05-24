@@ -14,9 +14,17 @@ export default function Home() {
   const router = useRouter();
   const [shopMarkers, setShopMarkers] = useState([]);
 
+  // useEffect(() => {
+  //   setShopMarkers(getShops());
+  // }, []);
+
+
   useEffect(() => {
-    setShopMarkers(getShops());
-  }, []);
+    getShops()
+    .then((response) => {
+      setShopMarkers(response.data.shops)
+    })
+  }, [])
 
   function changeRegion(region) {
     // setLatitude(region.latitude);
@@ -81,8 +89,8 @@ export default function Home() {
             <Marker
               key={index}
               coordinate={{
-                latitude: shopMarker.latitude,
-                longitude: shopMarker.longitude,
+                latitude: Number(shopMarker.latitude),
+                longitude: Number(shopMarker.longitude),
               }}
               title={shopMarker.shop_name}
               shop_id={shopMarker.shop_id}
