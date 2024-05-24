@@ -30,7 +30,9 @@ export function getFoodByFoodId(food_id) {
 
 export function getReservationsByUserId(user_id) {
   const reservations = reservationsData.filter(
-    (reservation) => reservation.user_id === Number(user_id)
+    (reservation) =>
+      reservation.user_id === Number(user_id) &&
+      reservation.status === "Pending collection"
   );
   return reservations;
 }
@@ -44,5 +46,20 @@ export function postReservation(shop_id, food_id, email, reservation_code) {
     email,
     reservation_code,
     status: "Pending collection",
+  };
+}
+
+export function getReservationsByShopId(shop_id) {
+  const reservations = reservationsData.filter(
+    (reservation) =>
+      reservation.shop_id === Number(shop_id) &&
+      reservation.status === "Pending collection"
+  );
+  return reservations;
+}
+
+export function patchReservationByReservationId(reservation_id) {
+  const body = {
+    status: "sold",
   };
 }

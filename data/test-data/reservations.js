@@ -5,7 +5,7 @@ module.exports = [
     shop_id: 2,
     food_id: 3,
     status: "Pending collection",
-    user_id: 1,
+    user_id: "sofe@northcoders.com",
     reservation_code: "ehstx&*24w",
   },
   {
@@ -14,7 +14,7 @@ module.exports = [
     shop_id: 2,
     food_id: 1,
     status: "Pending collection",
-    user_id: 1,
+    user_id: "sofe@northcoders.com",
     reservation_code: "js^%4ma97m",
   },
   {
@@ -23,7 +23,7 @@ module.exports = [
     shop_id: 1,
     food_id: 2,
     status: "Pending collection",
-    user_id: 1,
+    user_id: "sofe@northcoders.com",
     reservation_code: "sn#s7!@nk3",
   },
   {
@@ -32,16 +32,16 @@ module.exports = [
     shop_id: 3,
     food_id: 4,
     status: "Pending collection",
-    user_id: 3,
+    user_id: "jennifer@northcoders.com",
     reservation_code: "ksp*(£15cb",
   },
   {
     transaction_id: 5,
     email: "jennifer@northcoders.com",
     shop_id: 2,
-    food_id: 6,
+    food_id: 5,
     status: "Pending collection",
-    user_id: 4,
+    user_id: "keith@northcoders.com",
     reservation_code: "ps27v$%+nw",
   },
 ];
