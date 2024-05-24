@@ -1,24 +1,31 @@
 import { Text, View, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { getFoodByFoodId } from "../../../src/api/backEndApi";
+import { getFoodByFoodId, postReservation } from "../../../src/api/backEndApi";
+import generateReservationCode from "../../../src/reservationCode";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 
 export default function ViewFood() {
-  const { FoodItemId } = useLocalSearchParams();
+  const { food_id, shop_id } = useLocalSearchParams();
   const [foodItemName, setFoodItemName] = useState("");
   const [foodItemDescription, setFoodItemDescription] = useState("");
   const [foodItemQuantity, setFoodItemQuantity] = useState(0);
   const router = useRouter();
+  const user_id = "barry@hotmail.com";
 
   useEffect(() => {
-    const food_item = getFoodByFoodId(FoodItemId);
+    const food_item = getFoodByFoodId(food_id);
     setFoodItemName(food_item.item_name);
     setFoodItemDescription(food_item.item_description);
     setFoodItemQuantity(food_item.quantity);
   }, []);
 
+  function reserveFoodItem() {
+    const reservationCode = generateReservationCode(food_id, user_id, shop_id);
+    postReservation(shop_id, food_id, user_id, reservationCode);
+    router.replace("/home/Reservations");
+  }
   return (
     <>
       <Stack.Screen
@@ -48,10 +55,7 @@ export default function ViewFood() {
           Quantity left - {foodItemQuantity}
           {"\n"}
         </Text>
-        <Button
-          title="Reserve this Food"
-          onPress={() => router.replace("/home/Reservations")}
-        />
+        <Button title="Reserve this Food" onPress={() => reserveFoodItem()} />
       </View>
     </>
   );

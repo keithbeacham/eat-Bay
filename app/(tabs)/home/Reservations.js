@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
@@ -7,15 +7,19 @@ import {
   getFoodByFoodId,
   getReservationsByUserId,
   getShopById,
+  deleteReservationById,
 } from "../../../src/api/backEndApi";
 
 export default function ViewReservations() {
   const user_id = 1;
   const [reservations, setReservations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
   useEffect(() => {
-    const reservationArray = [...getReservationsByUserId(user_id)];
-    reservationArray.map((reservation) => {
+    setIsLoading(true);
+    const reservationArrayCopy = [...getReservationsByUserId(user_id)];
+    const reservationArray = reservationArrayCopy.map((reservation) => {
       const reservationCopy = { ...reservation };
       const shopObject = getShopById(reservation.shop_id);
       reservationCopy.location = shopObject.address;
@@ -24,10 +28,13 @@ export default function ViewReservations() {
       reservationCopy.itemName = foodObject.item_name;
       return reservationCopy;
     });
-    console.log(reservationArray);
-
     setReservations(reservationArray);
+    setIsLoading(false);
   }, []);
+
+  function deleteReservation(reservationId) {
+    deleteReservationById(reservationId);
+  }
   return (
     <>
       <Stack.Screen
@@ -46,16 +53,45 @@ export default function ViewReservations() {
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold30}>Reserved Items{"\n"}</Text>
-        <Text style={styles.bold16}>Item Name{"\n"}</Text>
-        <Text style={styles.text15}>Location{"\n"}</Text>
-        <Text style={styles.text15}>Pick Up Times{"\n"}</Text>
-        <Text style={styles.bold16}>Unique ID{"\n"}</Text>
-
-        <Button title="Delete" />
-        {/* <Button
-          title="go back to food list"
-          onPress={() => router.replace("/home/ViewFoodList")}
-        /> */}
+        <ScrollView>
+          {isLoading ? (
+            <Text>Loading Data...</Text>
+          ) : (
+            reservations.map((reservation) => {
+              return (
+                <View
+                  key={reservation.transaction_id}
+                  style={styles.reservationBox}
+                >
+                  <Text style={styles.bold16}>
+                    {reservation.itemName}
+                    {"\n"}
+                  </Text>
+                  <Text style={styles.text15}>
+                    {reservation.location}
+                    {"\n"}
+                  </Text>
+                  <Text style={styles.text15}>
+                    {reservation.pickUpTimes}
+                    {"\n"}
+                  </Text>
+                  <Text style={styles.bold16}>Unique ID</Text>
+                  <Text style={styles.text15}>
+                    {reservation.reservation_code}
+                    {"\n"}
+                  </Text>
+                  <Button
+                    key={"buttonKey"}
+                    title="Delete"
+                    onPress={() =>
+                      deleteReservation(reservation.transaction_id)
+                    }
+                  />
+                </View>
+              );
+            })
+          )}
+        </ScrollView>
       </View>
     </>
   );
@@ -77,17 +113,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    flexWrap: "scroll",
     backgroundColor: "rgba(255,255,255,0.8)",
     padding: 10,
     borderRadius: 10,
   },
-  foodItem: {
+  reservationBox: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(228,219,223,0.8)",
+    margin: 10,
+    padding: 5,
   },
   text15: {
     fontSize: 15,
+    textAlign: "center",
   },
   bold30: {
     fontWeight: "bold",

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "rgba(50,150,250,1)",
+    backgroundColor: "rgba(45,200,175,1)",
   },
   text: {
     fontSize: 16,

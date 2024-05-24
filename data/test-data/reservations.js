@@ -6,6 +6,7 @@ module.exports = [
     food_id: 3,
     status: "Pending collection",
     user_id: 1,
+    reservation_code: "ehstx&*24w",
   },
   {
     transaction_id: 2,
@@ -14,14 +15,16 @@ module.exports = [
     food_id: 1,
     status: "Pending collection",
     user_id: 1,
+    reservation_code: "js^%4ma97m",
   },
   {
     transaction_id: 3,
-    email: "marcus@northcoders.com",
+    email: "sofe@northcoders.com",
     shop_id: 1,
     food_id: 2,
     status: "Pending collection",
-    user_id: 2,
+    user_id: 1,
+    reservation_code: "sn#s7!@nk3",
   },
   {
     transaction_id: 4,
@@ -30,5 +33,15 @@ module.exports = [
     food_id: 4,
     status: "Pending collection",
     user_id: 3,
+    reservation_code: "ksp*(£15cb",
+  },
+  {
+    transaction_id: 5,
+    email: "jennifer@northcoders.com",
+    shop_id: 2,
+    food_id: 6,
+    status: "Pending collection",
+    user_id: 4,
+    reservation_code: "ps27v$%+nw",
   },
 ];
