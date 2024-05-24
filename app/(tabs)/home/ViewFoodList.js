@@ -68,6 +68,7 @@ export default function ViewFood() {
                   {"\n"}
                   Quantity Available:{foodItem.quantity}
                 </Text>
+
               </Link>
             );
           })}
@@ -111,4 +112,5 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#0553',
   }
+
 });
