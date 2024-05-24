@@ -19,6 +19,9 @@ const eatbayApi = axios.create({
 
 export function getShops() {
   return eatbayApi.get('/shops')
+  .then((response) => {
+    return response.data.shops
+  })
 }
 
 export function getShopById(shop_id) {

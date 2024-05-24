@@ -21,8 +21,8 @@ export default function Home() {
 
   useEffect(() => {
     getShops()
-    .then((response) => {
-      setShopMarkers(response.data.shops)
+    .then((shops) => {
+      setShopMarkers(shops)
     })
   }, [])
 
