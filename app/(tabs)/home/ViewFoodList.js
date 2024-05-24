@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Image } from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
-import { Image } from "expo-image";
+//import { Image } from "expo-image";
 
 export default function ViewFood() {
   let params = {};
@@ -27,11 +27,11 @@ export default function ViewFood() {
       {/* <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} /> */}
       <View
         style={{
-          flex: 1,
-          width: "100%",
-          height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
+          position: "absolute",
+          top: "5%",
+          left: "10%",
+          width: "80%",
+          height: "90%",
         }}
       >
         <Stack.Screen
@@ -40,87 +40,35 @@ export default function ViewFood() {
             title: "Food Available",
           }}
         />
-
-        <Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 30 }}>
-          {shopName}
-        </Text>
-        <Text>{address}</Text>
-        <Text style={{ textAlign: "center" }}>{pickUpTimes}</Text>
-        <View style={styles.listContainer}>
+        <View style={{ alignItems: "center", flex: 1}}>
+          <Text style={styles.bold30}>
+            {shopName}
+          </Text>
+          <Text>{address}</Text>
+          <Text>{pickUpTimes}</Text>
           {foodItems.map((foodItem, index) => {
             return (
               <Link key={index} href={`/home/${foodItem.food_id}`}>
-                {/* <View
-                  style={{
-                    // textAlign: "center",
-                    // flex: 1,
-                    // flexWrap: "wrap",
-                    backgroundColor: "white",
-                    // justifyContent: "center",
-                    // alignItems: "center",
-                    // marginTop: "10",
-                    // width: "100%",
-                  }}
-                > */}
+                <Image source={{uri: 'https://reactjs.org/logo-og.png'}} style={styles.image}/>
                 <Text
-                  style={{
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    fontSize: 20,
-                  }}
+                  style={styles.bold16}
                 >
-                  Name:{foodItem.item_name}
                   {"\n"}
+                  Name: {foodItem.item_name}
                 </Text>
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image
-                    style={styles.image}
-                    // contentFit="cover"
-                    source="https://picsum.photos/seed/696/3000/2000"
-                    // source="https://images.app.goo.gl/iRhwkXD7cPJqE8HN7"
-                  />
-                </View>
-
-                <View
-                  style={
-                    {
-                      // flex: 1,
-                      // justifyContent: "center",
-                      // alignItems: "center",
-                      // overflow: "auto",
-                    }
-                  }
-                >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontSize: 20,
-                      display: "flex",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    {/* Description */}
-                    Description:{foodItem.item_description}
-                    {"\n"}
-                  </Text>
-                </View>
-
                 <Text
-                  style={{
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    fontSize: 20,
-                  }}
+                  style={styles.text}
                 >
+                  {"\n"}
+                  Description: {foodItem.item_description}
+                </Text>
+                <Text
+                  style={styles.bold16}
+                >
+                  {"\n"}
                   Quantity Available:{foodItem.quantity}
                 </Text>
-                {/* </View> */}
+
               </Link>
             );
           })}
@@ -140,36 +88,29 @@ export default function ViewFood() {
   );
 }
 const styles = StyleSheet.create({
+  text: {
+    fontSize: 15
+  },
+  bold30: {
+    fontWeight: "bold",
+    fontSize: 30,
+  },
+  bold16: {
+    fontWeight: "bold",
+    fontSize: 16,
+  },
   container: {
-    flex: 1,
   },
   map: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "95%",
   },
-  image: { width: "100%", flex: 1, resizeMode: "cover" },
-  overlay: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "80%",
-    height: "90%",
-    backgroundColor: "rgba(197, 197, 197, 0.9)",
-    // borderRadius: "10",
-  },
-  listContainer: {
-    overflow: "scroll",
-    flex: 1,
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "90%",
-    height: "80%",
-    backgroundColor: "blue",
-  },
+  image: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#0553',
+  }
+
 });
