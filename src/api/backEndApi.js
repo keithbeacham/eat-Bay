@@ -1,4 +1,9 @@
-import { shopsData, foodData, usersData } from "../../data/test-data/index";
+import {
+  shopsData,
+  foodData,
+  usersData,
+  reservationsData,
+} from "../../data/test-data/index";
 
 export function getShops() {
   return shopsData;
@@ -19,4 +24,11 @@ export function getFoodByFoodId(food_id) {
     (foodItem) => foodItem.food_id === Number(food_id)
   );
   return foodItem;
+}
+
+export function getReservationsByUserId(user_id) {
+  const reservations = reservationsData.filter(
+    (reservation) => reservation.user_id === Number(user_id)
+  );
+  return reservations;
 }
