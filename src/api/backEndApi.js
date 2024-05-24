@@ -4,15 +4,17 @@ import {
   usersData,
   reservationsData,
 } from "../../data/test-data/index";
+import generateReservationCode from "../reservationCode";
 
 export function getShops() {
   return shopsData;
 }
 
 export function getShopById(shop_id) {
-  return shopsData.filter((shopData) => {
-    return shopData.shop_id === shop_id;
-  });
+  const [shopObject] = shopsData.filter(
+    (shopData) => shopData.shop_id === Number(shop_id)
+  );
+  return shopObject;
 }
 
 export function getFoodByShopId(shop_id) {
@@ -31,4 +33,16 @@ export function getReservationsByUserId(user_id) {
     (reservation) => reservation.user_id === Number(user_id)
   );
   return reservations;
+}
+
+export function deleteReservationById(reservation_id) {}
+
+export function postReservation(shop_id, food_id, email, reservation_code) {
+  const body = {
+    shop_id,
+    food_id,
+    email,
+    reservation_code,
+    status: "Pending collection",
+  };
 }

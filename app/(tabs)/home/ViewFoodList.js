@@ -48,7 +48,10 @@ export default function ViewFood() {
           return (
             <Link
               key={index}
-              href={`/home/${foodItem.food_id}`}
+              href={{
+                pathname: `/home/ViewFood`,
+                params: { food_id: foodItem.food_id, shop_id: params.shop_id },
+              }}
               style={styles.foodItem}
             >
               <Image
