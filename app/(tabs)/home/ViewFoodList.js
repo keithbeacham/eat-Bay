@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, Button, StyleSheet, Image } from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
+import { UserContext } from "../../contexts/UserContext";
 //import { Image } from "expo-image";
 
 export default function ViewFood() {
@@ -11,6 +12,8 @@ export default function ViewFood() {
   const [address, setAddress] = useState("");
   const [pickUpTimes, setPickUpTimes] = useState("");
   const [foodItems, setFoodItems] = useState([]);
+  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
 
   params = useLocalSearchParams();
   useEffect(() => {
@@ -19,8 +22,6 @@ export default function ViewFood() {
     setPickUpTimes(params.pickUpTimes);
     setFoodItems(getFoodByShopId(params.shop_id));
   }, []);
-
-  const router = useRouter();
 
   return (
     <>

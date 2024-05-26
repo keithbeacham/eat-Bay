@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
@@ -9,16 +9,17 @@ import {
   getShopById,
   deleteReservationById,
 } from "../../../src/api/backEndApi";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function ViewReservations() {
-  const user_id = 1;
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { user, setUser } = useContext(UserContext);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
-    const reservationArrayCopy = [...getReservationsByUserId(user_id)];
+    const reservationArrayCopy = [...getReservationsByUserId(user.user_id)];
     const reservationArray = reservationArrayCopy.map((reservation) => {
       const reservationCopy = { ...reservation };
       const shopObject = getShopById(reservation.shop_id);

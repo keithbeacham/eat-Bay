@@ -1,10 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getFoodByFoodId, postReservation } from "../../../src/api/backEndApi";
 import generateReservationCode from "../../../src/reservationCode";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function ViewFood() {
   const { food_id, shop_id } = useLocalSearchParams();
@@ -12,7 +13,7 @@ export default function ViewFood() {
   const [foodItemDescription, setFoodItemDescription] = useState("");
   const [foodItemQuantity, setFoodItemQuantity] = useState(0);
   const router = useRouter();
-  const user_id = "barry@hotmail.com";
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const food_item = getFoodByFoodId(food_id);
@@ -21,10 +22,23 @@ export default function ViewFood() {
     setFoodItemQuantity(food_item.quantity);
   }, []);
 
+  function loginToReserve() {
+    setUser((currentUser) => {
+      return { ...currentUser, cameFromFood: true };
+    });
+    router.push("/(tabs)/account");
+  }
+
   function reserveFoodItem() {
-    const reservationCode = generateReservationCode(food_id, user_id, shop_id);
-    postReservation(shop_id, food_id, user_id, reservationCode);
-    router.replace("/home/Reservations");
+    if (user.isLoggedIn && user.type === "customer") {
+      const reservationCode = generateReservationCode(
+        food_id,
+        user.user_id,
+        shop_id
+      );
+      postReservation(shop_id, food_id, user.user_id, reservationCode);
+      router.replace("/home/Reservations");
+    }
   }
   return (
     <>
@@ -55,7 +69,14 @@ export default function ViewFood() {
           Quantity left - {foodItemQuantity}
           {"\n"}
         </Text>
-        <Button title="Reserve this Food" onPress={() => reserveFoodItem()} />
+        {user.isLoggedIn ? (
+          <Button title="Reserve this Food" onPress={() => reserveFoodItem()} />
+        ) : (
+          <Button
+            title="Log in to reserve this Food"
+            onPress={() => loginToReserve()}
+          />
+        )}
       </View>
     </>
   );

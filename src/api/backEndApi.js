@@ -31,7 +31,7 @@ export function getFoodByFoodId(food_id) {
 export function getReservationsByUserId(user_id) {
   const reservations = reservationsData.filter(
     (reservation) =>
-      reservation.user_id === Number(user_id) &&
+      reservation.user_id === user_id &&
       reservation.status === "Pending collection"
   );
   return reservations;
