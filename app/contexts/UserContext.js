@@ -7,7 +7,6 @@ export function UserProvider(props) {
     isLoggedIn: false,
     user_id: "test",
     type: "customer",
-    cameFromFood: false,
   });
 
   return (

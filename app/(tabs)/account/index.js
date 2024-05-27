@@ -8,6 +8,7 @@ import MapView from "react-native-maps";
 export default function Index() {
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
+  console.log("account/index: user:", user);
 
   function loginUser() {
     setUser((currentUser) => {
@@ -55,8 +56,12 @@ export default function Index() {
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold30}>Login or register{"\n"}</Text>
-        {user.isLoggedIn && !user.cameFromFood ? (
-          <Redirect href={"/account/Account"} />
+        {user.isLoggedIn ? (
+          user.type === "customer" ? (
+            <Redirect href={"/account/UserHome"} />
+          ) : (
+            <Redirect href={"/account/ShopHome"} />
+          )
         ) : (
           <>
             <Button
@@ -68,6 +73,7 @@ export default function Index() {
               title="Press to log in as a shop"
               onPress={() => loginShop()}
             />
+            <Text>{"\n"}</Text>
             <Button title="Press to register" onPress={() => registerUser()} />
           </>
         )}
