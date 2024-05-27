@@ -4,9 +4,7 @@ import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import {
-  getFoodByFoodId,
   getReservationsByUserId,
-  getShopById,
   deleteReservationById,
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";

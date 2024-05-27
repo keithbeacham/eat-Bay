@@ -1,9 +1,3 @@
-import {
-  shopsData,
-  foodData,
-  usersData,
-  reservationsData,
-} from "../../data/test-data/index";
 import generateReservationCode from "../reservationCode";
 import axios from 'axios';
 
@@ -24,10 +18,10 @@ export function getShops() {
 }
 
 export function getShopById(shop_id) {
-  const [shopObject] = shopsData.filter(
-    (shopData) => shopData.shop_id === Number(shop_id)
-  );
-  return shopObject;
+  return eatbayApi.get(`/shops/${shop_id}`)
+  .then((response) => {
+    return response.data.shop
+  })
 }
 
 export function getFoodByShopId(shop_id) {
@@ -54,10 +48,10 @@ export function getReservationsByUserId(user_id) {
 
 export function deleteReservationById(reservation_id) {
   return eatbayApi.delete(`/reservations/${reservation_id}`)
-  .then((response) => {
-    return
-  })
- }
+    .then((response) => {
+      return
+    })
+}
 
 export function postReservation(shop_id, food_id, user_id, reservation_id) {
   const body = {
@@ -69,9 +63,9 @@ export function postReservation(shop_id, food_id, user_id, reservation_id) {
   };
 
   return eatbayApi.post(`/reservations`, body)
-  .then((response) => {
-    return
-  })
+    .then((response) => {
+      return
+    })
 
 }
 
@@ -82,7 +76,7 @@ export function getReservationsByShopId(shop_id) {
       const reservations = [...response.data.reservations].filter((reservation) => reservation.status === "Pending collection")
       return reservations;
     })
-  }
+}
 
 export function patchReservationByReservationId(reservation_id) {
   const body = {
@@ -90,8 +84,8 @@ export function patchReservationByReservationId(reservation_id) {
   };
 
   return eatbayApi.patch(`/reservations/${reservation_id}`, body)
-  .then((response) => {
-    return
-  })
+    .then((response) => {
+      return
+    })
 
 }
