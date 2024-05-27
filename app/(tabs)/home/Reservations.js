@@ -4,9 +4,7 @@ import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import {
-  getFoodByFoodId,
   getReservationsByUserId,
-  getShopById,
   deleteReservationById,
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
@@ -19,23 +17,21 @@ export default function ViewReservations() {
 
   useEffect(() => {
     setIsLoading(true);
-    const reservationArrayCopy = [...getReservationsByUserId(user.user_id)];
-    const reservationArray = reservationArrayCopy.map((reservation) => {
-      const reservationCopy = { ...reservation };
-      const shopObject = getShopById(reservation.shop_id);
-      reservationCopy.location = shopObject.address;
-      reservationCopy.pickUpTimes = shopObject.pickup_times;
-      const foodObject = getFoodByFoodId(reservation.food_id);
-      reservationCopy.itemName = foodObject.item_name;
-      return reservationCopy;
-    });
-    setReservations(reservationArray);
-    setIsLoading(false);
+    getReservationsByUserId(user.user_id)
+      .then((reservations) => {
+        setReservations(reservations);
+        setIsLoading(false);
+      })
   }, []);
 
   function deleteReservation(reservationId) {
-    deleteReservationById(reservationId);
+    deleteReservationById(reservationId)
+    .then(() => {
+      console.log(`reservation ${reservationId} deleted`)
+    })
   }
+
+  
   return (
     <>
       <Stack.Screen
@@ -61,31 +57,33 @@ export default function ViewReservations() {
             reservations.map((reservation) => {
               return (
                 <View
-                  key={reservation.transaction_id}
+                  key={reservation.reservation_id}
                   style={styles.reservationBox}
                 >
                   <Text style={styles.bold16}>
-                    {reservation.itemName}
+                    {reservation.item_name}
+                  </Text>
+                  <Text style={styles.text15}>
+                    {reservation.shop_name}
+                  </Text>
+                  <Text style={styles.text15}>
+                    {reservation.address}
                     {"\n"}
                   </Text>
                   <Text style={styles.text15}>
-                    {reservation.location}
-                    {"\n"}
-                  </Text>
-                  <Text style={styles.text15}>
-                    {reservation.pickUpTimes}
+                    {reservation.pickup_times}
                     {"\n"}
                   </Text>
                   <Text style={styles.bold16}>Unique ID</Text>
                   <Text style={styles.text15}>
-                    {reservation.reservation_code}
+                    {reservation.reservation_id}
                     {"\n"}
                   </Text>
                   <Button
                     key={"buttonKey"}
                     title="Delete"
                     onPress={() =>
-                      deleteReservation(reservation.transaction_id)
+                      deleteReservation(reservation.reservation_id)
                     }
                   />
                 </View>

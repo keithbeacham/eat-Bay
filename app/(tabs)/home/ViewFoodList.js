@@ -20,7 +20,10 @@ export default function ViewFood() {
     setShopName(params.title);
     setAddress(params.address);
     setPickUpTimes(params.pickUpTimes);
-    setFoodItems(getFoodByShopId(params.shop_id));
+    getFoodByShopId(params.shop_id)
+    .then((foods) => {
+      setFoodItems(foods);
+    })
   }, []);
 
   return (
@@ -59,13 +62,14 @@ export default function ViewFood() {
                 source={{ uri: "https://reactjs.org/logo-og.png" }}
                 style={styles.image}
               />
+              {"\n"}
               <Text style={styles.bold16}>
                 {"\n"}
-                Name: {foodItem.item_name}
+                {foodItem.item_name}
               </Text>
               <Text style={styles.text15}>
                 {"\n"}
-                Description: {foodItem.item_description}
+                {foodItem.item_description}
               </Text>
               <Text style={styles.bold16}>
                 {"\n"}
@@ -106,8 +110,7 @@ const styles = StyleSheet.create({
   },
   foodItem: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   text15: {
     fontSize: 15,
@@ -119,7 +122,6 @@ const styles = StyleSheet.create({
   bold16: {
     fontWeight: "bold",
     fontSize: 16,
-    textAlign: "center",
   },
   container: {},
   image: {

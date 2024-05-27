@@ -16,10 +16,12 @@ export default function ViewFood() {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    const food_item = getFoodByFoodId(food_id);
-    setFoodItemName(food_item.item_name);
-    setFoodItemDescription(food_item.item_description);
-    setFoodItemQuantity(food_item.quantity);
+    getFoodByFoodId(food_id)
+      .then((food_item) => {
+        setFoodItemName(food_item.item_name);
+        setFoodItemDescription(food_item.item_description);
+        setFoodItemQuantity(food_item.quantity);
+      })
   }, []);
 
   function loginToReserve() {
@@ -36,8 +38,10 @@ export default function ViewFood() {
         user.user_id,
         shop_id
       );
-      postReservation(shop_id, food_id, user.user_id, reservationCode);
-      router.replace("/home/Reservations");
+      postReservation(shop_id, food_id, user.user_id, reservationCode)
+      .then(() => {
+        router.replace("/home/Reservations");
+      })
     }
   }
   return (
