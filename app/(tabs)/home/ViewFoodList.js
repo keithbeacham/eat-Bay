@@ -45,9 +45,9 @@ export default function ViewFood() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>{shopName}</Text>
+        <Text style={styles.bold25}>{shopName}</Text>
         <Text>{address}</Text>
-        <Text>{pickUpTimes}</Text>
+        <Text style={styles.text12}>{pickUpTimes}</Text>
         {foodItems.map((foodItem, index) => {
           return (
             <Link
@@ -73,7 +73,7 @@ export default function ViewFood() {
               </Text>
               <Text style={styles.bold16}>
                 {"\n"}
-                Quantity Available:{foodItem.quantity}
+                {foodItem.quantity} available
               </Text>
             </Link>
           );
@@ -112,12 +112,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center"
   },
+  text12: {
+    fontSize: 12,
+  },
   text15: {
     fontSize: 15,
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",

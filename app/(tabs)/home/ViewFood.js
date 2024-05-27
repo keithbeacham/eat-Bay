@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { getFoodByFoodId, postReservation } from "../../../src/api/backEndApi";
@@ -40,7 +40,13 @@ export default function ViewFood() {
       );
       postReservation(shop_id, food_id, user.user_id, reservationCode)
       .then(() => {
+        Alert.alert('Success', 'Reservation added', [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},])
         router.replace("/home/Reservations");
+      })
+      .catch((error) => {
+        Alert.alert('Error', 'There was a problem creating the reservation', [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},])
       })
     }
   }
@@ -61,7 +67,7 @@ export default function ViewFood() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>
+        <Text style={styles.bold25}>
           {foodItemName}
           {"\n"}
         </Text>
@@ -70,7 +76,7 @@ export default function ViewFood() {
           {"\n"}
         </Text>
         <Text style={styles.bold16}>
-          Quantity left - {foodItemQuantity}
+          {foodItemQuantity} remaining
           {"\n"}
         </Text>
         {user.isLoggedIn ? (
@@ -110,9 +116,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",

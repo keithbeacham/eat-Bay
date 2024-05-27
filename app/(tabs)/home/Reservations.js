@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert} from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
@@ -26,12 +26,18 @@ export default function ViewReservations() {
 
   function deleteReservation(reservationId) {
     deleteReservationById(reservationId)
-    .then(() => {
-      console.log(`reservation ${reservationId} deleted`)
-    })
+      .then((response) => {
+        Alert.alert('Success', 'Reservation deleted', [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},])
+        const updatedReservations = [...reservations].filter((reservation) => reservation.reservation_id != reservationId)
+        setReservations(updatedReservations)
+      })
+      .catch(error => {
+          Alert.alert('Error', 'There was a problem deleting the reservation', [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},])
+      })
   }
 
-  
   return (
     <>
       <Stack.Screen
@@ -49,7 +55,7 @@ export default function ViewReservations() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>Reserved Items{"\n"}</Text>
+        <Text style={styles.bold25}>Reserved Items{"\n"}</Text>
         <ScrollView>
           {isLoading ? (
             <Text>Loading Data...</Text>
@@ -66,19 +72,14 @@ export default function ViewReservations() {
                   <Text style={styles.text15}>
                     {reservation.shop_name}
                   </Text>
-                  <Text style={styles.text15}>
+                  <Text style={styles.text12}>
                     {reservation.address}
-                    {"\n"}
                   </Text>
-                  <Text style={styles.text15}>
+                  <Text style={styles.text10}>
                     {reservation.pickup_times}
                     {"\n"}
                   </Text>
-                  <Text style={styles.bold16}>Unique ID</Text>
-                  <Text style={styles.text15}>
-                    {reservation.reservation_id}
-                    {"\n"}
-                  </Text>
+                  <Text style={styles.text12}>Reservation ID: {reservation.reservation_id}</Text>
                   <Button
                     key={"buttonKey"}
                     title="Delete"
@@ -125,13 +126,21 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 5,
   },
+  text10: {
+    fontSize: 10,
+    textAlign: "center",
+  },
+  text12: {
+    fontSize: 12,
+    textAlign: "center",
+  },
   text15: {
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",
