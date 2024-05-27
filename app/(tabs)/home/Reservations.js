@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert} from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, Pressable} from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
@@ -80,13 +80,14 @@ export default function ViewReservations() {
                     {"\n"}
                   </Text>
                   <Text style={styles.text12}>Reservation ID: {reservation.reservation_id}</Text>
-                  <Button
+                  <Pressable style={styles.button}
                     key={"buttonKey"}
-                    title="Delete"
                     onPress={() =>
                       deleteReservation(reservation.reservation_id)
                     }
-                  />
+                    >
+                    <Text style={styles.buttonText}>Delete</Text>
+                  </Pressable>
                 </View>
               );
             })
@@ -146,6 +147,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 2,
+    paddingHorizontal: 15,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: "#f08080",
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
   },
   container: {},
   image: {
