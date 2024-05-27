@@ -12,25 +12,21 @@ import {
 export default function SellFood() {
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [reloadData, setReloadData] = useState(Date.now());
+  const [reloadData, setReloadData] = useState(0);
   const shop_id = 2;
 
   useEffect(() => {
     setIsLoading(true);
-    const reservationArrayCopy = [...getReservationsByShopId(shop_id)];
-    const reservationArray = reservationArrayCopy.map((reservation) => {
-      const reservationCopy = { ...reservation };
-      const foodObject = getFoodByFoodId(reservation.food_id);
-      reservationCopy.itemName = foodObject.item_name;
-      return reservationCopy;
-    });
-    setReservations(reservationArray);
-    setIsLoading(false);
+    getReservationsByShopId(shop_id)
+    .then((reservations) => {
+      setReservations(reservations);
+      setIsLoading(false);
+    })
   }, [reloadData]);
 
-  function clearReservation(transaction_id) {
-    patchReservationByReservationId(transaction_id);
-    setReloadData(Date.now());
+  function clearReservation(reservation_id) {
+    patchReservationByReservationId(reservation_id);
+    setReloadData((prevValue => prevValue + 1));
   }
 
   return (
@@ -59,7 +55,7 @@ export default function SellFood() {
                   style={styles.reservationBox}
                 >
                   <Text style={styles.bold16}>
-                    {reservation.itemName}
+                    {/*reservation.itemName*/}
                     {"\n"}
                   </Text>
                   <Text style={styles.text15}>
@@ -67,12 +63,12 @@ export default function SellFood() {
                     {"\n"}
                   </Text>
                   <Text style={styles.bold16}>
-                    {reservation.reservation_code}
+                    {reservation.reservation_id}
                     {"\n"}
                   </Text>
                   <Button
                     title="Sold"
-                    onPress={() => clearReservation(reservation.transaction_id)}
+                    onPress={() => clearReservation(reservation.reservation_id)}
                   />
                 </View>
               );
