@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import { useContext } from "react";
 import MapView from "react-native-maps";
-import { Stack, useRouter } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 import {
   registerForPushNotificationsAsync,
   setNotificationsHandler,
@@ -75,12 +75,15 @@ export default function ShopHome() {
           longitudeDelta: 0.15,
         }}
       />
-      <View style={styles.pageContainer}>
-        <Text>
-          This is the User Home page, user agrees to push notifications
-        </Text>
-        {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
-        {/* <Text>
+      {!user.isLoggedIn ? (
+        <Redirect href={"/account"} />
+      ) : (
+        <View style={styles.pageContainer}>
+          <Text>
+            This is the User Home page, user agrees to push notifications
+          </Text>
+          {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
+          {/* <Text>
           Title: {notification && notification.request.content.title}{" "}
         </Text>
         <Text>Body: {notification && notification.request.content.body}</Text>
@@ -89,31 +92,37 @@ export default function ShopHome() {
           {notification && JSON.stringify(notification.request.content.data)}
         </Text>
       </View> */}
-        {/* <Button
+          {/* <Button
           title="Press to Send Notification"
           onPress={async () => {
             await sendPushNotification(expoPushToken);
           }}
         /> */}
-        <Button
-          title="agree to push notifications"
-          onPress={() => setUpPushNotifications()}
-        />
-        <Text>{"\n"}</Text>
-        <Button
-          title="view current reservations"
-          onPress={() => router.push("/account/SellFood")}
-        />
-        <Text>{"\n"}</Text>
-        <Button
-          title="view food list"
-          onPress={() => router.push("/home/ViewFoodList").setParams("shop-id")}
-        />
-        <Text>{"\n"}</Text>
-        <Button title="Add food" onPress={() => router.push("/home/AddFood")} />
-        <Text>{"\n"}</Text>
-        <Button title="log out" onPress={() => logoutUser()} />
-      </View>
+          <Button
+            title="agree to push notifications"
+            onPress={() => setUpPushNotifications()}
+          />
+          <Text>{"\n"}</Text>
+          <Button
+            title="view current reservations"
+            onPress={() => router.push("/account/SellFood")}
+          />
+          <Text>{"\n"}</Text>
+          <Button
+            title="view food list"
+            onPress={() =>
+              router.push("/home/ViewFoodList").setParams("shop-id")
+            }
+          />
+          <Text>{"\n"}</Text>
+          <Button
+            title="Add food"
+            onPress={() => router.push("/home/AddFood")}
+          />
+          <Text>{"\n"}</Text>
+          <Button title="log out" onPress={() => logoutUser()} />
+        </View>
+      )}
     </>
   );
 }

@@ -8,28 +8,21 @@ import MapView from "react-native-maps";
 export default function Index() {
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
-  console.log("account/index: user:", user);
 
   function loginUser() {
-    setUser((currentUser) => {
-      return {
-        ...currentUser,
-        isLoggedIn: true,
-        user_id: "sofe@northcoders.com",
-        type: "customer",
-      };
+    setUser({
+      isLoggedIn: true,
+      user_id: "sofe@northcoders.com",
+      type: "customer",
     });
     router.back();
   }
 
   function loginShop() {
-    setUser((currentUser) => {
-      return {
-        ...currentUser,
-        isLoggedIn: true,
-        user_id: "marcus@northcoders.com",
-        type: "shop",
-      };
+    setUser({
+      isLoggedIn: true,
+      user_id: "marcus@northcoders.com",
+      type: "shop",
     });
     router.back();
   }
