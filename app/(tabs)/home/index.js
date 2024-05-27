@@ -2,8 +2,8 @@ import { View, StyleSheet, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { getLocation } from "../../src/api/mapApi";
-import { getShops } from "../../src/api/backEndApi";
+import { getLocation } from "../../../src/api/mapApi";
+import { getShops } from "../../../src/api/backEndApi";
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");

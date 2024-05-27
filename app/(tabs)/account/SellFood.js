@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Stack, Redirect } from "expo-router";
 import MapView from "react-native-maps";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import { useEffect, useState } from "react";
 import {
   getReservationsByShopId,
   getFoodByFoodId,
   patchReservationByReservationId,
-} from "../../src/api/backEndApi";
+} from "../../../src/api/backEndApi";
 
 export default function SellFood() {
   const [reservations, setReservations] = useState([]);
