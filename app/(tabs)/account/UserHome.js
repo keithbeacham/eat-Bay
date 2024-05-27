@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import { Redirect, Stack, useRouter } from "expo-router";
 import { useContext } from "react";
 import {
   registerForPushNotificationsAsync,
@@ -18,7 +18,6 @@ export default function UserHome() {
   const [notification, setNotification] = useState(Notifications.Notification);
   const notificationListener = useRef(Notifications.Subscription);
   const responseListener = useRef(Notifications.Subscription);
-  console.log("user home: user>", user);
 
   useEffect(() => {
     setNotificationsHandler();
@@ -75,10 +74,13 @@ export default function UserHome() {
           longitudeDelta: 0.15,
         }}
       />
-      <View style={styles.pageContainer}>
-        <Text>This is the User Home page</Text>
-        {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
-        {/* <Text>
+      {!user.isLoggedIn ? (
+        <Redirect href={"/account"} />
+      ) : (
+        <View style={styles.pageContainer}>
+          <Text>This is the User Home page</Text>
+          {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
+          {/* <Text>
           Title: {notification && notification.request.content.title}{" "}
         </Text>
         <Text>Body: {notification && notification.request.content.body}</Text>
@@ -87,24 +89,25 @@ export default function UserHome() {
           {notification && JSON.stringify(notification.request.content.data)}
         </Text>
       </View> */}
-        {/* <Button
+          {/* <Button
           title="Press to Send Notification"
           onPress={async () => {
             await sendPushNotification(expoPushToken);
           }}
         /> */}
-        <Button
-          title="agree to send notifications"
-          onPress={() => setUpPushNotifications()}
-        />
-        <Text>{"\n"}</Text>
-        <Button
-          title="view reservations"
-          onPress={() => router.replace("/home/Transactions")}
-        />
-        <Text>{"\n"}</Text>
-        <Button title="log out" onPress={() => logoutUser()} />
-      </View>
+          <Button
+            title="agree to send notifications"
+            onPress={() => setUpPushNotifications()}
+          />
+          <Text>{"\n"}</Text>
+          <Button
+            title="view reservations"
+            onPress={() => router.replace("/home/Transactions")}
+          />
+          <Text>{"\n"}</Text>
+          <Button title="log out" onPress={() => logoutUser()} />
+        </View>
+      )}
     </>
   );
 }
