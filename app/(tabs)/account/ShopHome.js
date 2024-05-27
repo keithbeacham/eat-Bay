@@ -3,7 +3,7 @@ import { Stack, useRouter } from "expo-router";
 import {
   registerForPushNotificationsAsync,
   setNotificationsHandler,
-} from "../../../src/notifications";
+} from "../../src/notifications";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
 
