@@ -27,7 +27,10 @@ export default function ViewReservations() {
   }, []);
 
   function deleteReservation(reservationId) {
-    deleteReservationById(reservationId);
+    deleteReservationById(reservationId)
+    .then(() => {
+      console.log(`reservation ${reservationId} deleted`)
+    })
   }
 
   

@@ -38,8 +38,10 @@ export default function ViewFood() {
         user.user_id,
         shop_id
       );
-      postReservation(shop_id, food_id, user.user_id, reservationCode);
-      router.replace("/home/Reservations");
+      postReservation(shop_id, food_id, user.user_id, reservationCode)
+      .then(() => {
+        router.replace("/home/Reservations");
+      })
     }
   }
   return (
