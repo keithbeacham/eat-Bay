@@ -16,10 +16,12 @@ export default function ViewFood() {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    const food_item = getFoodByFoodId(food_id);
-    setFoodItemName(food_item.item_name);
-    setFoodItemDescription(food_item.item_description);
-    setFoodItemQuantity(food_item.quantity);
+    getFoodByFoodId(food_id)
+      .then((food_item) => {
+        setFoodItemName(food_item.item_name);
+        setFoodItemDescription(food_item.item_description);
+        setFoodItemQuantity(food_item.quantity);
+      })
   }, []);
 
   function loginToReserve() {

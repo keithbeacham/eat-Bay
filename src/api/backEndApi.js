@@ -5,9 +5,22 @@ import {
   reservationsData,
 } from "../../data/test-data/index";
 import generateReservationCode from "../reservationCode";
+import axios from 'axios';
+
+const eatbayApi = axios.create({
+  baseURL: "https://eatbay-be.onrender.com/api"
+})
 
 export function getShops() {
-  return shopsData;
+  return eatbayApi.get(`/shops`)
+  .then((response) => {
+    const shops = [...response.data.shops]
+    shops.forEach((shop) => {
+      shop.latitude = Number(shop.latitude)
+      shop.longitude = Number(shop.longitude)
+    })
+    return shops
+  })
 }
 
 export function getShopById(shop_id) {
@@ -18,23 +31,25 @@ export function getShopById(shop_id) {
 }
 
 export function getFoodByShopId(shop_id) {
-  return foodData.filter((foodItem) => foodItem.shop_id === Number(shop_id));
+  return eatbayApi.get(`/shops/${shop_id}/food`)
+  .then((response) => {
+    return response.data.foods
+  })
 }
 
 export function getFoodByFoodId(food_id) {
-  const [foodItem] = foodData.filter(
-    (foodItem) => foodItem.food_id === Number(food_id)
-  );
-  return foodItem;
+  return eatbayApi.get(`/food/${food_id}`)
+  .then((response) => {
+    return response.data.food
+  })
 }
 
 export function getReservationsByUserId(user_id) {
-  const reservations = reservationsData.filter(
-    (reservation) =>
-      reservation.user_id === user_id &&
-      reservation.status === "Pending collection"
-  );
-  return reservations;
+  return eatbayApi.get(`/users/${user_id}/reservations`)
+  .then((response) => {
+    const reservations = [...response.data.reservations].filter((reservation) => reservation.status === "Pending collection")
+    return reservations;
+  })
 }
 
 export function deleteReservationById(reservation_id) {}
