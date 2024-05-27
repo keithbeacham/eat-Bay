@@ -1,26 +1,26 @@
 import { Text, View, StyleSheet } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useContext } from "react";
-import Button from "../../components/Button";
+import Button from "../app/components/Button";
 import MapView from "react-native-maps";
-import { UserContext } from "../../contexts/UserContext";
+import { UserContext } from "../app/contexts/UserContext";
 
 export default function Account() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
   console.log(user);
+
   function logoutUser() {
     setUser({
       user_id: "",
       type: "customer",
       isLoggedIn: false,
-      cameFromFood: false,
     });
     router.push("/home");
   }
   return (
     <>
-      {user.isLoggedIn ? (
+      {!user.isLoggedIn ? (
         <>
           <Stack.Screen
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

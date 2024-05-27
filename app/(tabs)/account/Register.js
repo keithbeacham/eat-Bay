@@ -8,7 +8,6 @@ import { UserContext } from "../../contexts/UserContext";
 export default function Register() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
-  console.log(user);
 
   return (
     <>
