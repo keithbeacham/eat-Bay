@@ -6,24 +6,25 @@ import generateReservationCode from "../../../src/reservationCode";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 
 export default function ViewFood() {
   const { food_id, shop_id } = useLocalSearchParams();
   const [foodItemName, setFoodItemName] = useState("");
   const [foodItemDescription, setFoodItemDescription] = useState("");
   const [foodItemQuantity, setFoodItemQuantity] = useState(0);
-  const [foodPictureUrl, setFoodPictureUrl] = useState()
+  const [foodPictureUrl, setFoodPictureUrl] = useState();
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
+  const { region, setRegion } = useContext(MapContext);
 
   useEffect(() => {
-    getFoodByFoodId(food_id)
-      .then((food_item) => {
-        setFoodItemName(food_item.item_name);
-        setFoodItemDescription(food_item.item_description);
-        setFoodItemQuantity(food_item.quantity);
-        setFoodPictureUrl(food_item.picture_url)
-      })
+    getFoodByFoodId(food_id).then((food_item) => {
+      setFoodItemName(food_item.item_name);
+      setFoodItemDescription(food_item.item_description);
+      setFoodItemQuantity(food_item.quantity);
+      setFoodPictureUrl(food_item.picture_url);
+    });
   }, []);
 
   function loginToReserve() {
@@ -41,15 +42,17 @@ export default function ViewFood() {
         shop_id
       );
       postReservation(shop_id, food_id, user.user_id, reservationCode)
-      .then(() => {
-        Alert.alert('Success', 'Reservation added', [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},])
-        router.replace("/home/Reservations");
-      })
-      .catch((error) => {
-        Alert.alert('Error', 'There was a problem creating the reservation', [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},])
-      })
+        .then(() => {
+          Alert.alert("Success", "Reservation added", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+          router.replace("/home/Reservations");
+        })
+        .catch((error) => {
+          Alert.alert("Error", "There was a problem creating the reservation", [
+            { text: "OK", onPress: () => console.log("OK Pressed") },
+          ]);
+        });
     }
   }
   return (
@@ -61,15 +64,10 @@ export default function ViewFood() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
-      <Image source={{ uri: foodPictureUrl }} style={styles.image} />
+        <Image source={{ uri: foodPictureUrl }} style={styles.image} />
         <Text style={styles.bold25}>
           {foodItemName}
           {"\n"}
@@ -129,7 +127,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   image: {
-   width: 200,
-   height: 200,
+    width: 200,
+    height: 200,
   },
 });

@@ -15,12 +15,14 @@ import {
   deleteReservationById,
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 
 export default function ViewReservations() {
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
+  const { region, setRegion } = useContext(MapContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -57,12 +59,7 @@ export default function ViewReservations() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>Reserved Items{"\n"}</Text>

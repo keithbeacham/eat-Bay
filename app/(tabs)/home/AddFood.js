@@ -4,29 +4,29 @@ import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 import { postFoodItem } from "../../../src/api/backEndApi";
 
 export default function AddFood() {
   const { user, setUser } = useContext(UserContext);
-  const [itemname, setItemName] = useState("")
-  const [itemdesc, setItemDesc] = useState("")
-  const [itemquantity, setItemQuantity] = useState("0")
+  const { region, setRegion } = useContext(MapContext);
+  const [itemname, setItemName] = useState("");
+  const [itemdesc, setItemDesc] = useState("");
+  const [itemquantity, setItemQuantity] = useState("0");
 
   const router = useRouter();
 
-
   function submitFoodItem() {
-
     postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity)
       .then((response) => {
-        Alert.alert('Success', 'Food Item created', [
-          { text: 'OK' },])
-        router.push("/account/ShopHome")
+        Alert.alert("Success", "Food Item created", [{ text: "OK" }]);
+        router.push("/account/ShopHome");
       })
       .catch((error) => {
-        Alert.alert('Error', 'There was a problem adding the food item', [
-          { text: 'OK' },])
-      })
+        Alert.alert("Error", "There was a problem adding the food item", [
+          { text: "OK" },
+        ]);
+      });
   }
 
   return (
@@ -40,12 +40,7 @@ export default function AddFood() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>Add food item</Text>
@@ -144,6 +139,6 @@ const styles = StyleSheet.create({
     width: "75%",
     marginBottom: 15,
     minHeight: 100,
-    textAlignVertical: "top"
+    textAlignVertical: "top",
   },
 });

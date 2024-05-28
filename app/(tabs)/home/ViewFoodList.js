@@ -12,6 +12,7 @@ import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
+import { MapContext } from "../../contexts/MapContext";
 
 //import { Image } from "expo-image";
 
@@ -25,6 +26,7 @@ export default function ViewFood() {
   const [isLoading, setIsLoading] = useState(true);
   const [likeButtonSelected, setLikeButtonSelected] = useState(false);
   const router = useRouter();
+  const { region, setRegion } = useContext(MapContext);
 
   params = useLocalSearchParams();
   useEffect(() => {
@@ -55,12 +57,7 @@ export default function ViewFood() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
         <View style={styles.likeButton}>
