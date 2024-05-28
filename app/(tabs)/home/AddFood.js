@@ -14,19 +14,28 @@ export default function AddFood() {
 
   const router = useRouter();
 
-
   function submitFoodItem() {
 
     postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity)
       .then((response) => {
         Alert.alert('Success', 'Food Item created', [
           { text: 'OK' },])
-        router.push("/account/ShopHome")
+        setItemName("")
+        setItemDesc("")
+        setItemQuantity("0")
+       // router.push("/account/ShopHome")
       })
       .catch((error) => {
         Alert.alert('Error', 'There was a problem adding the food item', [
           { text: 'OK' },])
       })
+  }
+
+  function cancelSubmitFoodItem() {
+    setItemName("")
+    setItemDesc("")
+    setItemQuantity("0")
+    router.push("/account/ShopHome")
   }
 
   return (
@@ -74,6 +83,12 @@ export default function AddFood() {
             title="Add Item"
             onPress={() => {
               submitFoodItem();
+            }}
+          />
+                    <Button
+            title="Cancel"
+            onPress={() => {
+              cancelSubmitFoodItem();
             }}
           />
         </>
@@ -143,7 +158,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "75%",
     marginBottom: 15,
-    minHeight: 100,
+    minHeight: 80,
     textAlignVertical: "top"
   },
 });
