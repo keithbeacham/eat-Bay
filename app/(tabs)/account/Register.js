@@ -52,6 +52,7 @@ export default function Register() {
       user_id: userId,
       type: userTypeId,
       isLoggedIn: true,
+      users_shop_id: 9,
     });
     if (userTypeId === "customer") {
       router.replace("/account/UserHome");
