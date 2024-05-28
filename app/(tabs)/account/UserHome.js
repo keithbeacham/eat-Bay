@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, Alert } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useContext } from "react";
 import {
@@ -7,6 +7,7 @@ import {
 } from "../../../src/notifications";
 import { UserContext } from "../../contexts/UserContext";
 import Button from "../../components/Button";
+import Checkbox from "../../components/Checkbox";
 import MapView from "react-native-maps";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
@@ -21,9 +22,10 @@ export default function UserHome() {
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [isSelected, setSelection] = useState(false);
+  const [allowNotifications, setAllowNotifications] = useState(false);
 
-  useEffect(() => {
+  function setUpPushNotifications() {
+    console.log("set up push notifications");
     setNotificationsHandler();
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token ?? ""))
@@ -47,10 +49,31 @@ export default function UserHome() {
       responseListener.current &&
         Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
-
-  function setUpPushNotifications() {
     console.log(expoPushToken);
+  }
+
+  function updateUserName(text) {
+    setUserName(text);
+  }
+  function updateEmail(text) {
+    setUserId(text);
+  }
+  function updatePassword(text) {
+    setPassword(text);
+  }
+  function updateUserDetails() {
+    // PATCH user
+    setUser({
+      user_id: userId,
+      type: "customer",
+      isLoggedIn: true,
+    });
+    if (allowNotifications) {
+      setUpPushNotifications();
+    }
+    Alert.alert("Success", "Your details have been updated", [
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
   }
 
   function logoutUser() {
@@ -82,7 +105,8 @@ export default function UserHome() {
         <Redirect href={"/account"} />
       ) : (
         <View style={styles.pageContainer}>
-          <Text style={styles.bold30}>Home Page{"\n"}</Text>
+          <Text style={styles.bold30}>Home Page</Text>
+          <Text></Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
           {/* <Text>
           Title: {notification && notification.request.content.title}{" "}
@@ -120,27 +144,22 @@ export default function UserHome() {
             placeholder={"change password"}
             secureTextEntry={true}
           />
-          {/* <View style={styles.container}>
-            <View style={styles.checkboxContainer}>
-              <CheckBox
-                value={isSelected}
-                onValueChange={setSelection}
-                style={styles.checkbox}
-              />
-              <Text style={styles.label}>Do you like React Native?</Text>
-            </View>
-            <Text>Is CheckBox selected: {isSelected ? "👍" : "👎"}</Text>
-          </View> */}
-          <Button
-            title="agree to send notifications"
-            onPress={() => setUpPushNotifications()}
-          />
-          <Text>{"\n"}</Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              onChange={() => setAllowNotifications(!allowNotifications)}
+              checked={allowNotifications}
+            />
+            <Text style={styles.checkboxText}>
+              I want my favourite shops to send me push notifications
+            </Text>
+          </View>
+          <Button title="Update" onPress={() => updateUserDetails()} />
+          <Text style={{ fontSize: 5 }}>{"\n"}</Text>
           <Button
             title="view reservations"
             onPress={() => router.replace("/home/Reservations")}
           />
-          <Text>{"\n"}</Text>
+          <Text style={{ fontSize: 5 }}>{"\n"}</Text>
           <Button title="log out" onPress={() => logoutUser()} />
         </View>
       )}
@@ -162,6 +181,7 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "90%",
     flex: 1,
+    // flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(255,255,255,0.8)",
@@ -190,19 +210,16 @@ const styles = StyleSheet.create({
     width: "70%",
     marginBottom: 15,
   },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   checkboxContainer: {
+    flex: 1,
     flexDirection: "row",
-    marginBottom: 20,
+    justifyContent: "space-between",
+    marginLeft: 40,
+    marginTop: 10,
   },
-  checkbox: {
-    alignSelf: "center",
-  },
-  label: {
-    margin: 8,
+  checkboxText: {
+    fontsize: 16,
+    marginLeft: 10,
+    marginRight: 40,
   },
 });
