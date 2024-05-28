@@ -62,52 +62,46 @@ export default function ViewFood() {
           {"\n"}
         </Text>
         <ScrollView>
-        {isLoading ? (
+          {isLoading ? (
             <Text>Loading Data...</Text>
           ) : (
-          foodItems.map((foodItem) => {
-            return (
-              <Link
-                key={foodItem.food_id}
-                href={{
-                  pathname: `/home/ViewFood`,
-                  params: {
-                    food_id: foodItem.food_id,
-                    shop_id: params.shop_id,
-                  },
-                }}
-                style={styles.foodItem}
-              >
-                <View style={styles.imageContainer}>
-                  <Image
-                    source={{ uri: foodItem.picture_url }}
-                    style={styles.image}
-                  />
-                </View>
-                <Text>{"\n"}</Text>
-                <Text style={styles.bold20}>
-                  {"\n"}
-                  {foodItem.item_name}
-                </Text>
-                <Text style={styles.text15}>
-                  {"\n"}
-                  {foodItem.item_description}
-                </Text>
-                <Text style={styles.bold16}>
-                  {"\n"}
-                  {foodItem.quantity} available
-                </Text>
-              </Link>
-            );
-          })
-        )}
+            foodItems.map((foodItem) => {
+              return (
+                <Link
+                  key={foodItem.food_id}
+                  href={{
+                    pathname: `/home/ViewFood`,
+                    params: {
+                      food_id: foodItem.food_id,
+                      shop_id: params.shop_id,
+                    },
+                  }}
+                  style={styles.foodItem}
+                >
+                  <View style={styles.imageContainer}>
+                    <Image
+                      source={{ uri: foodItem.picture_url }}
+                      style={styles.image}
+                    />
+                  </View>
+                  <Text>{"\n"}</Text>
+                  <Text style={styles.bold20}>
+                    {"\n"}
+                    {foodItem.item_name}
+                  </Text>
+                  <Text style={styles.text15}>
+                    {"\n"}
+                    {foodItem.item_description}
+                  </Text>
+                  <Text style={styles.bold16}>
+                    {"\n"}
+                    {foodItem.quantity} available
+                  </Text>
+                </Link>
+              );
+            })
+          )}
         </ScrollView>
-        <Button
-          title="Add Item (if you are a shop)"
-          onPress={() => {
-            router.replace("/home/AddFood");
-          }}
-        />
       </View>
     </>
   );

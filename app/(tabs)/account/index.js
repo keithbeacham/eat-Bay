@@ -20,7 +20,7 @@ export default function Index() {
   }
 
   function loginUser() {
-    if (userId === "sofe@northcoders.com") {
+    if (userId === "sofe@northcoders.com" || userId === "user") {
       setUser({
         isLoggedIn: true,
         user_id: "sofe@northcoders.com",
