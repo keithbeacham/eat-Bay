@@ -15,6 +15,11 @@ prepare_react_native_project!
 
 target 'eatBay' do
   use_expo_modules!
+
+  # React Native Maps dependencies
+rn_maps_path = '../node_modules/react-native-maps'
+pod 'react-native-google-maps', :path => rn_maps_path
+
   config = use_native_modules!
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
