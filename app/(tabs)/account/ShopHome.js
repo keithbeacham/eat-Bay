@@ -27,7 +27,8 @@ export default function ShopHome() {
       .then((shop) => {
         setShop(shop)
       })
-  }, [user])
+      .catch(error => console.log(error, " <-- getShopById error"))
+  }, [])
 
   useEffect(() => {
     setNotificationsHandler();
@@ -90,6 +91,9 @@ export default function ShopHome() {
         <View style={styles.pageContainer}>
           <Text style={styles.bold25}>
             {shop.shop_name}
+          </Text>
+          <Text style={styles.text16}>
+            {shop.address}
             {"\n"}
           </Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
@@ -113,28 +117,38 @@ export default function ShopHome() {
             onPress={() => setUpPushNotifications()}
           /> */}
           <Text>{"\n"}</Text>
-          <Button
-            title="View Reservations"
-            onPress={() => router.push("/account/SellFood")}
-          />
+          <Link
+            style={styles.button}
+            href={{
+              pathname: "/account/SellFood",
+              params: {
+                shop_id: user.users_shop_id,
+                title: shop.shop_name,
+                address: shop.address
+              },
+            }}
+          >
+            <Text style={styles.buttonText}>View Reservations</Text>
+          </Link>
           <Text>{"\n"}</Text>
           <Link
             style={styles.button}
             href={{
               pathname: "/home/ViewFoodList",
-              params: { shop_id: user.users_shop_id,
-                        title: shop.shop_name,
-                        address: shop.address
-               },
+              params: {
+                shop_id: user.users_shop_id,
+                title: shop.shop_name,
+                address: shop.address
+              },
             }}
           >
             <Text style={styles.buttonText}>View Food List</Text>
           </Link>
           <Text>{"\n"}</Text>
-          <Button
+          { <Button
             title="Add Food"
             onPress={() => router.push("/home/AddFood")}
-          />
+          /> }
           <Text>{"\n"}</Text>
           <Button title="Log out" onPress={() => logoutUser()} />
         </View>
@@ -179,8 +193,8 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingVertical: 8,
+    paddingHorizontal: 25,
     borderRadius: 10,
     elevation: 3,
     backgroundColor: "rgba(45,200,175,1)",
