@@ -21,6 +21,7 @@ export default function ViewFood() {
   const [pickUpTimes, setPickUpTimes] = useState("");
   const [foodItems, setFoodItems] = useState([]);
   const { user, setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   params = useLocalSearchParams();
@@ -28,8 +29,10 @@ export default function ViewFood() {
     setShopName(params.title);
     setAddress(params.address);
     setPickUpTimes(params.pickUpTimes);
+    setIsLoading(true);
     getFoodByShopId(params.shop_id).then((foods) => {
       setFoodItems(foods);
+      setIsLoading(false);
     });
   }, []);
 
@@ -59,7 +62,10 @@ export default function ViewFood() {
           {"\n"}
         </Text>
         <ScrollView>
-          {foodItems.map((foodItem) => {
+        {isLoading ? (
+            <Text>Loading Data...</Text>
+          ) : (
+          foodItems.map((foodItem) => {
             return (
               <Link
                 key={foodItem.food_id}
@@ -93,7 +99,8 @@ export default function ViewFood() {
                 </Text>
               </Link>
             );
-          })}
+          })
+        )}
         </ScrollView>
         <Button
           title="Add Item (if you are a shop)"
