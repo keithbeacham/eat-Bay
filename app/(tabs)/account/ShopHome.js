@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import { useContext } from "react";
 import MapView from "react-native-maps";
-import { Redirect, Stack, useRouter } from "expo-router";
+import { Redirect, Stack, useRouter, Link } from "expo-router";
 import {
   registerForPushNotificationsAsync,
   setNotificationsHandler,
@@ -11,6 +11,7 @@ import Button from "../../components/Button";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { getShopById } from "../../../src/api/backEndApi";
 
 export default function ShopHome() {
   const router = useRouter();
@@ -19,6 +20,14 @@ export default function ShopHome() {
   const [notification, setNotification] = useState(Notifications.Notification);
   const notificationListener = useRef(Notifications.Subscription);
   const responseListener = useRef(Notifications.Subscription);
+  const [shop, setShop] = useState({})
+
+  useEffect(() => {
+    getShopById(user.users_shop_id)
+      .then((shop) => {
+        setShop(shop)
+      })
+  }, [user])
 
   useEffect(() => {
     setNotificationsHandler();
@@ -79,8 +88,9 @@ export default function ShopHome() {
         <Redirect href={"/account"} />
       ) : (
         <View style={styles.pageContainer}>
-          <Text>
-            This is the User Home page, user agrees to push notifications
+          <Text style={styles.bold25}>
+            {shop.shop_name}
+            {"\n"}
           </Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
           {/* <Text>
@@ -98,29 +108,35 @@ export default function ShopHome() {
             await sendPushNotification(expoPushToken);
           }}
         /> */}
-          <Button
-            title="agree to push notifications"
+          {/* <Button
+            title="Agree to push notifications"
             onPress={() => setUpPushNotifications()}
-          />
+          /> */}
           <Text>{"\n"}</Text>
           <Button
-            title="view current reservations"
+            title="View Reservations"
             onPress={() => router.push("/account/SellFood")}
           />
           <Text>{"\n"}</Text>
-          <Button
-            title="view food list"
-            onPress={() =>
-              router.push("/home/ViewFoodList").setParams("shop-id")
-            }
-          />
+          <Link
+            style={styles.button}
+            href={{
+              pathname: "/home/ViewFoodList",
+              params: { shop_id: user.users_shop_id,
+                        title: shop.shop_name,
+                        address: shop.address
+               },
+            }}
+          >
+            <Text style={styles.buttonText}>View Food List</Text>
+          </Link>
           <Text>{"\n"}</Text>
           <Button
-            title="Add food"
+            title="Add Food"
             onPress={() => router.push("/home/AddFood")}
           />
           <Text>{"\n"}</Text>
-          <Button title="log out" onPress={() => logoutUser()} />
+          <Button title="Log out" onPress={() => logoutUser()} />
         </View>
       )}
     </>
@@ -151,13 +167,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
   },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "rgba(45,200,175,1)",
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  }
 });

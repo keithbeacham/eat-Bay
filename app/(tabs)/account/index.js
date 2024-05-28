@@ -21,8 +21,9 @@ export default function Index() {
   function loginShop() {
     setUser({
       isLoggedIn: true,
-      user_id: "marcus@northcoders.com",
+      user_id: "amanda@northcoders.com",
       type: "shop",
+      users_shop_id: 9
     });
     router.back();
   }

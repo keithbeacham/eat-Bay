@@ -102,7 +102,7 @@ export default function UserHome() {
           <Text>{"\n"}</Text>
           <Button
             title="view reservations"
-            onPress={() => router.replace("/home/Transactions")}
+            onPress={() => router.replace("/home/Reservations")}
           />
           <Text>{"\n"}</Text>
           <Button title="log out" onPress={() => logoutUser()} />
