@@ -105,7 +105,7 @@ export default function UserHome() {
         <Redirect href={"/account"} />
       ) : (
         <View style={styles.pageContainer}>
-          <Text style={styles.bold30}>Home Page</Text>
+          <Text style={styles.bold30}>Account</Text>
           <Text></Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
           {/* <Text>
