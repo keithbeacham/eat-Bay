@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { Stack, Redirect } from "expo-router";
 import MapView from "react-native-maps";
 import Button from "../../components/Button";
@@ -12,21 +12,30 @@ import {
 export default function SellFood() {
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [reloadData, setReloadData] = useState(0);
-  const shop_id = 2;
+  const shop_id = 9;
 
   useEffect(() => {
     setIsLoading(true);
     getReservationsByShopId(shop_id)
     .then((reservations) => {
+      //waiting for endpoint update to have food item name included
       setReservations(reservations);
       setIsLoading(false);
     })
-  }, [reloadData]);
+  }, []);
 
   function clearReservation(reservation_id) {
-    patchReservationByReservationId(reservation_id);
-    setReloadData((prevValue => prevValue + 1));
+    patchReservationByReservationId(reservation_id)
+    .then((response) => {
+      Alert.alert('Success', 'Item sold', [
+        {text: 'OK'},])
+        const updatedReservations = [...reservations].filter((reservation) => reservation.reservation_id != reservation_id)
+        setReservations(updatedReservations) 
+    })
+    .catch(error => {
+      Alert.alert('Error', 'There was a problem confirming the sale of this item', [
+        {text: 'OK'},])
+  })
   }
 
   return (
@@ -43,7 +52,7 @@ export default function SellFood() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>Current Reservations{"\n"}</Text>
+        <Text style={styles.bold25}>Current Reservations{"\n"}</Text>
         <ScrollView>
           {isLoading ? (
             <Text>Loading Data...</Text>
@@ -51,19 +60,20 @@ export default function SellFood() {
             reservations.map((reservation) => {
               return (
                 <View
-                  key={reservation.transaction_id}
+                  key={reservation.reservation_id}
                   style={styles.reservationBox}
                 >
                   <Text style={styles.bold16}>
+                  {"Item Name (waiting BE)"}
                     {/*reservation.itemName*/}
                     {"\n"}
                   </Text>
                   <Text style={styles.text15}>
-                    {reservation.user_id}
+                    Reserved by: {reservation.user_id}
                     {"\n"}
                   </Text>
                   <Text style={styles.bold16}>
-                    {reservation.reservation_id}
+                    Reservation code: {reservation.reservation_id}
                     {"\n"}
                   </Text>
                   <Button
@@ -112,9 +122,9 @@ const styles = StyleSheet.create({
   text15: {
     fontSize: 15,
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",

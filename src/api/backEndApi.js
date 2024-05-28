@@ -64,14 +64,13 @@ export function postReservation(shop_id, food_id, user_id, reservation_id) {
 
   return eatbayApi.post(`/reservations`, body)
     .then((response) => {
-      return
+      return response
     })
 
 }
 
-
 export function getReservationsByShopId(shop_id) {
-  return eatbayApi.get(`/users/${shop_id}/reservations`)
+  return eatbayApi.get(`/shops/${shop_id}/reservations`)
     .then((response) => {
       const reservations = [...response.data.reservations].filter((reservation) => reservation.status === "Pending collection")
       return reservations;
@@ -80,12 +79,12 @@ export function getReservationsByShopId(shop_id) {
 
 export function patchReservationByReservationId(reservation_id) {
   const body = {
-    status: "Sold",
+    status: "Sold"
   };
 
   return eatbayApi.patch(`/reservations/${reservation_id}`, body)
     .then((response) => {
-      return
+      return response
     })
 
 }
