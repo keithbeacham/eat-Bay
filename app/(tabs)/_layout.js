@@ -7,7 +7,10 @@ export default function TabLayout() {
   return (
     <UserProvider>
       <Tabs
-        screenOptions={{ tabBarActiveTintColor: "green", headerShown: false }}
+        screenOptions={{
+          tabBarActiveTintColor: "chocolate",
+          headerShown: false,
+        }}
       >
         <Tabs.Screen
           name="home"
