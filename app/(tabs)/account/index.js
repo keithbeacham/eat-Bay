@@ -72,12 +72,14 @@ export default function Index() {
               onChangeText={(text) => updateUserId(text)}
               value={userId}
               placeholder={"email"}
+              autoCorrect={false}
             />
             <TextInput
               style={styles.inputBox}
               onChangeText={(text) => updatePassword(text)}
               value={password}
               placeholder={"password"}
+              secureTextEntry={true}
             />
             <Button title="  Log In  " onPress={() => loginUser()} />
             <Text>
