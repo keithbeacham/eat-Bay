@@ -30,9 +30,6 @@ export default function ViewFood() {
     setPickUpTimes(params.pickUpTimes);
     getFoodByShopId(params.shop_id).then((foods) => {
       setFoodItems(foods);
-      foodItems.forEach((food) => {
-        console.log("picture url:", food.picture_url);
-      });
     });
   }, []);
 
@@ -62,10 +59,10 @@ export default function ViewFood() {
           {"\n"}
         </Text>
         <ScrollView>
-          {foodItems.map((foodItem, index) => {
+          {foodItems.map((foodItem) => {
             return (
               <Link
-                key={index}
+                key={foodItem.food_id}
                 href={{
                   pathname: `/home/ViewFood`,
                   params: {

@@ -88,3 +88,18 @@ export function patchReservationByReservationId(reservation_id) {
     })
 
 }
+
+export function postFoodItem(shop_id, itemname, itemdesc, itemquantity) {
+  const body = {
+    shop_id: shop_id,
+    item_name: itemname,
+    quantity: itemquantity,
+    item_description: itemdesc
+  }
+
+  return eatbayApi.post(`/shops/${shop_id}/food`, body)
+  .then((response) => {
+    return response
+  })
+
+}
