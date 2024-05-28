@@ -19,17 +19,12 @@ export default function AddFood() {
   function submitFoodItem() {
     postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity)
       .then((response) => {
-<<<<<<< HEAD
         Alert.alert('Success', 'Food Item created', [
           { text: 'OK' },])
         setItemName("")
         setItemDesc("")
         setItemQuantity("0")
        // router.push("/account/ShopHome")
-=======
-        Alert.alert("Success", "Food Item created", [{ text: "OK" }]);
-        router.push("/account/ShopHome");
->>>>>>> 3af23c0f5f920f171a402806404878e8cd512c96
       })
       .catch((error) => {
         Alert.alert("Error", "There was a problem adding the food item", [
@@ -160,12 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "75%",
     marginBottom: 15,
-<<<<<<< HEAD
     minHeight: 80,
     textAlignVertical: "top"
-=======
-    minHeight: 100,
-    textAlignVertical: "top",
->>>>>>> 3af23c0f5f920f171a402806404878e8cd512c96
   },
 });
