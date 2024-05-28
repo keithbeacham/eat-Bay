@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TextInput } from "react-native";
 import { Stack, Redirect, useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
@@ -8,23 +8,32 @@ import MapView from "react-native-maps";
 export default function Index() {
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
-  function loginUser() {
-    setUser({
-      isLoggedIn: true,
-      user_id: "sofe@northcoders.com",
-      type: "customer",
-    });
-    router.back();
+  function updateUserId(text) {
+    setUserId(text);
   }
 
-  function loginShop() {
-    setUser({
-      isLoggedIn: true,
-      user_id: "amanda@northcoders.com",
-      type: "shop",
-      users_shop_id: 9
-    });
+  function updatePassword(text) {
+    setPassword(text);
+  }
+
+  function loginUser() {
+    if (userId === "sofe@northcoders.com") {
+      setUser({
+        isLoggedIn: true,
+        user_id: "sofe@northcoders.com",
+        type: "customer",
+      });
+    } else {
+      setUser({
+        isLoggedIn: true,
+        user_id: "amanda@northcoders.com",
+        type: "shop",
+        users_shop_id: 9,
+      });
+    }
     router.back();
   }
 
@@ -49,7 +58,7 @@ export default function Index() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>Login or register{"\n"}</Text>
+        <Text style={styles.bold30}>Login or Register{"\n"}</Text>
         {user.isLoggedIn ? (
           user.type === "customer" ? (
             <Redirect href={"/account/UserHome"} />
@@ -58,17 +67,24 @@ export default function Index() {
           )
         ) : (
           <>
-            <Button
-              title="Press to log in as a customer"
-              onPress={() => loginUser()}
+            <TextInput
+              style={styles.inputBox}
+              onChangeText={(text) => updateUserId(text)}
+              value={userId}
+              placeholder={"email"}
             />
-            <Text>{"\n"}</Text>
-            <Button
-              title="Press to log in as a shop"
-              onPress={() => loginShop()}
+            <TextInput
+              style={styles.inputBox}
+              onChangeText={(text) => updatePassword(text)}
+              value={password}
+              placeholder={"password"}
             />
-            <Text>{"\n"}</Text>
-            <Button title="Press to register" onPress={() => registerUser()} />
+            <Button title="  Log In  " onPress={() => loginUser()} />
+            <Text>
+              {"\n"}
+              {"\n"}
+            </Text>
+            <Button title="Register" onPress={() => registerUser()} />
           </>
         )}
       </View>
@@ -108,5 +124,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+  inputBox: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 5,
+    paddingLeft: 10,
+    borderRadius: 5,
+    width: "70%",
+    marginBottom: 15,
   },
 });
