@@ -24,7 +24,6 @@ export default function AddFood() {
         setItemName("")
         setItemDesc("")
         setItemQuantity("0")
-       // router.push("/account/ShopHome")
       })
       .catch((error) => {
         Alert.alert("Error", "There was a problem adding the food item", [
@@ -34,9 +33,6 @@ export default function AddFood() {
   }
 
   function cancelSubmitFoodItem() {
-    setItemName("")
-    setItemDesc("")
-    setItemQuantity("0")
     router.push("/account/ShopHome")
   }
 
@@ -45,7 +41,7 @@ export default function AddFood() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: "eatBay",
+          title: "eatBay"
         }}
       />
       <MapView
@@ -82,7 +78,7 @@ export default function AddFood() {
               submitFoodItem();
             }}
           />
-                    <Button
+          <Button
             title="Cancel"
             onPress={() => {
               cancelSubmitFoodItem();
