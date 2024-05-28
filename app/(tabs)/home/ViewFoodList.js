@@ -11,6 +11,7 @@ import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
+import LikeButton from "../../components/LikeButton";
 
 //import { Image } from "expo-image";
 
@@ -22,6 +23,7 @@ export default function ViewFood() {
   const [foodItems, setFoodItems] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [likeButtonSelected, setLikeButtonSelected] = useState(false);
   const router = useRouter();
 
   params = useLocalSearchParams();
@@ -29,12 +31,18 @@ export default function ViewFood() {
     setShopName(params.title);
     setAddress(params.address);
     setPickUpTimes(params.pickUpTimes);
+    // setLikeButtonSelected(params.userLikesShop)
     setIsLoading(true);
     getFoodByShopId(params.shop_id).then((foods) => {
       setFoodItems(foods);
       setIsLoading(false);
     });
   }, []);
+
+  function userLikesShop() {
+    // PATCH user and PATCH shop
+    setLikeButtonSelected(!likeButtonSelected);
+  }
 
   return (
     <>
@@ -55,7 +63,13 @@ export default function ViewFood() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold25}>{shopName}</Text>
+        <View style={styles.likeButton}>
+          <LikeButton
+            onChange={() => userLikesShop()}
+            selected={likeButtonSelected}
+          />
+        </View>
+        <Text style={styles.shopName}>{shopName}</Text>
         <Text>{address}</Text>
         <Text style={styles.text12}>
           {pickUpTimes}
@@ -125,6 +139,17 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.8)",
     padding: 10,
     borderRadius: 10,
+  },
+  shopName: {
+    fontWeight: "bold",
+    fontSize: 25,
+    marginRight: 20,
+    textAlign: "center",
+  },
+  likeButton: {
+    position: "absolute",
+    top: "2%",
+    right: "5%",
   },
   foodItem: {
     flex: 1,

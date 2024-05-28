@@ -1,7 +1,7 @@
-import { Pressable, Text, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function MyCheckbox({ onChange, checked }) {
+export default function Checkbox({ onChange, checked }) {
   return (
     <Pressable
       style={[styles.checkboxBase, checked && styles.checkboxChecked]}
