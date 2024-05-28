@@ -228,6 +228,8 @@
 		13B07FAE1A68108700A75B9A /* eatBay */ = {
 			isa = PBXGroup;
 			children = (
+				533A41FB2C050BA500AAFAC2 /* AirGoogleMaps */,
+				533A42592C050BC000AAFAC2 /* AirMaps */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -309,7 +311,7 @@
 				533A41FA2C050BA500AAFAC2 /* RCTConvert+GMSMapViewType.m */,
 			);
 			name = AirGoogleMaps;
-			path = ../AirGoogleMaps;
+			path = ../AirMaps/AirGoogleMaps;
 			sourceTree = "<group>";
 		};
 		533A42192C050BC000AAFAC2 /* Callout */ = {
@@ -403,8 +405,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				533A42592C050BC000AAFAC2 /* AirMaps */,
-				533A41FB2C050BA500AAFAC2 /* AirGoogleMaps */,
 				13B07FAE1A68108700A75B9A /* eatBay */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -839,10 +839,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -900,10 +897,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
