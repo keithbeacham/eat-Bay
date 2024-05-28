@@ -163,8 +163,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
   },
   listContainer: {
     flex: 1,

@@ -21,7 +21,6 @@ export default function SellFood() {
     setIsLoading(true);
     getReservationsByShopId(params.shop_id)
     .then((reservations) => {
-      //waiting for endpoint update to have food item name included
       setReservations(reservations);
       setIsLoading(false);
     })
@@ -72,8 +71,7 @@ export default function SellFood() {
                   style={styles.reservationBox}
                 >
                   <Text style={styles.bold16}>
-                  {"Item Name (waiting BE)"}
-                    {/*reservation.itemName*/}
+                    {reservation.item_name}
                     {"\n"}
                   </Text>
                   <Text style={styles.text15}>

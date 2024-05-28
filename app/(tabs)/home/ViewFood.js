@@ -68,8 +68,8 @@ export default function ViewFood() {
           longitudeDelta: 0.15,
         }}
       />
-      <Image source={{ uri: foodPictureUrl }} style={styles.image} />
       <View style={styles.pageContainer}>
+      <Image source={{ uri: foodPictureUrl }} style={styles.image} />
         <Text style={styles.bold25}>
           {foodItemName}
           {"\n"}
