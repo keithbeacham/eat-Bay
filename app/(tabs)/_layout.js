@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
-import { UserProvider } from "../contexts/UserContext";
+import { UserContext } from "../contexts/UserContext";
 
 export default function TabLayout() {
+  const [user, setUser] = useState({
+    isLoggedIn: false,
+    user_id: "test",
+    type: "customer",
+    users_shop_id: 9,
+  });
+
   return (
-    <UserProvider>
+    <UserContext.Provider value={{ user, setUser }}>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "chocolate",
@@ -21,15 +28,27 @@ export default function TabLayout() {
             ),
           }}
         />
-        <Tabs.Screen
-          name="account"
-          options={{
-            title: "Login/Account",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome size={28} name="user" color={color} />
-            ),
-          }}
-        />
+        {user.isLoggedIn ? (
+          <Tabs.Screen
+            name="account"
+            options={{
+              title: "Account",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome size={28} name="user" color={color} />
+              ),
+            }}
+          />
+        ) : (
+          <Tabs.Screen
+            name="account"
+            options={{
+              title: "Login",
+              tabBarIcon: ({ color }) => (
+                <FontAwesome size={28} name="user" color={color} />
+              ),
+            }}
+          />
+        )}
         <Tabs.Screen
           name="aboutUs"
           options={{
@@ -40,6 +59,6 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </UserProvider>
+    </UserContext.Provider>
   );
 }
