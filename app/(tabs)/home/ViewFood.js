@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { Text, View, StyleSheet, Alert, Image } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { getFoodByFoodId, postReservation } from "../../../src/api/backEndApi";
@@ -12,6 +12,7 @@ export default function ViewFood() {
   const [foodItemName, setFoodItemName] = useState("");
   const [foodItemDescription, setFoodItemDescription] = useState("");
   const [foodItemQuantity, setFoodItemQuantity] = useState(0);
+  const [foodPictureUrl, setFoodPictureUrl] = useState()
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
 
@@ -21,6 +22,7 @@ export default function ViewFood() {
         setFoodItemName(food_item.item_name);
         setFoodItemDescription(food_item.item_description);
         setFoodItemQuantity(food_item.quantity);
+        setFoodPictureUrl(food_item.picture_url)
       })
   }, []);
 
@@ -66,6 +68,7 @@ export default function ViewFood() {
           longitudeDelta: 0.15,
         }}
       />
+      <Image source={{ uri: foodPictureUrl }} style={styles.image} />
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>
           {foodItemName}
@@ -124,5 +127,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+  image: {
+   width: 200,
+   height: 200,
   },
 });
