@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet, Image, ScrollView} from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
@@ -50,44 +57,46 @@ export default function ViewFood() {
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>{shopName}</Text>
         <Text>{address}</Text>
-        <Text style={styles.text12}>{pickUpTimes}</Text>
-        <ScrollView style={styles.listContainer}>
-
-        {foodItems.map((foodItem, index) => {
-          return (
-            <Link
-            key={index}
-            href={{
-                pathname: `/home/ViewFood`,
-                params: { food_id: foodItem.food_id, shop_id: params.shop_id },
-              }}
-              style={styles.foodItem}
+        <Text style={styles.text12}>
+          {pickUpTimes}
+          {"\n"}
+        </Text>
+        <ScrollView>
+          {foodItems.map((foodItem, index) => {
+            return (
+              <Link
+                key={index}
+                href={{
+                  pathname: `/home/ViewFood`,
+                  params: {
+                    food_id: foodItem.food_id,
+                    shop_id: params.shop_id,
+                  },
+                }}
+                style={styles.foodItem}
               >
-              <View style={styles.foodItem}>
-
-              <Image
-                source={{ uri: foodItem.picture_url }}
-                style={styles.image}
-                />
-              <Text>
-                {"\n"}
-              </Text>
-              <Text style={styles.bold16}>
-                {"\n"}
-                {foodItem.item_name}
-              </Text>
-              <Text style={styles.text15}>
-                {"\n"}
-                {foodItem.item_description}
-              </Text>
-              <Text style={styles.bold16}>
-                {"\n"}
-                {foodItem.quantity} available
-              </Text>
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={{ uri: foodItem.picture_url }}
+                    style={styles.image}
+                  />
                 </View>
-            </Link>
-          );
-        })}
+                <Text>{"\n"}</Text>
+                <Text style={styles.bold20}>
+                  {"\n"}
+                  {foodItem.item_name}
+                </Text>
+                <Text style={styles.text15}>
+                  {"\n"}
+                  {foodItem.item_description}
+                </Text>
+                <Text style={styles.bold16}>
+                  {"\n"}
+                  {foodItem.quantity} available
+                </Text>
+              </Link>
+            );
+          })}
         </ScrollView>
         <Button
           title="Add Item (if you are a shop)"
@@ -121,7 +130,12 @@ const styles = StyleSheet.create({
   },
   foodItem: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(228,219,223,0.8)",
+    margin: 10,
+    padding: 15,
   },
   text12: {
     fontSize: 12,
@@ -133,21 +147,25 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
   },
+  bold20: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
   bold16: {
     fontWeight: "bold",
     fontSize: 16,
   },
-  container: {},
-  image: {
+  imageContainer: {
     flex: 1,
+  },
+  image: {
     width: 200,
     height: 200,
-    backgroundColor: "#0553",
   },
   listContainer: {
     flex: 1,
     width: "100%",
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
