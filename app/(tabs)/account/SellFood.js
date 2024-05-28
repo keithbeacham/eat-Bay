@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { Stack, Redirect, useLocalSearchParams } from "expo-router";
 import MapView from "react-native-maps";
 import Button from "../../components/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   getReservationsByShopId,
   patchReservationByReservationId,
