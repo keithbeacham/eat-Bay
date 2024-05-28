@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.keithb.eatbay"
+      "bundleIdentifier": "com.keithb.eatbay",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAHj9z-FIDRB6tL8MYtfZjlTb86XnT2ZMQ"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,9 +30,7 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": [
-      "expo-router"
-    ],
+    "plugins": ["expo-router"],
     "extra": {
       "router": {
         "origin": false
