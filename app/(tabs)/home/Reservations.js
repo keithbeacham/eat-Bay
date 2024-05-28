@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Alert, Pressable} from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  Pressable,
+} from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
@@ -17,25 +24,28 @@ export default function ViewReservations() {
 
   useEffect(() => {
     setIsLoading(true);
-    getReservationsByUserId(user.user_id)
-      .then((reservations) => {
-        setReservations(reservations);
-        setIsLoading(false);
-      })
+    getReservationsByUserId(user.user_id).then((reservations) => {
+      setReservations(reservations);
+      setIsLoading(false);
+    });
   }, []);
 
   function deleteReservation(reservationId) {
     deleteReservationById(reservationId)
       .then((response) => {
-        Alert.alert('Success', 'Reservation deleted', [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},])
-        const updatedReservations = [...reservations].filter((reservation) => reservation.reservation_id != reservationId)
-        setReservations(updatedReservations)
+        Alert.alert("Success", "Reservation deleted", [
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
+        const updatedReservations = [...reservations].filter(
+          (reservation) => reservation.reservation_id != reservationId
+        );
+        setReservations(updatedReservations);
       })
-      .catch(error => {
-          Alert.alert('Error', 'There was a problem deleting the reservation', [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},])
-      })
+      .catch((error) => {
+        Alert.alert("Error", "There was a problem deleting the reservation", [
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
+      });
   }
 
   return (
@@ -66,26 +76,23 @@ export default function ViewReservations() {
                   key={reservation.reservation_id}
                   style={styles.reservationBox}
                 >
-                  <Text style={styles.bold16}>
-                    {reservation.item_name}
-                  </Text>
-                  <Text style={styles.text15}>
-                    {reservation.shop_name}
-                  </Text>
-                  <Text style={styles.text12}>
-                    {reservation.address}
-                  </Text>
+                  <Text style={styles.bold16}>{reservation.item_name}</Text>
+                  <Text style={styles.text15}>{reservation.shop_name}</Text>
+                  <Text style={styles.text12}>{reservation.address}</Text>
                   <Text style={styles.text10}>
                     {reservation.pickup_times}
                     {"\n"}
                   </Text>
-                  <Text style={styles.text12}>Reservation ID: {reservation.reservation_id}</Text>
-                  <Pressable style={styles.button}
+                  <Text style={styles.text12}>
+                    Reservation ID: {reservation.reservation_id}
+                  </Text>
+                  <Pressable
+                    style={styles.button}
                     key={"buttonKey"}
                     onPress={() =>
                       deleteReservation(reservation.reservation_id)
                     }
-                    >
+                  >
                     <Text style={styles.buttonText}>Delete</Text>
                   </Pressable>
                 </View>
@@ -149,8 +156,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 2,
     paddingHorizontal: 15,
     borderRadius: 4,
@@ -159,9 +166,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     letterSpacing: 0.25,
-    color: 'white',
+    color: "white",
   },
   container: {},
   image: {
