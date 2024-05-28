@@ -11,24 +11,26 @@ import Button from "../../components/Button";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 import { getShopById } from "../../../src/api/backEndApi";
 
 export default function ShopHome() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
+  const { region, setRegion } = useContext(MapContext);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(Notifications.Notification);
   const notificationListener = useRef(Notifications.Subscription);
   const responseListener = useRef(Notifications.Subscription);
-  const [shop, setShop] = useState({})
+  const [shop, setShop] = useState({});
 
   useEffect(() => {
     getShopById(user.users_shop_id)
       .then((shop) => {
-        setShop(shop)
+        setShop(shop);
       })
-      .catch(error => console.log(error, " <-- getShopById error"))
-  }, [])
+      .catch((error) => console.log(error, " <-- getShopById error"));
+  }, []);
 
   useEffect(() => {
     setNotificationsHandler();
@@ -78,20 +80,13 @@ export default function ShopHome() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       {!user.isLoggedIn ? (
         <Redirect href={"/account"} />
       ) : (
         <View style={styles.pageContainer}>
-          <Text style={styles.bold25}>
-            {shop.shop_name}
-          </Text>
+          <Text style={styles.bold25}>{shop.shop_name}</Text>
           <Text style={styles.text16}>
             {shop.address}
             {"\n"}
@@ -124,7 +119,7 @@ export default function ShopHome() {
               params: {
                 shop_id: user.users_shop_id,
                 title: shop.shop_name,
-                address: shop.address
+                address: shop.address,
               },
             }}
           >
@@ -138,17 +133,19 @@ export default function ShopHome() {
               params: {
                 shop_id: user.users_shop_id,
                 title: shop.shop_name,
-                address: shop.address
+                address: shop.address,
               },
             }}
           >
             <Text style={styles.buttonText}>View Food List</Text>
           </Link>
           <Text>{"\n"}</Text>
-          { <Button
-            title="Add Food"
-            onPress={() => router.push("/home/AddFood")}
-          /> }
+          {
+            <Button
+              title="Add Food"
+              onPress={() => router.push("/home/AddFood")}
+            />
+          }
           <Text>{"\n"}</Text>
           <Button title="Log out" onPress={() => logoutUser()} />
         </View>
@@ -205,5 +202,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
-  }
+  },
 });

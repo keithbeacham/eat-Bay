@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import { UserContext } from "../contexts/UserContext";
+import { MapProvider } from "../contexts/MapContext";
 
 export default function TabLayout() {
   const [user, setUser] = useState({
@@ -12,53 +13,55 @@ export default function TabLayout() {
   });
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: "chocolate",
-          headerShown: false,
-        }}
-      >
-        <Tabs.Screen
-          name="home"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome size={28} name="home" color={color} />
-            ),
+    <MapProvider>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Tabs
+          screenOptions={{
+            tabBarActiveTintColor: "chocolate",
+            headerShown: false,
           }}
-        />
-        {user.isLoggedIn ? (
+        >
           <Tabs.Screen
-            name="account"
+            name="home"
             options={{
-              title: "Account",
+              title: "Home",
               tabBarIcon: ({ color }) => (
-                <FontAwesome size={28} name="user" color={color} />
+                <FontAwesome size={28} name="home" color={color} />
               ),
             }}
           />
-        ) : (
+          {user.isLoggedIn ? (
+            <Tabs.Screen
+              name="account"
+              options={{
+                title: "Account",
+                tabBarIcon: ({ color }) => (
+                  <FontAwesome size={28} name="user" color={color} />
+                ),
+              }}
+            />
+          ) : (
+            <Tabs.Screen
+              name="account"
+              options={{
+                title: "Login",
+                tabBarIcon: ({ color }) => (
+                  <FontAwesome size={28} name="user" color={color} />
+                ),
+              }}
+            />
+          )}
           <Tabs.Screen
-            name="account"
+            name="aboutUs"
             options={{
-              title: "Login",
+              title: "About us",
               tabBarIcon: ({ color }) => (
-                <FontAwesome size={28} name="user" color={color} />
+                <FontAwesome size={28} name="thumbs-up" color={color} />
               ),
             }}
           />
-        )}
-        <Tabs.Screen
-          name="aboutUs"
-          options={{
-            title: "About us",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome size={28} name="thumbs-up" color={color} />
-            ),
-          }}
-        />
-      </Tabs>
-    </UserContext.Provider>
+        </Tabs>
+      </UserContext.Provider>
+    </MapProvider>
   );
 }

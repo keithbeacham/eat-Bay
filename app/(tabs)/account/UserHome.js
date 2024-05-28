@@ -6,6 +6,7 @@ import {
   setNotificationsHandler,
 } from "../../../src/notifications";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 import Button from "../../components/Button";
 import Checkbox from "../../components/Checkbox";
 import MapView from "react-native-maps";
@@ -15,6 +16,7 @@ import { useState, useEffect, useRef } from "react";
 export default function UserHome() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
+  const { region, setRegion } = useContext(MapContext);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(Notifications.Notification);
   const notificationListener = useRef(Notifications.Subscription);
@@ -94,12 +96,7 @@ export default function UserHome() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       {!user.isLoggedIn ? (
         <Redirect href={"/account"} />
