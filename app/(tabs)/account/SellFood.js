@@ -1,26 +1,32 @@
 import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
-import { Stack, Redirect } from "expo-router";
+import { Stack, Redirect, useLocalSearchParams } from "expo-router";
 import MapView from "react-native-maps";
 import Button from "../../components/Button";
 import { useEffect, useState } from "react";
 import {
   getReservationsByShopId,
-  getFoodByFoodId,
   patchReservationByReservationId,
 } from "../../../src/api/backEndApi";
 
 export default function SellFood() {
+  let params = {};
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const shop_id = 9;
+  const [shop_id, setShopId] = useState();
+  const [shop_name, setShopName] = useState();
+  
+  params = useLocalSearchParams();
 
   useEffect(() => {
     setIsLoading(true);
-    getReservationsByShopId(shop_id)
+    getReservationsByShopId(params.shop_id)
     .then((reservations) => {
       //waiting for endpoint update to have food item name included
       setReservations(reservations);
       setIsLoading(false);
+    })
+    .catch(error => {
+      console.log(error, " <-- error getting reservations")
     })
   }, []);
 
@@ -52,7 +58,9 @@ export default function SellFood() {
         }}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold25}>Current Reservations{"\n"}</Text>
+        <Text style={styles.bold25}>{params.title}</Text>
+        <Text>{params.address}</Text>
+        <Text style={styles.bold16}>Current Reservations{"\n"}</Text>
         <ScrollView>
           {isLoading ? (
             <Text>Loading Data...</Text>
@@ -125,6 +133,7 @@ const styles = StyleSheet.create({
   bold25: {
     fontWeight: "bold",
     fontSize: 25,
+    textAlign: "center"
   },
   bold16: {
     fontWeight: "bold",
