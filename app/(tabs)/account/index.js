@@ -2,11 +2,13 @@ import { Text, View, StyleSheet, TextInput } from "react-native";
 import { Stack, Redirect, useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 
 export default function Index() {
   const { user, setUser } = useContext(UserContext);
+  const { region, setRegion } = useContext(MapContext);
   const router = useRouter();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -50,12 +52,7 @@ export default function Index() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold30}>Login or Register{"\n"}</Text>

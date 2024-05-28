@@ -7,40 +7,46 @@ import {
   getReservationsByShopId,
   patchReservationByReservationId,
 } from "../../../src/api/backEndApi";
+import { MapContext } from "../../contexts/MapContext";
 
 export default function SellFood() {
   let params = {};
+  const { region, setRegion } = useContext(MapContext);
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [shop_id, setShopId] = useState();
   const [shop_name, setShopName] = useState();
-  
+
   params = useLocalSearchParams();
 
   useEffect(() => {
     setIsLoading(true);
     getReservationsByShopId(params.shop_id)
-    .then((reservations) => {
-      setReservations(reservations);
-      setIsLoading(false);
-    })
-    .catch(error => {
-      console.log(error, " <-- error getting reservations")
-    })
+      .then((reservations) => {
+        setReservations(reservations);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error, " <-- error getting reservations");
+      });
   }, []);
 
   function clearReservation(reservation_id) {
     patchReservationByReservationId(reservation_id)
-    .then((response) => {
-      Alert.alert('Success', 'Item sold', [
-        {text: 'OK'},])
-        const updatedReservations = [...reservations].filter((reservation) => reservation.reservation_id != reservation_id)
-        setReservations(updatedReservations) 
-    })
-    .catch(error => {
-      Alert.alert('Error', 'There was a problem confirming the sale of this item', [
-        {text: 'OK'},])
-  })
+      .then((response) => {
+        Alert.alert("Success", "Item sold", [{ text: "OK" }]);
+        const updatedReservations = [...reservations].filter(
+          (reservation) => reservation.reservation_id != reservation_id
+        );
+        setReservations(updatedReservations);
+      })
+      .catch((error) => {
+        Alert.alert(
+          "Error",
+          "There was a problem confirming the sale of this item",
+          [{ text: "OK" }]
+        );
+      });
   }
 
   return (
@@ -49,12 +55,7 @@ export default function SellFood() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>{params.title}</Text>
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   bold25: {
     fontWeight: "bold",
     fontSize: 25,
-    textAlign: "center"
+    textAlign: "center",
   },
   bold16: {
     fontWeight: "bold",

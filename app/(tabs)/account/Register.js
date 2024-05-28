@@ -4,11 +4,13 @@ import { useContext, useMemo, useState } from "react";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
+import { MapContext } from "../../contexts/MapContext";
 import { RadioGroup } from "react-native-radio-buttons-group";
 
 export default function Register() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
+  const { region, setRegion } = useContext(MapContext);
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -70,12 +72,7 @@ export default function Register() {
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 50.95,
-          longitude: -1.4,
-          latitudeDelta: 0.15,
-          longitudeDelta: 0.15,
-        }}
+        initialRegion={region}
       />
       <View style={styles.pageContainer}>
         <Text style={styles.bold30}>Register</Text>

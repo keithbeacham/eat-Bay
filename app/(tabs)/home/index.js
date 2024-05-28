@@ -1,24 +1,25 @@
 import { View, StyleSheet, TextInput } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Stack, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getLocation } from "../../../src/api/mapApi";
 import { getShops } from "../../../src/api/backEndApi";
+import { MapContext } from "../../contexts/MapContext";
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
-  const [latitude, setLatitude] = useState(54.093);
-  const [longitude, setLongitude] = useState(-2.895);
-  const [latitudeDelta, setLatitudeDelta] = useState(10);
-  const [longitudeDelta, setLongitudeDelta] = useState(10);
   const router = useRouter();
   const [shopMarkers, setShopMarkers] = useState([]);
+  const { region, setRegion } = useContext(MapContext);
+  const [latitude, setLatitude] = useState(region.latitude);
+  const [longitude, setLongitude] = useState(region.longitude);
+  const [latitudeDelta, setLatitudeDelta] = useState(region.latitudeDelta);
+  const [longitudeDelta, setLongitudeDelta] = useState(region.longitudeDelta);
 
   useEffect(() => {
-    getShops()
-    .then((shops) => {
+    getShops().then((shops) => {
       setShopMarkers(shops);
-    })
+    });
   }, []);
 
   function changeRegion(region) {
@@ -26,6 +27,7 @@ export default function Home() {
     // setLongitude(region.longitude);
     // setLatitudeDelta(region.latitudeDelta);
     // setLongitudeDelta(region.longitudeDelta);
+    setRegion(region);
   }
 
   function findLocation() {
