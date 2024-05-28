@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet, Image } from "react-native";
+import { View, Text, Button, StyleSheet, Image, ScrollView} from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import { getFoodByShopId } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
+
 //import { Image } from "expo-image";
 
 export default function ViewFood() {
@@ -48,21 +49,27 @@ export default function ViewFood() {
         <Text style={styles.bold25}>{shopName}</Text>
         <Text>{address}</Text>
         <Text style={styles.text12}>{pickUpTimes}</Text>
+        <ScrollView style={styles.listContainer}>
+
         {foodItems.map((foodItem, index) => {
           return (
             <Link
-              key={index}
-              href={{
+            key={index}
+            href={{
                 pathname: `/home/ViewFood`,
                 params: { food_id: foodItem.food_id, shop_id: params.shop_id },
               }}
               style={styles.foodItem}
-            >
+              >
+              <View style={styles.foodItem}>
+
               <Image
-                source={{ uri: "https://reactjs.org/logo-og.png" }}
+                source={{ uri: foodItem.picture_url }}
                 style={styles.image}
-              />
-              {"\n"}
+                />
+              <Text>
+                {"\n"}
+              </Text>
               <Text style={styles.bold16}>
                 {"\n"}
                 {foodItem.item_name}
@@ -75,9 +82,11 @@ export default function ViewFood() {
                 {"\n"}
                 {foodItem.quantity} available
               </Text>
+                </View>
             </Link>
           );
         })}
+        </ScrollView>
         <Button
           title="Add Item (if you are a shop)"
           onPress={() => {
@@ -128,9 +137,15 @@ const styles = StyleSheet.create({
   },
   container: {},
   image: {
-    // flex: 1,
-    width: 50,
-    height: 50,
+    flex: 1,
+    width: 200,
+    height: 200,
     backgroundColor: "#0553",
   },
+  listContainer: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
