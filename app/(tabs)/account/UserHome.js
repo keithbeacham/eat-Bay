@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TextInput } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useContext } from "react";
 import {
@@ -18,6 +18,10 @@ export default function UserHome() {
   const [notification, setNotification] = useState(Notifications.Notification);
   const notificationListener = useRef(Notifications.Subscription);
   const responseListener = useRef(Notifications.Subscription);
+  const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSelected, setSelection] = useState(false);
 
   useEffect(() => {
     setNotificationsHandler();
@@ -78,7 +82,7 @@ export default function UserHome() {
         <Redirect href={"/account"} />
       ) : (
         <View style={styles.pageContainer}>
-          <Text>This is the User Home page</Text>
+          <Text style={styles.bold30}>Home Page{"\n"}</Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
           {/* <Text>
           Title: {notification && notification.request.content.title}{" "}
@@ -95,6 +99,38 @@ export default function UserHome() {
             await sendPushNotification(expoPushToken);
           }}
         /> */}
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={(text) => updateUserName(text)}
+            value={userName}
+            placeholder={"name"}
+            autoCorrect={false}
+          />
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={(text) => updateEmail(text)}
+            value={userId}
+            placeholder={"change email"}
+            autoCorrect={false}
+          />
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={(text) => updatePassword(text)}
+            value={password}
+            placeholder={"change password"}
+            secureTextEntry={true}
+          />
+          {/* <View style={styles.container}>
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                value={isSelected}
+                onValueChange={setSelection}
+                style={styles.checkbox}
+              />
+              <Text style={styles.label}>Do you like React Native?</Text>
+            </View>
+            <Text>Is CheckBox selected: {isSelected ? "👍" : "👎"}</Text>
+          </View> */}
           <Button
             title="agree to send notifications"
             onPress={() => setUpPushNotifications()}
@@ -144,5 +180,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     textAlign: "center",
+  },
+  inputBox: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 5,
+    paddingLeft: 10,
+    borderRadius: 5,
+    width: "70%",
+    marginBottom: 15,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  label: {
+    margin: 8,
   },
 });
