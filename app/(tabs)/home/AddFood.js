@@ -31,6 +31,10 @@ export default function AddFood() {
           title: "eatBay alert",
           body: `${shop.shop_name} at ${shop.address} has just posted some food! Checkout eatBay to see what they have available.`,
         };
+        console.log(
+          "in AddFood, sending notifications to>",
+          values[1].followers
+        );
         sendNotifications(values[1].followers);
       })
       .then(() => {

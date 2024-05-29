@@ -6,7 +6,11 @@ import Constants from "expo-constants";
 export async function sendNotifications(followerArray, message) {
   return Promise.all(
     followerArray.map((follower) => {
-      return sendPushNotification(follower.pushToken, message);
+      if (follower.pushToken) {
+        return sendPushNotification(follower.pushToken, message);
+      } else {
+        return null;
+      }
     })
   );
 }
