@@ -137,5 +137,4 @@ export function patchUserById(user_id, name, password, push_token) {
   return eatbayApi.patch(`/users/${user_id}`, body).then((response) => {
     response.data.user;
   });
-
 }

@@ -22,7 +22,7 @@ export default function AddFood() {
   const router = useRouter();
 
   function submitFoodItem() {
-    Promise.all([
+    return Promise.all([
       postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity),
       getFollowersByShopId(user.users_shop_id),
     ])
@@ -32,10 +32,11 @@ export default function AddFood() {
           body: `${shop.shop_name} at ${shop.address} has just posted some food! Checkout eatBay to see what they have available.`,
         };
         console.log(
-          "in AddFood, sending notifications to>",
-          values[1].followers
+          "in AddFood- shop_id, sending notifications to>",
+          user.users_shop_id,
+          values[1]
         );
-        sendNotifications(values[1].followers);
+        return sendNotifications(values[1], message);
       })
       .then(() => {
         Alert.alert("Success", "Food Item created and notifications sent", [
@@ -65,11 +66,11 @@ export default function AddFood() {
           title: "eatBay",
         }}
       />
-      <MapView
+      {/* <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
         initialRegion={region}
-      />
+      /> */}
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>Add food item</Text>
         <Text>Fill in the fields below to add a new food item{"\n"}</Text>
