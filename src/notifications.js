@@ -4,15 +4,17 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
 export async function sendNotifications(followerArray, message) {
-  return Promise.all(
-    followerArray.map((follower) => {
-      if (follower.pushToken) {
-        return sendPushNotification(follower.pushToken, message);
-      } else {
-        return null;
-      }
-    })
+  const recipients = followerArray.filter((follower) => follower.push_token);
+  console.log(
+    "in sendNotifications - recipients, message>",
+    recipients,
+    message
   );
+  // return Promise.all(
+  //   recipients.map((follower) =>
+  sendPushNotification(recipients[0].push_token, message);
+  //   )
+  // );
 }
 
 export async function setNotificationsHandler() {
@@ -25,15 +27,15 @@ export async function setNotificationsHandler() {
   });
 }
 
-export async function sendPushNotification(expoPushToken, userMessage) {
+async function sendPushNotification(PushToken, userMessage) {
   const message = {
-    to: expoPushToken,
+    to: PushToken,
     sound: "default",
     title: userMessage.title,
     body: userMessage.body,
     data: {},
   };
-
+  console.log("sending message:", message);
   await fetch("https://exp.host/--/api/v2/push/send", {
     method: "POST",
     headers: {
