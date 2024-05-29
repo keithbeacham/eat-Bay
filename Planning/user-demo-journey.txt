@@ -1,0 +1,35 @@
+android homepage not logged in
+        search for London and zoom in
+        click on LH shop
+        select some grub
+        "login to reserve"
+        login as sofe@northcoders.com, password
+        reserve food, go to reserved items 
+        delete a reservation
+
+        go to users home page and click push notifications, then update
+        
+        go to London Greggs
+        like the shop
+        
+        logout
+
+        back to London
+        login as amanda@northcoders.com, password
+        go to account
+        view reservations
+        sell item to sofe
+
+        go to viewfoodlist
+        click on item and show EDIT Food Item page
+        click on account to go back to account
+
+        click on add food
+        add a new item
+        click on account and then view food list
+        show that item has been added
+        show that notification is received by sofe
+
+        show about us
+
+
