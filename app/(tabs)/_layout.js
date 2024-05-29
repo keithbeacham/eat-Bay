@@ -17,7 +17,7 @@ export default function TabLayout() {
       <UserContext.Provider value={{ user, setUser }}>
         <Tabs
           screenOptions={{
-            tabBarActiveTintColor: "chocolate",
+            tabBarActiveTintColor: "#07894A",
             headerShown: false,
           }}
         >
