@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, ScrollView, Alert } from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import {
+  deleteFollowerByUserId,
   getFollowersByShopId,
   getFoodByShopId,
   getUserById,
@@ -42,7 +43,6 @@ export default function ViewFood() {
       setIsLoading(false);
     });
     getFollowersByShopId(params.shop_id).then((response) => {
-      console.log("shop_id, followers>", params.shop_id, response);
       if (response) {
         response.forEach((follower) => {
           if (follower.user_id === user.user_id) {
@@ -55,7 +55,14 @@ export default function ViewFood() {
 
   function userLikesShop() {
     if (likeButtonSelected) {
-      setLikeButtonSelected(false);
+      deleteFollowerByUserId(params.shop_id, user.user_id).then(() => {
+        setLikeButtonSelected(false);
+        Alert.alert(
+          "Cancelled",
+          "You will no longer receive updates from this shop!",
+          [{ text: "OK" }]
+        );
+      });
     } else {
       getUserById(user.user_id)
         .then((response) => {
