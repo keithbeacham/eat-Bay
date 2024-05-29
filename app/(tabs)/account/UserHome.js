@@ -145,6 +145,7 @@ export default function UserHome() {
             <Checkbox
               onChange={() => setAllowNotifications(!allowNotifications)}
               checked={allowNotifications}
+              style={{ marginTop: 5 }}
             />
             <Text style={styles.checkboxText}>
               I want my favourite shops to send me push notifications
@@ -205,18 +206,18 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     borderRadius: 5,
     width: "70%",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   checkboxContainer: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     marginLeft: 40,
-    marginTop: 10,
+    marginRight: 40,
   },
   checkboxText: {
     fontsize: 16,
     marginLeft: 10,
-    marginRight: 40,
+    marginRight: 10,
   },
 });
