@@ -1,10 +1,10 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function Checkbox({ onChange, checked }) {
+export default function Checkbox({ onChange, checked, style }) {
   return (
     <Pressable
-      style={[styles.checkboxBase, checked && styles.checkboxChecked]}
+      style={[styles.checkboxBase, checked && styles.checkboxChecked, style]}
       onPress={onChange}
     >
       {checked && <Ionicons name="checkmark" size={24} color="white" />}

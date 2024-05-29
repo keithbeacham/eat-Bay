@@ -23,10 +23,6 @@ export default function Home() {
   }, []);
 
   function changeRegion(region) {
-    // setLatitude(region.latitude);
-    // setLongitude(region.longitude);
-    // setLatitudeDelta(region.latitudeDelta);
-    // setLongitudeDelta(region.longitudeDelta);
     setRegion(region);
   }
 

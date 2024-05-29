@@ -97,12 +97,21 @@ export function postFoodItem(shop_id, itemname, itemdesc, itemquantity) {
 
 export function getFollowersByShopId(shop_id) {
   return eatbayApi.get(`/shops/${shop_id}/followers`).then((response) => {
-    return response.followers;
+    return response.data.followers;
   });
 }
 
 export function getUserById(user_id) {
   return eatbayApi.get(`/users/${user_id}`).then((response) => {
-    return response.user;
+    return response.data.user;
   });
+}
+
+export function postFollowers(user_id, shop_id, push_token) {
+  const body = { shop_id, user_id, push_token };
+  return eatbayApi
+    .post(`/shops/${shop_id}/followers`, body)
+    .then((response) => {
+      return response;
+    });
 }

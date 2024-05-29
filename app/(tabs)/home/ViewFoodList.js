@@ -5,6 +5,8 @@ import MapView from "react-native-maps";
 import {
   getFollowersByShopId,
   getFoodByShopId,
+  getUserById,
+  postFollowers,
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
@@ -35,26 +37,31 @@ export default function ViewFood() {
       setIsLoading(false);
     });
     getFollowersByShopId(params.shop_id).then((response) => {
-      response.forEach((follower) => {
-        if (follower.user_id === user.user_id) {
-          setLikeButtonSelected(true);
-        }
-      });
+      console.log("shop_id, followers>", params.shop_id, response);
+      if (response) {
+        response.forEach((follower) => {
+          if (follower.user_id === user.user_id) {
+            setLikeButtonSelected(true);
+          }
+        });
+      }
     });
   }, []);
 
   function userLikesShop() {
     // PATCH user and PATCH shop
-    setLikeButtonSelected(!likeButtonSelected);
     if (likeButtonSelected) {
+      setLikeButtonSelected(false);
+    } else {
       getUserById(user.user_id)
         .then((response) => {
-          return response.pushToken;
+          return response.push_token;
         })
-        .then((pushToken) => {
-          postFollowers(user.user_id, params.shop_id, pushToken);
+        .then((push_token) => {
+          postFollowers(user.user_id, params.shop_id, push_token);
         })
         .then(() => {
+          setLikeButtonSelected(true);
           Alert.alert(
             "Success",
             "You will now receive updates from this shop!",
@@ -65,6 +72,7 @@ export default function ViewFood() {
           Alert.alert("Oops", "Something went wrong, please try again later", [
             { text: "OK" },
           ]);
+          console.log("updating user-likes-shop>", err);
           setLikeButtonSelected(false);
         });
     }
