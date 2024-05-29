@@ -107,11 +107,20 @@ export function getUserById(user_id) {
   });
 }
 
-export function postFollowers(user_id, shop_id, push_token) {
-  const body = { shop_id, user_id, push_token };
-  return eatbayApi
-    .post(`/shops/${shop_id}/followers`, body)
-    .then((response) => {
-      return response;
-    });
+export function postFollowers(user_id, shop_id) {
+  const body = { shop_id, user_id };
+  return eatbayApi.post(`/shops/followers`, body).then((response) => {
+    return response;
+  });
+}
+
+export function patchUserById(user_id, name, password, push_token) {
+  const body = {
+    // name,
+    // password,
+    push_token,
+  };
+  return eatbayApi.patch(`/users/${user_id}`, body).then((response) => {
+    return response;
+  });
 }

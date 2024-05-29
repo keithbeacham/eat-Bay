@@ -23,6 +23,8 @@ export default function ViewFood() {
   const { user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [likeButtonSelected, setLikeButtonSelected] = useState(false);
+  const [viewOrEditFoodItem, setViewOrEditFoodItem] =
+    useState("/home/ViewFood");
   const router = useRouter();
   const { region, setRegion } = useContext(MapContext);
 
@@ -32,6 +34,9 @@ export default function ViewFood() {
     setAddress(params.address);
     setPickUpTimes(params.pickUpTimes);
     setIsLoading(true);
+    if (user.type === "shop") {
+      setViewOrEditFoodItem("/home/EditFood");
+    }
     getFoodByShopId(params.shop_id).then((foods) => {
       setFoodItems(foods);
       setIsLoading(false);
@@ -49,7 +54,6 @@ export default function ViewFood() {
   }, []);
 
   function userLikesShop() {
-    // PATCH user and PATCH shop
     if (likeButtonSelected) {
       setLikeButtonSelected(false);
     } else {
@@ -58,7 +62,7 @@ export default function ViewFood() {
           return response.push_token;
         })
         .then((push_token) => {
-          postFollowers(user.user_id, params.shop_id, push_token);
+          postFollowers(user.user_id, params.shop_id);
         })
         .then(() => {
           setLikeButtonSelected(true);
@@ -92,12 +96,14 @@ export default function ViewFood() {
         initialRegion={region}
       />
       <View style={styles.pageContainer}>
-        <View style={styles.likeButton}>
-          <LikeButton
-            onChange={() => userLikesShop()}
-            selected={likeButtonSelected}
-          />
-        </View>
+        {user.isLoggedIn && user.type === "customer" ? (
+          <View style={styles.likeButton}>
+            <LikeButton
+              onChange={() => userLikesShop()}
+              selected={likeButtonSelected}
+            />
+          </View>
+        ) : null}
         <Text style={styles.shopName}>{shopName}</Text>
         <Text>{address}</Text>
         <Text style={styles.text12}>
@@ -113,7 +119,7 @@ export default function ViewFood() {
                 <Link
                   key={foodItem.food_id}
                   href={{
-                    pathname: `/home/ViewFood`,
+                    pathname: viewOrEditFoodItem,
                     params: {
                       food_id: foodItem.food_id,
                       shop_id: params.shop_id,

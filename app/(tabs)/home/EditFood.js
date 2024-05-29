@@ -7,7 +7,7 @@ import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
 import { MapContext } from "../../contexts/MapContext";
 
-export default function ViewFood() {
+export default function EditFood() {
   const { food_id, shop_id } = useLocalSearchParams();
   const [foodItemName, setFoodItemName] = useState("");
   const [foodItemDescription, setFoodItemDescription] = useState("");
@@ -26,29 +26,6 @@ export default function ViewFood() {
     });
   }, []);
 
-  function loginToReserve() {
-    setUser((currentUser) => {
-      return { ...currentUser, cameFromFood: true };
-    });
-    router.push("/(tabs)/account");
-  }
-
-  function reserveFoodItem() {
-    if (user.isLoggedIn && user.type === "customer") {
-      postReservation(shop_id, food_id, user.user_id)
-        .then(() => {
-          Alert.alert("Success", "Reservation added", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-          router.replace("/home/Reservations");
-        })
-        .catch((error) => {
-          Alert.alert("Error", "There was a problem creating the reservation", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-        });
-    }
-  }
   return (
     <>
       <Stack.Screen
@@ -61,8 +38,9 @@ export default function ViewFood() {
         initialRegion={region}
       />
       <View style={styles.pageContainer}>
+        <Text style={styles.bold30}>Edit Food Item {"\n"}</Text>
         <Image source={{ uri: foodPictureUrl }} style={styles.image} />
-        <Text style={styles.bold25}>
+        <Text style={styles.bold20}>
           {foodItemName}
           {"\n"}
         </Text>
@@ -74,14 +52,8 @@ export default function ViewFood() {
           {foodItemQuantity} remaining
           {"\n"}
         </Text>
-        {user.type === "shop" ? null : user.isLoggedIn ? (
-          <Button title="Reserve this Food" onPress={() => reserveFoodItem()} />
-        ) : (
-          <Button
-            title="Log in to reserve this Food"
-            onPress={() => loginToReserve()}
-          />
-        )}
+        <Button title={"  Edit  "} />
+        <Button title={"Delete"} />
       </View>
     </>
   );
@@ -111,9 +83,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold25: {
+  bold30: {
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 30,
+  },
+  bold20: {
+    fontWeight: "bold",
+    fontSize: 20,
   },
   bold16: {
     fontWeight: "bold",

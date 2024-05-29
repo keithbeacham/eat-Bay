@@ -12,6 +12,7 @@ import Checkbox from "../../components/Checkbox";
 import MapView from "react-native-maps";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
+import { patchUserById } from "../../../src/api/backEndApi";
 
 export default function UserHome() {
   const router = useRouter();
@@ -63,6 +64,7 @@ export default function UserHome() {
   function updatePassword(text) {
     setPassword(text);
   }
+
   function updateUserDetails() {
     setUser({
       user_id: userId,
@@ -72,10 +74,20 @@ export default function UserHome() {
     if (allowNotifications) {
       setUpPushNotifications();
     }
-    // PATCH user
-    Alert.alert("Success", "Your details have been updated", [
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
+    patchUserById(userId, userName, password, expoPushToken)
+      .then(() => {
+        Alert.alert("Success", "Your details have been updated", [
+          { text: "OK" },
+        ]);
+      })
+      .catch((err) => {
+        Alert.alert(
+          "Oops",
+          "Something has gone wrong, please try again later",
+          [{ text: "OK" }]
+        );
+        console.log("in userhome, patchUserById>", err);
+      });
   }
 
   function logoutUser() {
