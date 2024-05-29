@@ -80,7 +80,7 @@ export default function ViewFood() {
           {foodItemQuantity} remaining
           {"\n"}
         </Text>
-        {user.isLoggedIn ? (
+        {user.type === "shop" ? null : user.isLoggedIn ? (
           <Button title="Reserve this Food" onPress={() => reserveFoodItem()} />
         ) : (
           <Button
