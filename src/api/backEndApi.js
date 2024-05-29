@@ -114,6 +114,14 @@ export function postFollowers(user_id, shop_id) {
   });
 }
 
+export function deleteFollowerByUserId(shop_id, user_id) {
+  return eatbayApi
+    .delete(`/shops/${shop_id}/${user_id}/followers`)
+    .then((response) => {
+      return response;
+    });
+}
+
 export function postUser(user_id, name, password) {
   const body = { user_id, name, password };
   return eatbayApi.post(`/users/${user_id}`, body).then((response) => {
