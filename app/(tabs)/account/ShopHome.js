@@ -143,11 +143,13 @@ export default function ShopHome() {
           {
             <Button
               title="Add Food"
-              onPress={() => router.push("/home/AddFood")}
+              onPress={() =>
+                router.push({ pathname: "/home/AddFood", params: shop })
+              }
             />
           }
           <Text>{"\n"}</Text>
-          <Button title="Log out" onPress={() => logoutUser()} />
+          <Button title="Log Out" onPress={() => logoutUser()} />
         </View>
       )}
     </>

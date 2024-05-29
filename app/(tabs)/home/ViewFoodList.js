@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  Image,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Alert } from "react-native";
 import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
-import { getFoodByShopId } from "../../../src/api/backEndApi";
+import {
+  getFollowersByShopId,
+  getFoodByShopId,
+} from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
 import { MapContext } from "../../contexts/MapContext";
@@ -33,17 +29,45 @@ export default function ViewFood() {
     setShopName(params.title);
     setAddress(params.address);
     setPickUpTimes(params.pickUpTimes);
-    // setLikeButtonSelected(params.userLikesShop)
     setIsLoading(true);
     getFoodByShopId(params.shop_id).then((foods) => {
       setFoodItems(foods);
       setIsLoading(false);
+    });
+    getFollowersByShopId(params.shop_id).then((response) => {
+      response.forEach((follower) => {
+        if (follower.user_id === user.user_id) {
+          setLikeButtonSelected(true);
+        }
+      });
     });
   }, []);
 
   function userLikesShop() {
     // PATCH user and PATCH shop
     setLikeButtonSelected(!likeButtonSelected);
+    if (likeButtonSelected) {
+      getUserById(user.user_id)
+        .then((response) => {
+          return response.pushToken;
+        })
+        .then((pushToken) => {
+          postFollowers(user.user_id, params.shop_id, pushToken);
+        })
+        .then(() => {
+          Alert.alert(
+            "Success",
+            "You will now receive updates from this shop!",
+            [{ text: "OK" }]
+          );
+        })
+        .catch((err) => {
+          Alert.alert("Oops", "Something went wrong, please try again later", [
+            { text: "OK" },
+          ]);
+          setLikeButtonSelected(false);
+        });
+    }
   }
 
   return (
