@@ -4,6 +4,7 @@ import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
 import MapView from "react-native-maps";
 import {
   deleteFollowerByUserId,
+  deleteFoodById,
   getFollowersByShopId,
   getFoodByShopId,
   getUserById,
@@ -12,6 +13,7 @@ import {
 import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
 import { MapContext } from "../../contexts/MapContext";
+import Button from "../../components/Button";
 
 //import { Image } from "expo-image";
 
@@ -89,6 +91,26 @@ export default function ViewFood() {
     }
   }
 
+  function deleteFoodItem(foodItem) {
+    deleteFoodById(foodItem.food_id).then(() => {
+      setIsLoading(true);
+      getFoodByShopId(params.shop_id).then((foods) => {
+        setFoodItems(foods);
+        setIsLoading(false);
+      });
+    });
+  }
+
+  function editFoodItem(foodItem) {
+    router.push({
+      pathname: "/home/EditFood",
+      params: {
+        food_id: foodItem.food_id,
+        shop_id: params.shop_id,
+      },
+    });
+  }
+
   return (
     <>
       <Stack.Screen
@@ -153,6 +175,20 @@ export default function ViewFood() {
                     {"\n"}
                     {foodItem.quantity} available
                   </Text>
+                  {user.type === "customer" ? null : (
+                    <View style={styles.shopButtons}>
+                      <Button
+                        style={{ margin: 10 }}
+                        title={"Delete"}
+                        onPress={() => deleteFoodItem(foodItem)}
+                      />
+                      <Button
+                        style={{ margin: 10 }}
+                        title={"  Edit  "}
+                        onPress={() => editFoodItem(foodItem)}
+                      />
+                    </View>
+                  )}
                 </Link>
               );
             })
@@ -232,5 +268,11 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  shopButtons: {
+    flex: 1,
+    width: "80%",
+    flexDirection: "row",
+    alignItems: "space-between",
   },
 });

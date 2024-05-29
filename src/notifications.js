@@ -5,13 +5,14 @@ import Constants from "expo-constants";
 
 export async function sendNotifications(followerArray, message) {
   const recipients = followerArray.filter((follower) => follower.push_token);
-
-  // return Promise.all(
-  //   recipients.map((follower) =>
-  //       sendPushNotification(follower.push_token, message);
-  //   )
-  // );
-  sendPushNotification(recipients[0].push_token, message);
+  if (recipients.length > 0) {
+    // return Promise.all(
+    //   recipients.map((follower) =>
+    //       sendPushNotification(follower.push_token, message);
+    //   )
+    // );
+    sendPushNotification(recipients[0].push_token, message);
+  }
 }
 
 export async function setNotificationsHandler() {
