@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { useContext } from "react";
 import MapView from "react-native-maps";
 import { Redirect, Stack, useRouter, Link } from "expo-router";
@@ -75,7 +75,14 @@ export default function ShopHome() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{ headerShown: true, title: false, headerLeft: () => (
+          <View style={{ flexDirection: 'row' }} >
+            <Image
+              style={{ marginRight: 10 }} 
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
+        ) }}
       />
       <MapView
         style={styles.map}

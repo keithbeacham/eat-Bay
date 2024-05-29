@@ -45,7 +45,16 @@ export default function EditFood() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{
+          headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }}
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          )
+        }}
       />
       <MapView
         style={styles.map}

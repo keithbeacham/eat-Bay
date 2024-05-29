@@ -53,7 +53,14 @@ export default function ViewFood() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{ headerShown: true, title: false, headerLeft: () => (
+          <View style={{ flexDirection: 'row' }} >
+            <Image
+              style={{ marginRight: 10 }} 
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
+        ) }}
       />
       <MapView
         style={styles.map}
@@ -75,10 +82,10 @@ export default function ViewFood() {
           {"\n"}
         </Text>
         {user.type === "shop" ? null : user.isLoggedIn ? (
-          <Button title="Reserve this Food" onPress={() => reserveFoodItem()} />
+          <Button title="Reserve Item" onPress={() => reserveFoodItem()} />
         ) : (
           <Button
-            title="Log in to reserve this Food"
+            title="Log in to reserve item"
             onPress={() => loginToReserve()}
           />
         )}

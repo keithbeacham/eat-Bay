@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   Pressable,
+  Image
 } from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
@@ -54,7 +55,14 @@ export default function ViewReservations() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{ headerShown: true, title: false, headerLeft: () => (
+          <View style={{ flexDirection: 'row' }} >
+            <Image
+              style={{ marginRight: 10 }} 
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
+        ) }}
       />
       <MapView
         style={styles.map}
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(228,219,223,0.8)",
+    backgroundColor: "rgba(228,219,223,0.6)",
     margin: 10,
     padding: 5,
   },
@@ -160,6 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "#f08080",
+    margin: 10
   },
   buttonText: {
     fontSize: 14,

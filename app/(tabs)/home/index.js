@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, Image, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Stack, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
@@ -41,7 +41,11 @@ export default function Home() {
         setLongitudeDelta(0.5);
       })
       .catch((error) => {
-        console.log("error>", error);
+        Alert.alert(
+          "Error",
+          "Sorry, location not found",
+          [{ text: "OK" }]
+        );
       });
   }
 
@@ -56,7 +60,16 @@ export default function Home() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{
+          headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }} 
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          )
+        }}
       />
       <View
         style={{
@@ -109,7 +122,7 @@ export default function Home() {
               paddingHorizontal: 10,
               fontSize: 18,
             }}
-            placeholder={"Search"}
+            placeholder={"Search for location"}
             placeholderTextColor={"#666"}
             onChangeText={setSearchText}
             value={searchText}

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { Stack } from "expo-router";
 import MapView from "react-native-maps";
 import { MapContext } from "../../contexts/MapContext";
@@ -9,21 +9,32 @@ export default function AboutUs() {
 
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: "eatBay" }} />
+      <Stack.Screen options={{ headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }} 
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          ) }} />
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
         initialRegion={region}
       />
       <View style={styles.pageContainer}>
-        <Text style={{ fontSize: 30, fontWeight: "bold" }}>About us</Text>
-        <Text style={{ margin: 30 }}>
+        <Text style={{ fontSize: 25, fontWeight: "bold" }}>About us</Text>
+        <Image
+                style={{ marginTop: 10, marginBottom: 0 }} 
+                source={require('../../../assets/aboutus.png')}
+              />
+        <Text style={{ marginLeft: 30, marginRight: 30, marginTop: 15 }}>
           A long time ago in a galaxy far, far away Luke Skywalker has returned
           to his home planet of Tatooine in an attempt to rescue his friend Han
-          Solo from a shortage of affordable food. Little does Luke know that
+          Solo from a shortage of affordable food.{"\n"}{"\n"}Little does Luke know that
           the GALACTIC FOOD INDUSTRY wastes 40% of the food it produces. With
           the help of the REBEL FOOD ALLIANCE Luke works on a secret weapon to
-          free the Galaxy from the tyranny of wasted food. When completed, this
+          free the Galaxy from the tyranny of wasted food.{"\n"}{"\n"}When completed, this
           ultimate tool - EATBAY - will restore freedom to the galaxy and save
           the planets...
         </Text>

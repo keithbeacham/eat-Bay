@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput, Alert } from "react-native";
+import { Text, View, StyleSheet, TextInput, Alert, Image } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useContext } from "react";
 import {
@@ -106,7 +106,14 @@ export default function UserHome() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{ headerShown: true, title: false, headerLeft: () => (
+          <View style={{ flexDirection: 'row' }} >
+            <Image
+              style={{ marginRight: 10 }} 
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
+        ) }}
       />
       <MapView
         style={styles.map}
@@ -117,7 +124,7 @@ export default function UserHome() {
         <Redirect href={"/account"} />
       ) : (
         <View style={styles.pageContainer}>
-          <Text style={styles.bold30}>Account</Text>
+          <Text style={styles.bold25}>Account</Text>
           <Text></Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
           {/* <Text>
@@ -139,14 +146,14 @@ export default function UserHome() {
             style={styles.inputBox}
             onChangeText={(text) => updateUserName(text)}
             value={userName}
-            placeholder={"name"}
+            placeholder={user.name}
             autoCorrect={false}
           />
           <TextInput
             style={styles.inputBox}
             onChangeText={(text) => updateEmail(text)}
             value={userId}
-            placeholder={"change email"}
+            placeholder={user.user_id}
             autoCorrect={false}
           />
           <TextInput
@@ -205,9 +212,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",

@@ -114,9 +114,16 @@ export default function ViewFood() {
   return (
     <>
       <Stack.Screen
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         options={{
-          headerShown: true,
-          title: "eatBay",
+          headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }} 
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          )
         }}
       />
       <MapView
@@ -234,7 +241,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(228,219,223,0.8)",
+    backgroundColor: "rgba(228,219,223,0.6)",
     margin: 10,
     padding: 15,
   },

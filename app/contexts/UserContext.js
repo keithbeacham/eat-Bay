@@ -7,6 +7,7 @@ export function UserProvider(props) {
     isLoggedIn: false,
     user_id: "test",
     type: "customer",
+    name: "test",
     users_shop_id: 9,
   });
 

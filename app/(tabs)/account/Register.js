@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, Image } from "react-native";
 import { Redirect, Stack, useRouter } from "expo-router";
 import { useContext, useMemo, useState } from "react";
 import Button from "../../components/Button";
@@ -67,7 +67,14 @@ export default function Register() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{ headerShown: true, title: false, headerLeft: () => (
+          <View style={{ flexDirection: 'row' }} >
+            <Image
+              style={{ marginRight: 10 }} 
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
+        ) }}
       />
       <MapView
         style={styles.map}

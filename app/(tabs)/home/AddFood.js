@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput, Alert, Image } from "react-native";
 import { Stack, Redirect, useRouter, useLocalSearchParams } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
@@ -58,7 +58,14 @@ export default function AddFood() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: "eatBay",
+          title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }} 
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          ),
         }}
       />
       {/* <MapView

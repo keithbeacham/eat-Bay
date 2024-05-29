@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert, Image } from "react-native";
 import { Stack, Redirect, useLocalSearchParams } from "expo-router";
 import MapView from "react-native-maps";
 import Button from "../../components/Button";
@@ -51,7 +51,14 @@ export default function SellFood() {
 
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: "eatBay" }} />
+      <Stack.Screen options={{ headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }} 
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          ) }} />
       <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(228,219,223,0.8)",
+    backgroundColor: "rgba(228,219,223,0.6)",
     margin: 10,
     padding: 5,
     width: "100%",

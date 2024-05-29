@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { Text, View, StyleSheet, TextInput, Image } from "react-native";
 import { Stack, Redirect, useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
@@ -26,6 +26,7 @@ export default function Index() {
       setUser({
         isLoggedIn: true,
         user_id: "sofe@northcoders.com",
+        name: "Sofe",
         type: "customer",
       });
     } else {
@@ -47,7 +48,14 @@ export default function Index() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: "eatBay" }}
+        options={{ headerShown: true, title: false, headerLeft: () => (
+          <View style={{ flexDirection: 'row' }} >
+            <Image
+              style={{ marginRight: 10 }} 
+              source={require('../../../assets/logo.png')}
+            />
+          </View>
+        ) }}
       />
       <MapView
         style={styles.map}
@@ -55,7 +63,7 @@ export default function Index() {
         initialRegion={region}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>Login or Register{"\n"}</Text>
+        <Text style={styles.bold25}>Login or Register{"\n"}</Text>
         {user.isLoggedIn ? (
           user.type === "customer" ? (
             <Redirect href={"/account/UserHome"} />
@@ -115,9 +123,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold16: {
     fontWeight: "bold",
