@@ -27,8 +27,11 @@ export default function UserHome() {
   const [password, setPassword] = useState("");
   const [allowNotifications, setAllowNotifications] = useState(false);
 
+  useEffect(() => {
+    setUpPushNotifications();
+  }, []);
+
   function setUpPushNotifications() {
-    console.log("set up push notifications");
     setNotificationsHandler();
     registerForPushNotificationsAsync()
       .then((token) => setExpoPushToken(token ?? ""))
@@ -52,7 +55,6 @@ export default function UserHome() {
       responseListener.current &&
         Notifications.removeNotificationSubscription(responseListener.current);
     };
-    console.log(expoPushToken);
   }
 
   function updateUserName(text) {
@@ -71,10 +73,11 @@ export default function UserHome() {
       type: "customer",
       isLoggedIn: true,
     });
-    if (allowNotifications) {
-      setUpPushNotifications();
+    if (!allowNotifications) {
+      setExpoPushToken("");
     }
-    patchUserById(userId, userName, password, expoPushToken)
+    console.log("in UserHome, pushToken>", expoPushToken);
+    patchUserById(user.user_id, userName, password, expoPushToken)
       .then(() => {
         Alert.alert("Success", "Your details have been updated", [
           { text: "OK" },

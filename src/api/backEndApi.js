@@ -114,7 +114,6 @@ export function postFollowers(user_id, shop_id) {
   });
 }
 
-
 export function postUser(user_id, name, password) {
   const body = { user_id, name, password };
   return eatbayApi.post(`/users/${user_id}`, body).then((response) => {
@@ -122,9 +121,21 @@ export function postUser(user_id, name, password) {
   });
 }
 
-export function patchUserById(user_id, body) {
-  return eatbayApi.patch(`/users/${user_id}`, body)
-  .then((response) => {
-    response.data.user
-  })
+export function patchUserById(user_id, name, password, push_token) {
+  const body = { user_id };
+
+  if (name) {
+    body.name = name;
+  }
+  if (password) {
+    body.password = password;
+  }
+  if (push_token) {
+    body.push_token = push_token;
+  }
+  console.log("patchUserById>", body);
+  return eatbayApi.patch(`/users/${user_id}`, body).then((response) => {
+    response.data.user;
+  });
+
 }
