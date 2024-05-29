@@ -141,8 +141,13 @@ export function patchUserById(user_id, name, password, push_token) {
   if (push_token) {
     body.push_token = push_token;
   }
-  console.log("patchUserById>", body);
   return eatbayApi.patch(`/users/${user_id}`, body).then((response) => {
-    response.data.user;
+    return response.data.user;
+  });
+}
+
+export function deleteFoodById(food_id) {
+  return eatbayApi.delete(`/food/${food_id}`).then((response) => {
+    return response;
   });
 }

@@ -24,7 +24,8 @@ export default function AboutUs() {
           the GALACTIC FOOD INDUSTRY wastes 40% of the food it produces. With
           the help of the REBEL FOOD ALLIANCE Luke works on a secret weapon to
           free the Galaxy from the tyranny of wasted food. When completed, this
-          ultimate tool - EATBAY - will restore freedom to the galaxy...
+          ultimate tool - EATBAY - will restore freedom to the galaxy and save
+          the planets...
         </Text>
       </View>
     </>

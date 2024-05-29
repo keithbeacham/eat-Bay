@@ -1,7 +1,7 @@
-import { Text, View, StyleSheet, Alert, Image } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { getFoodByFoodId, postReservation } from "../../../src/api/backEndApi";
+import { getFoodByFoodId, deleteFoodById } from "../../../src/api/backEndApi";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
@@ -26,6 +26,21 @@ export default function EditFood() {
     });
   }, []);
 
+  function deleteFoodItem() {
+    deleteFoodById(food_id).then(() => {
+      router.replace("/account");
+    });
+  }
+
+  function editFoodItem(foodItem) {
+    router.push({
+      pathname: "/home/EditFood",
+      params: {
+        food_id: foodItem.food_id,
+        shop_id: params.shop_id,
+      },
+    });
+  }
   return (
     <>
       <Stack.Screen
@@ -52,8 +67,18 @@ export default function EditFood() {
           {foodItemQuantity} remaining
           {"\n"}
         </Text>
-        <Button title={"  Edit  "} />
-        <Button title={"Delete"} />
+        <View style={styles.shopButtons}>
+          <Button
+            style={{ margin: 10 }}
+            title={"Delete"}
+            onPress={() => deleteFoodItem()}
+          />
+          <Button
+            style={{ margin: 10 }}
+            title={"  Edit  "}
+            onPress={() => editFoodItem()}
+          />
+        </View>
       </View>
     </>
   );
@@ -99,5 +124,11 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+  shopButtons: {
+    flex: 1,
+    width: "80%",
+    flexDirection: "row",
+    alignItems: "space-between",
   },
 });
