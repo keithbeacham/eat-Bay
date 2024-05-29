@@ -124,3 +124,28 @@ export function patchUserById(user_id, name, password, push_token) {
     return response;
   });
 }
+
+export function postUser(user_id, name, password) {
+  const body = { user_id, name, password };
+  return eatbayApi.post(`/users/${user_id}`, body).then((response) => {
+    return response.data.user;
+  });
+}
+
+export function patchUser(user_id, name, password, push_token) {
+  const body = { user_id };
+
+  if (name) {
+    body.name = name;
+  }
+  if (password) {
+    body.password = password;
+  }
+  if (push_token) {
+    body.push_token = push_token;
+  }
+  return eatbayApi.patch(`/users/${user_id}`, body)
+  .then((response) => {
+    response.data.user
+  })
+}
