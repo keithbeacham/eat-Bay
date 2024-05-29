@@ -22,28 +22,31 @@ export default function AddFood() {
   const router = useRouter();
 
   function submitFoodItem() {
-    // Promise.all([
-    //   postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity),
-    //   getFollowersByShopId(user.users_shop_id)
-    // ])
-    //   .then((values) => {
-    // const message = {
-    //   title: "eatBay alert",
-    //   body: `${shop.shop_name} at ${shop.address} has just posted some food! Checkout eatBay to see what they have available.`
-    // }
-    //     sendNotifications(values[1].followers)
-    //   })
-    //   .then(()=>{
-    //     Alert.alert("Success", "Food Item created and notifications sent", [{ text: "OK" }]);
-    //     setItemName("");
-    //     setItemDesc("");
-    //     setItemQuantity("");
-    //   })
-    //   .catch((error) => {
-    //     Alert.alert("Error", "There was a problem adding the food item", [
-    //       { text: "OK" },
-    //     ]);
-    //   });
+    Promise.all([
+      postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity),
+      getFollowersByShopId(user.users_shop_id),
+    ])
+      .then((values) => {
+        const message = {
+          title: "eatBay alert",
+          body: `${shop.shop_name} at ${shop.address} has just posted some food! Checkout eatBay to see what they have available.`,
+        };
+        sendNotifications(values[1].followers);
+      })
+      .then(() => {
+        Alert.alert("Success", "Food Item created and notifications sent", [
+          { text: "OK" },
+        ]);
+        setItemName("");
+        setItemDesc("");
+        setItemQuantity("");
+      })
+      .catch((error) => {
+        Alert.alert("Error", "There was a problem adding the food item", [
+          { text: "OK" },
+        ]);
+        console.log("sendNotifications in AddFood>", error);
+      });
   }
 
   function cancelSubmitFoodItem() {
