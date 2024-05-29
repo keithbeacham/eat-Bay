@@ -75,7 +75,16 @@ export default function ViewFood() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: "eatBay",
+          title: false,
+          headerLeft: () => (
+            <View style={{flexDirection:'row'}} >
+            <Image
+            style={{marginRight:10}}
+            //source={{uri:"https://7hillsfood.co.uk/7hills/img/logo.png?v=20240521-0424"}} 
+            source={require('../../../assets/logo.png')}
+             />
+             </View>
+            )
         }}
       />
       <MapView
