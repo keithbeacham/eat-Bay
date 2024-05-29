@@ -1,39 +1,53 @@
 import { View, Text, StyleSheet, TextInput, Alert } from "react-native";
-import { Stack, Redirect, useRouter } from "expo-router";
+import { Stack, Redirect, useRouter, useLocalSearchParams } from "expo-router";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { MapContext } from "../../contexts/MapContext";
-import { postFoodItem } from "../../../src/api/backEndApi";
+import {
+  getFollowersByShopId,
+  postFoodItem,
+} from "../../../src/api/backEndApi";
+import { sendNotifications } from "../../../src/notifications";
 
 export default function AddFood() {
   const { user, setUser } = useContext(UserContext);
   const { region, setRegion } = useContext(MapContext);
+  const shop = useLocalSearchParams();
   const [itemname, setItemName] = useState("");
   const [itemdesc, setItemDesc] = useState("");
-  const [itemquantity, setItemQuantity] = useState("0");
+  const [itemquantity, setItemQuantity] = useState("");
 
   const router = useRouter();
 
   function submitFoodItem() {
-    postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity)
-      .then((response) => {
-        Alert.alert('Success', 'Food Item created', [
-          { text: 'OK' },])
-        setItemName("")
-        setItemDesc("")
-        setItemQuantity("0")
-      })
-      .catch((error) => {
-        Alert.alert("Error", "There was a problem adding the food item", [
-          { text: "OK" },
-        ]);
-      });
+    // Promise.all([
+    //   postFoodItem(user.users_shop_id, itemname, itemdesc, itemquantity),
+    //   getFollowersByShopId(user.users_shop_id)
+    // ])
+    //   .then((values) => {
+    // const message = {
+    //   title: "eatBay alert",
+    //   body: `${shop.shop_name} at ${shop.address} has just posted some food! Checkout eatBay to see what they have available.`
+    // }
+    //     sendNotifications(values[1].followers)
+    //   })
+    //   .then(()=>{
+    //     Alert.alert("Success", "Food Item created and notifications sent", [{ text: "OK" }]);
+    //     setItemName("");
+    //     setItemDesc("");
+    //     setItemQuantity("");
+    //   })
+    //   .catch((error) => {
+    //     Alert.alert("Error", "There was a problem adding the food item", [
+    //       { text: "OK" },
+    //     ]);
+    //   });
   }
 
   function cancelSubmitFoodItem() {
-    router.push("/account/ShopHome")
+    router.push("/account/ShopHome");
   }
 
   return (
@@ -41,7 +55,7 @@ export default function AddFood() {
       <Stack.Screen
         options={{
           headerShown: true,
-          title: "eatBay"
+          title: "eatBay",
         }}
       />
       <MapView
@@ -79,7 +93,7 @@ export default function AddFood() {
             }}
           />
           <Button
-            title="Cancel"
+            title="Back"
             onPress={() => {
               cancelSubmitFoodItem();
             }}
@@ -152,6 +166,6 @@ const styles = StyleSheet.create({
     width: "75%",
     marginBottom: 15,
     minHeight: 80,
-    textAlignVertical: "top"
+    textAlignVertical: "top",
   },
 });

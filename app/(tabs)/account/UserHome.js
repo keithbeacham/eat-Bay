@@ -64,7 +64,6 @@ export default function UserHome() {
     setPassword(text);
   }
   function updateUserDetails() {
-    // PATCH user
     setUser({
       user_id: userId,
       type: "customer",
@@ -73,6 +72,7 @@ export default function UserHome() {
     if (allowNotifications) {
       setUpPushNotifications();
     }
+    // PATCH user
     Alert.alert("Success", "Your details have been updated", [
       { text: "OK", onPress: () => console.log("OK Pressed") },
     ]);
@@ -153,11 +153,11 @@ export default function UserHome() {
           <Button title="Update" onPress={() => updateUserDetails()} />
           <Text style={{ fontSize: 5 }}>{"\n"}</Text>
           <Button
-            title="view reservations"
+            title="View Reservations"
             onPress={() => router.replace("/home/Reservations")}
           />
           <Text style={{ fontSize: 5 }}>{"\n"}</Text>
-          <Button title="log out" onPress={() => logoutUser()} />
+          <Button title="Log Out" onPress={() => logoutUser()} />
         </View>
       )}
     </>

@@ -81,7 +81,7 @@ export default function ViewReservations() {
                     {"\n"}
                   </Text>
                   <Text style={styles.text12}>
-                    Reservation ID: {reservation.reservation_id}
+                    Reservation Code: {reservation.reservation_id}
                   </Text>
                   <Pressable
                     style={styles.button}

@@ -3,6 +3,14 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 
+export async function sendNotifications(followerArray, message) {
+  return Promise.all(
+    followerArray.map((follower) => {
+      return sendPushNotification(follower.pushToken, message);
+    })
+  );
+}
+
 export async function setNotificationsHandler() {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -13,13 +21,13 @@ export async function setNotificationsHandler() {
   });
 }
 
-export async function sendPushNotification(expoPushToken) {
+export async function sendPushNotification(expoPushToken, userMessage) {
   const message = {
     to: expoPushToken,
     sound: "default",
-    title: "Test Message from me",
-    body: "a big hello from Keith!",
-    data: { someData: "goes here" },
+    title: userMessage.title,
+    body: userMessage.body,
+    data: {},
   };
 
   await fetch("https://exp.host/--/api/v2/push/send", {
