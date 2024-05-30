@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, Alert } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { getFoodByFoodId, deleteFoodById } from "../../../src/api/backEndApi";
@@ -29,7 +29,18 @@ export default function EditFood() {
   function deleteFoodItem() {
     deleteFoodById(food_id).then(() => {
       router.replace("/account");
-    });
+    })
+    .then(() => {
+      Alert.alert("Success", "Food item was deleted", [
+        { text: "OK"},
+      ]);
+    })
+    .catch((error) => {
+      Alert.alert("Error", "There was a problem deleting the food item", [
+        { text: "OK"},
+      ]);
+    })
+    ;
   }
 
   function editFoodItem(foodItem) {

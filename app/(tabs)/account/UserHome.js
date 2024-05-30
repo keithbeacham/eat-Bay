@@ -68,16 +68,22 @@ export default function UserHome() {
   }
 
   function updateUserDetails() {
-    setUser({
-      user_id: userId,
-      type: "customer",
-      isLoggedIn: true,
-    });
     if (!allowNotifications) {
       setExpoPushToken("");
     }
-    console.log("in UserHome, pushToken>", expoPushToken);
-    patchUserById(user.user_id, userName, password, expoPushToken)
+    //console.log("in UserHome, pushToken>", expoPushToken);
+    // currently only allowing editing of push token, name and password
+    const body = {}
+    if (expoPushToken) {
+      body.push_token = expoPushToken
+    }
+    if (userName) {
+      body.name = userName
+    }
+    if (password) {
+      body.password = password
+    }
+    patchUserById(user.user_id, body)
       .then(() => {
         Alert.alert("Success", "Your details have been updated", [
           { text: "OK" },
@@ -89,7 +95,7 @@ export default function UserHome() {
           "Something has gone wrong, please try again later",
           [{ text: "OK" }]
         );
-        console.log("in userhome, patchUserById>", err);
+        //console.log("in userhome, patchUserById>", err);
       });
   }
 
@@ -106,14 +112,16 @@ export default function UserHome() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: false, headerLeft: () => (
-          <View style={{ flexDirection: 'row' }} >
-            <Image
-              style={{ marginRight: 10 }} 
-              source={require('../../../assets/logo.png')}
-            />
-          </View>
-        ) }}
+        options={{
+          headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }}
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          )
+        }}
       />
       <MapView
         style={styles.map}

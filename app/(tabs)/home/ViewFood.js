@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Alert, Image } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { getFoodByFoodId, postReservation } from "../../../src/api/backEndApi";
+import { getFoodByFoodId, postReservation, patchFoodQuantity } from "../../../src/api/backEndApi";
 import Button from "../../components/Button";
 import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
@@ -37,6 +37,9 @@ export default function ViewFood() {
     if (user.isLoggedIn && user.type === "customer") {
       postReservation(shop_id, food_id, user.user_id)
         .then(() => {
+          return patchFoodQuantity(food_id, -1)
+        })
+        .then(() => {
           Alert.alert("Success", "Reservation added", [
             { text: "OK", onPress: () => console.log("OK Pressed") },
           ]);
@@ -53,14 +56,16 @@ export default function ViewFood() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: false, headerLeft: () => (
-          <View style={{ flexDirection: 'row' }} >
-            <Image
-              style={{ marginRight: 10 }} 
-              source={require('../../../assets/logo.png')}
-            />
-          </View>
-        ) }}
+        options={{
+          headerShown: true, title: false, headerLeft: () => (
+            <View style={{ flexDirection: 'row' }} >
+              <Image
+                style={{ marginRight: 10 }}
+                source={require('../../../assets/logo.png')}
+              />
+            </View>
+          )
+        }}
       />
       <MapView
         style={styles.map}
