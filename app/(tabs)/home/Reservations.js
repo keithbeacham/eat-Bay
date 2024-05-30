@@ -6,7 +6,7 @@ import {
   ScrollView,
   Alert,
   Pressable,
-  Image
+  Image,
 } from "react-native";
 import { Stack, Link, useRouter } from "expo-router";
 import Button from "../../components/Button";
@@ -55,14 +55,18 @@ export default function ViewReservations() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: false, headerLeft: () => (
-          <View style={{ flexDirection: 'row' }} >
-            <Image
-              style={{ marginRight: 10 }} 
-              source={require('../../../assets/logo.png')}
-            />
-          </View>
-        ) }}
+        options={{
+          headerShown: true,
+          title: false,
+          headerLeft: () => (
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={{ marginRight: 10 }}
+                source={require("../../../assets/logo.png")}
+              />
+            </View>
+          ),
+        }}
       />
       <MapView
         style={styles.map}
@@ -88,7 +92,7 @@ export default function ViewReservations() {
                     {reservation.pickup_times}
                     {"\n"}
                   </Text>
-                  <Text style={styles.text12}>
+                  <Text style={styles.bold16}>
                     Reservation Code: {reservation.reservation_id}
                   </Text>
                   <Pressable
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor: "#f08080",
-    margin: 10
+    margin: 10,
   },
   buttonText: {
     fontSize: 14,
