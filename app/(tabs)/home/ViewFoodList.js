@@ -153,7 +153,8 @@ export default function ViewFood() {
             <Text>Loading Data...</Text>
           ) : (
             foodItems.map((foodItem) => {
-              return user.type === "customer" && foodItem.quantity > 0 ? (
+              return user.type === "customer" &&
+                foodItem.quantity === 0 ? null : (
                 <Link
                   key={foodItem.food_id}
                   href={{
@@ -199,7 +200,7 @@ export default function ViewFood() {
                     </View>
                   )}
                 </Link>
-              ) : null;
+              );
             })
           )}
         </ScrollView>

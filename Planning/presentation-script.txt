@@ -1,37 +1,47 @@
-Welcome to the eatBay mobile app.
-This app is similar to "Too Good To Go", offering surplus food to the public for a reduced price in order to minimise wastage.
-We gave EatBay a point of difference by allowing the user to select specific items instead of receiving a mystery bag.
+Welcome to eatBay, a mobile application that enables food shops, restaurants and cafes to offer surplus food to the public for a reduced price in order to minimise wastage. This app is similar to "Too Good To Go" but allows the user to select specific items instead of receiving a mystery bag.
+
+eatBay is a demonstration project developed by a team of four over seven working days as part of the Northcoders Software Engineering Bootcamp.
+
+Here are the team: Marcus, Keith, Sofe and Jennifer. Together we are known as the Foodcoders.
+
 We incorporated React Native, mapping and push notifications as our new technologies.
-SQL, POSTGRES and Elephant SQL were utilised for our database and Express for our endpoints.
-TDD was included throughout the whole development journey with Jest and Supertest.
-The back end is hosted on Render.
-We have included user context to allow for a smooth user journey.
-We have google maps with Bing for the search functionality and expo push notifications have been installed.
+POSTGRES SQL is utilised for our database and Express for the endpoints.
+TDD was included throughout the whole backend development journey with Jest and Supertest.
+The backend is hosted on Render and Elephant SQL, the frontend runs on IOS and Android phones.
+We used google maps for the map overlay and Bing for the location search.
+We have included map and user contexts to allow for a smooth user journey.
+Expo push notifications have been integrated into the app.
 
-We have a search bar which accepts both postcodes and named areas. We can then zoom in and select a shop. Red pins indicate a shop with food to reserve and yellow means there is currently no food available.
+On the map view, red pins indicate a shop with food to reserve and yellow means there is currently no food available. 
 
-Once selected, a list of all available food at the chosen shop is displayed.
+There is a map search bar which accepts both postcodes and named areas. We can then zoom in and select a shop. 
 
-When an item is selected, the user can see the descrption and items remaining. In order to reserve, it prompts the user to log in.
+Once selected, a list of all available food at the chosen shop is displayed, which you can scroll through.
 
-The log in page also gives the user an option to register for an account if they haven't yet done so already which we will demonstrate shortly.
+When an item is selected, the user can see the descrption and quantity remaining. In order to reserve the item, the app prompts the user to log in.
 
-The user is then navigated to their account page. By pressing view reservations, the user can see a list of all items that they have reserved. Each reservation has generated a unique reservation code which will be used by the shop to authenticate the customer. There is an option to delete an item by pressing the associated button.
+The log in page also gives the user an option to register for an account if they haven't yet done so, which we will demonstrate shortly.
 
-If we now go back to the account page, there are some other options available. Here their name, email and password can be updated by typing it in the box and pressing update. Also, a user can opt in for their favourite shops to send push notifications alerting them of available food by selecting this box and again pressing the update button.
+The user is then navigated back to the food item page where they can reserve the food. Once reserved, the user can see a list of all items that they have reserved. Each reservation has generated a unique reservation code which will be used by the shop to authenticate the customer on collection. There is an option to delete an item by pressing the associated button.
 
-To select a favourite shop, if we navigate back to the home screen and select a shop. On the shop's food list page, a heart is displayed which when pressed then turns red. This will then allow the user to receive notifications from that shop. By pressing on the heart again, it will be removed from the favourites list.
+Let's now go back to the home page.
+
+If we now go to the account page, there are some other options available. Here their name, email and password can be updated and the user can also opt in for push notifications which will alert them to available food from their favourite shops.
+
+To select a favourite shop, we can navigate back to the home screen and select a shop. Now that we're logged in, a heart is displayed on the shop's food list page which when pressed turns red. This will then allow the user to receive notifications from that shop. By pressing on the heart again it turns grey and the user will no longer receive notifications from that shop.
 
 Finally, from the user's account page, they are able to log out.
 
-As mentioned earlier, there is an option to register for an account. The user selects this button and can choose a customer or shop account.
+If the user doesn't have an account, when they select log in there is an option to register. There are two types of account, one for a shop and one for a customer.
 
-For a shop user, press to log in from the nav bar, then account.
+Let's now log in as a shop user, first we log in, then let's go to our account page.
 
-From the shop account page, we can select view reservations to see a list of all food items reserved by customers. A unique reservation code can be checked during pick up and the shop can then press sold once the transaction is complete, removing it from the list.
+When a customer comes to the shop to pick up a reserved item, from the shop account page, we can select view reservations to see a list of all food items reserved by customers. We can check the unique reservation code against that on the customer's phone and can then press sold once the transaction is complete, removing it from the list.
 
-If we then navigate back to the account page, pressing view food list will show the shop all items listed that are available for reservation. By selecting a food item, the shop user can then edit or delete that item.
+If we then navigate back to the account page, pressing view food list will show the shop all items listed that are available for reservation. There is an option to delete an item. By either selecting the item or pressing the edit button, the shop will be taken to a page to edit the item.
 
-Back to the account page again, the add food button will allow the shop to add food to the food list with a name, descripton and quantity. Once added, if we now view the food list, we can see that it's added to the list.
+Back to the account page again, the add food button will allow the shop to add food to the food list with a name, descripton and quantity. Once added, push notifications will be sent to any customers who have liked the shop. If we now view the food list, we can see that it's added to the list.
 
 In the nav bar we also have an about us link, giving users some info about the app.
+
+EatBay, buy it, save it, eat it brought to you by the Foodcoders.
