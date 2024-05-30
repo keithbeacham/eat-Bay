@@ -73,15 +73,15 @@ export default function UserHome() {
     }
     //console.log("in UserHome, pushToken>", expoPushToken);
     // currently only allowing editing of push token, name and password
-    const body = {}
+    const body = {};
     if (expoPushToken) {
-      body.push_token = expoPushToken
+      body.push_token = expoPushToken;
     }
     if (userName) {
-      body.name = userName
+      body.name = userName;
     }
     if (password) {
-      body.password = password
+      body.password = password;
     }
     patchUserById(user.user_id, body)
       .then(() => {
@@ -113,14 +113,16 @@ export default function UserHome() {
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         options={{
-          headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
+          headerShown: true,
+          title: false,
+          headerLeft: () => (
+            <View style={{ flexDirection: "row" }}>
               <Image
                 style={{ marginRight: 10 }}
-                source={require('../../../assets/logo.png')}
+                source={require("../../../assets/logo.png")}
               />
             </View>
-          )
+          ),
         }}
       />
       <MapView
