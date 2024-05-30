@@ -73,7 +73,7 @@ export default function EditFood() {
         initialRegion={region}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>Edit Food Item {"\n"}</Text>
+        <Text style={styles.bold25}>Edit Food Item {"\n"}</Text>
         <Image source={{ uri: foodPictureUrl }} style={styles.image} />
         <Text style={styles.bold20}>
           {foodItemName}
@@ -128,9 +128,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold20: {
     fontWeight: "bold",
