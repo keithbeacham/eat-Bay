@@ -1,0 +1,37 @@
+Welcome to the eatBay mobile app.
+This app is similar to "Too Good To Go", offering surplus food to the public for a reduced price in order to minimise wastage.
+We gave EatBay a point of difference by allowing the user to select specific items instead of receiving a mystery bag.
+We incorporated React Native, mapping and push notifications as our new technologies.
+SQL, POSTGRES and Elephant SQL were utilised for our database and Express for our endpoints.
+TDD was included throughout the whole development journey with Jest and Supertest.
+The back end is hosted on Render.
+We have included user context to allow for a smooth user journey.
+We have google maps with Bing for the search functionality and expo push notifications have been installed.
+
+We have a search bar which accepts both postcodes and named areas. We can then zoom in and select a shop. Red pins indicate a shop with food to reserve and yellow means there is currently no food available.
+
+Once selected, a list of all available food at the chosen shop is displayed.
+
+When an item is selected, the user can see the descrption and items remaining. In order to reserve, it prompts the user to log in.
+
+The log in page also gives the user an option to register for an account if they haven't yet done so already which we will demonstrate shortly.
+
+The user is then navigated to their account page. By pressing view reservations, the user can see a list of all items that they have reserved. Each reservation has generated a unique reservation code which will be used by the shop to authenticate the customer. There is an option to delete an item by pressing the associated button.
+
+If we now go back to the account page, there are some other options available. Here their name, email and password can be updated by typing it in the box and pressing update. Also, a user can opt in for their favourite shops to send push notifications alerting them of available food by selecting this box and again pressing the update button.
+
+To select a favourite shop, if we navigate back to the home screen and select a shop. On the shop's food list page, a heart is displayed which when pressed then turns red. This will then allow the user to receive notifications from that shop. By pressing on the heart again, it will be removed from the favourites list.
+
+Finally, from the user's account page, they are able to log out.
+
+As mentioned earlier, there is an option to register for an account. The user selects this button and can choose a customer or shop account.
+
+For a shop user, press to log in from the nav bar, then account.
+
+From the shop account page, we can select view reservations to see a list of all food items reserved by customers. A unique reservation code can be checked during pick up and the shop can then press sold once the transaction is complete, removing it from the list.
+
+If we then navigate back to the account page, pressing view food list will show the shop all items listed that are available for reservation. By selecting a food item, the shop user can then edit or delete that item.
+
+Back to the account page again, the add food button will allow the shop to add food to the food list with a name, descripton and quantity. Once added, if we now view the food list, we can see that it's added to the list.
+
+In the nav bar we also have an about us link, giving users some info about the app.
