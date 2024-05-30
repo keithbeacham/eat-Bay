@@ -68,11 +68,11 @@ export default function AddFood() {
           ),
         }}
       />
-      {/* <MapView
+      { <MapView
         style={styles.map}
         provider={MapView.PROVIDER_GOOGLE}
         initialRegion={region}
-      /> */}
+      /> }
       <View style={styles.pageContainer}>
         <Text style={styles.bold25}>Add food item</Text>
         <Text>Fill in the fields below to add a new food item{"\n"}</Text>
