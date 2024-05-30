@@ -71,7 +71,7 @@ export default function ViewFood() {
           return response.push_token;
         })
         .then((push_token) => {
-          postFollowers(user.user_id, params.shop_id);
+          return postFollowers(user.user_id, params.shop_id);
         })
         .then(() => {
           setLikeButtonSelected(true);

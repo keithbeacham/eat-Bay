@@ -129,18 +129,7 @@ export function postUser(user_id, name, password) {
   });
 }
 
-export function patchUserById(user_id, name, password, push_token) {
-  const body = { user_id };
-
-  if (name) {
-    body.name = name;
-  }
-  if (password) {
-    body.password = password;
-  }
-  if (push_token) {
-    body.push_token = push_token;
-  }
+export function patchUserById(user_id, body) {
   return eatbayApi.patch(`/users/${user_id}`, body).then((response) => {
     return response.data.user;
   });
@@ -150,4 +139,14 @@ export function deleteFoodById(food_id) {
   return eatbayApi.delete(`/food/${food_id}`).then((response) => {
     return response;
   });
+}
+
+export function patchFoodQuantity(food_id, amountChange) {
+  const body = {
+    change_quantity: amountChange
+  };
+  return eatbayApi.patch(`/food/${food_id}/update_quantity`, body)
+    .then((response) => {
+      return response.data.food;
+    })
 }

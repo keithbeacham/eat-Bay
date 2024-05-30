@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, Alert } from "react-native";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { getFoodByFoodId, deleteFoodById } from "../../../src/api/backEndApi";
@@ -29,7 +29,18 @@ export default function EditFood() {
   function deleteFoodItem() {
     deleteFoodById(food_id).then(() => {
       router.replace("/account");
-    });
+    })
+    .then(() => {
+      Alert.alert("Success", "Food item was deleted", [
+        { text: "OK"},
+      ]);
+    })
+    .catch((error) => {
+      Alert.alert("Error", "There was a problem deleting the food item", [
+        { text: "OK"},
+      ]);
+    })
+    ;
   }
 
   function editFoodItem(foodItem) {
@@ -62,7 +73,7 @@ export default function EditFood() {
         initialRegion={region}
       />
       <View style={styles.pageContainer}>
-        <Text style={styles.bold30}>Edit Food Item {"\n"}</Text>
+        <Text style={styles.bold25}>Edit Food Item {"\n"}</Text>
         <Image source={{ uri: foodPictureUrl }} style={styles.image} />
         <Text style={styles.bold20}>
           {foodItemName}
@@ -117,9 +128,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  bold30: {
+  bold25: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 25,
   },
   bold20: {
     fontWeight: "bold",

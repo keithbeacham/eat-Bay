@@ -14,6 +14,7 @@ import MapView from "react-native-maps";
 import {
   getReservationsByUserId,
   deleteReservationById,
+  patchFoodQuantity
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
 import { MapContext } from "../../contexts/MapContext";
@@ -33,11 +34,14 @@ export default function ViewReservations() {
     });
   }, []);
 
-  function deleteReservation(reservationId) {
-    deleteReservationById(reservationId)
+  function deleteReservation(reservationId, foodId) {
+    deleteReservationById(reservationId, foodId)
+      .then(() => {
+        return patchFoodQuantity(foodId, 1)
+      })
       .then((response) => {
         Alert.alert("Success", "Reservation deleted", [
-          { text: "OK", onPress: () => console.log("OK Pressed") },
+          { text: "OK"},
         ]);
         const updatedReservations = [...reservations].filter(
           (reservation) => reservation.reservation_id != reservationId
@@ -46,7 +50,7 @@ export default function ViewReservations() {
       })
       .catch((error) => {
         Alert.alert("Error", "There was a problem deleting the reservation", [
-          { text: "OK", onPress: () => console.log("OK Pressed") },
+          { text: "OK"},
         ]);
       });
   }
@@ -99,7 +103,7 @@ export default function ViewReservations() {
                     style={styles.button}
                     key={"buttonKey"}
                     onPress={() =>
-                      deleteReservation(reservation.reservation_id)
+                      deleteReservation(reservation.reservation_id, reservation.food_id)
                     }
                   >
                     <Text style={styles.buttonText}>Delete</Text>
