@@ -116,14 +116,16 @@ export default function ViewFood() {
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         options={{
-          headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
+          headerShown: true,
+          title: false,
+          headerLeft: () => (
+            <View style={{ flexDirection: "row" }}>
               <Image
-                style={{ marginRight: 10 }} 
-                source={require('../../../assets/logo.png')}
+                style={{ marginRight: 10 }}
+                source={require("../../../assets/logo.png")}
               />
             </View>
-          )
+          ),
         }}
       />
       <MapView
@@ -151,7 +153,7 @@ export default function ViewFood() {
             <Text>Loading Data...</Text>
           ) : (
             foodItems.map((foodItem) => {
-              return (
+              return user.type === "customer" && foodItem.quantity > 0 ? (
                 <Link
                   key={foodItem.food_id}
                   href={{
@@ -197,7 +199,7 @@ export default function ViewFood() {
                     </View>
                   )}
                 </Link>
-              );
+              ) : null;
             })
           )}
         </ScrollView>
