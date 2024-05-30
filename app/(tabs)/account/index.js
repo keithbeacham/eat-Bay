@@ -48,14 +48,18 @@ export default function Index() {
     <>
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: false, headerLeft: () => (
-          <View style={{ flexDirection: 'row' }} >
-            <Image
-              style={{ marginRight: 10 }} 
-              source={require('../../../assets/logo.png')}
-            />
-          </View>
-        ) }}
+        options={{
+          headerShown: true,
+          title: false,
+          headerLeft: () => (
+            <View style={{ flexDirection: "row" }}>
+              <Image
+                style={{ marginRight: 10 }}
+                source={require("../../../assets/logo.png")}
+              />
+            </View>
+          ),
+        }}
       />
       <MapView
         style={styles.map}
