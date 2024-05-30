@@ -28,7 +28,7 @@ export default function AboutUs() {
                 style={{ marginTop: 10, marginBottom: 0 }} 
                 source={require('../../../assets/aboutus.png')}
               />
-        <Text style={{ marginLeft: 30, marginRight: 30, marginTop: 15 }}>
+        <Text style={{ fontSize: 13, marginLeft: 30, marginRight: 30, marginTop: 15 }}>
           A long time ago in a galaxy far, far away Luke Skywalker has returned
           to his home planet of Tatooine in an attempt to rescue his friend Han
           Solo from a shortage of affordable food.{"\n"}{"\n"}Little does Luke know that
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
+    backgroundColor: "rgba(255,255,255,0.9)",
     padding: 10,
     borderRadius: 10,
   },
