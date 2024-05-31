@@ -38,6 +38,7 @@ npm install
 ```
 
 <p>Once all the dependencies have been installed, you'll need to run the following:</p>
+
 ```sh
 npx expo start
 ```
