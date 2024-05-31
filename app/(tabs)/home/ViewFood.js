@@ -74,16 +74,15 @@ export default function ViewFood() {
       />
       <View style={styles.pageContainer}>
         <Image source={{ uri: foodPictureUrl }} style={styles.image} />
-        <Text style={styles.bold25}>
+        <Text style={styles.bold20}>
           {foodItemName}
-          {"\n"}
         </Text>
         <Text style={styles.text15}>
           {foodItemDescription}
           {"\n"}
         </Text>
         <Text style={styles.bold16}>
-          {foodItemQuantity} remaining
+          {foodItemQuantity} available
           {"\n"}
         </Text>
         {user.type === "shop" ? null : user.isLoggedIn ? (
@@ -126,6 +125,10 @@ const styles = StyleSheet.create({
   bold25: {
     fontWeight: "bold",
     fontSize: 25,
+  },
+  bold20: {
+    fontWeight: "bold",
+    fontSize: 20,
   },
   bold16: {
     fontWeight: "bold",

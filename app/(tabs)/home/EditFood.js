@@ -77,14 +77,13 @@ export default function EditFood() {
         <Image source={{ uri: foodPictureUrl }} style={styles.image} />
         <Text style={styles.bold20}>
           {foodItemName}
-          {"\n"}
         </Text>
         <Text style={styles.text15}>
           {foodItemDescription}
-          {"\n"}
         </Text>
         <Text style={styles.bold16}>
-          {foodItemQuantity} remaining
+        {"\n"}
+          {foodItemQuantity} available
           {"\n"}
         </Text>
         <View style={styles.shopButtons}>

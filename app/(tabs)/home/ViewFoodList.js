@@ -174,12 +174,12 @@ export default function ViewFood() {
                   </View>
                   <Text>{"\n"}</Text>
                   <Text style={styles.bold20}>
-                    {"\n"}
                     {foodItem.item_name}
                   </Text>
                   <Text style={styles.text15}>
                     {"\n"}
                     {foodItem.item_description}
+                    {"\n"}
                   </Text>
                   <Text style={styles.bold16}>
                     {"\n"}
