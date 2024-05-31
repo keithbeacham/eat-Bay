@@ -2,6 +2,8 @@
 
 Welcome to eatBay, a mobile application that displays food availability across different food establishments in the UK. eatBay is a demonstration project developed by a team of four over seven working days as part of the Northcoders Software Engineering Bootcamp.
 
+<img src="assets/eatbay-promo.gif" width="600">
+
 <h2>The Team</h2>
 <li>Marcus Young - https://github.com/marcusyoung</li>
 <li>Jennifer Wiezien - https://github.com/Wiezien</li>
