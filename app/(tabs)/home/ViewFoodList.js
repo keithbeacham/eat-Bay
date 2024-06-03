@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView, Alert } from "react-native";
-import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
-import MapView from "react-native-maps";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import {
   deleteFollowerByUserId,
   deleteFoodById,
@@ -14,6 +13,7 @@ import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
 import { MapContext } from "../../contexts/MapContext";
 import Button from "../../components/Button";
+import ScreenContainer from "../../components/ScreenContainer";
 
 //import { Image } from "expo-image";
 
@@ -29,7 +29,6 @@ export default function ViewFood() {
   const [viewOrEditFoodItem, setViewOrEditFoodItem] =
     useState("/home/ViewFood");
   const router = useRouter();
-  const { region, setRegion } = useContext(MapContext);
 
   params = useLocalSearchParams();
   useEffect(() => {
@@ -113,27 +112,7 @@ export default function ViewFood() {
 
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{
-          headerShown: true,
-          title: false,
-          headerLeft: () => (
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                style={{ marginRight: 10 }}
-                source={require("../../../assets/logo.png")}
-              />
-            </View>
-          ),
-        }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         {user.isLoggedIn && user.type === "customer" ? (
           <View style={styles.likeButton}>
             <LikeButton
@@ -204,30 +183,11 @@ export default function ViewFood() {
             })
           )}
         </ScrollView>
-      </View>
+      </ScreenContainer>
     </>
   );
 }
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   shopName: {
     fontWeight: "bold",
     fontSize: 25,

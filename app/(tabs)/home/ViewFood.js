@@ -1,11 +1,14 @@
-import { Text, View, StyleSheet, Alert, Image } from "react-native";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Text, StyleSheet, Alert, Image } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { getFoodByFoodId, postReservation, patchFoodQuantity } from "../../../src/api/backEndApi";
+import {
+  getFoodByFoodId,
+  postReservation,
+  patchFoodQuantity,
+} from "../../../src/api/backEndApi";
 import Button from "../../components/Button";
-import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
-import { MapContext } from "../../contexts/MapContext";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function ViewFood() {
   const { food_id, shop_id } = useLocalSearchParams();
@@ -15,7 +18,6 @@ export default function ViewFood() {
   const [foodPictureUrl, setFoodPictureUrl] = useState();
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
-  const { region, setRegion } = useContext(MapContext);
 
   useEffect(() => {
     getFoodByFoodId(food_id).then((food_item) => {
@@ -37,7 +39,7 @@ export default function ViewFood() {
     if (user.isLoggedIn && user.type === "customer") {
       postReservation(shop_id, food_id, user.user_id)
         .then(() => {
-          return patchFoodQuantity(food_id, -1)
+          return patchFoodQuantity(food_id, -1);
         })
         .then(() => {
           Alert.alert("Success", "Reservation added", [
@@ -54,25 +56,7 @@ export default function ViewFood() {
   }
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{
-          headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-              <Image
-                style={{ marginRight: 10 }}
-                source={require('../../../assets/logo.png')}
-              />
-            </View>
-          )
-        }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         <Image source={{ uri: foodPictureUrl }} style={styles.image} />
         <Text style={styles.bold25}>
           {foodItemName}
@@ -94,31 +78,12 @@ export default function ViewFood() {
             onPress={() => loginToReserve()}
           />
         )}
-      </View>
+      </ScreenContainer>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   text15: {
     fontSize: 15,
     textAlign: "center",

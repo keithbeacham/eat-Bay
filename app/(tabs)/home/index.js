@@ -41,11 +41,7 @@ export default function Home() {
         setLongitudeDelta(0.5);
       })
       .catch((error) => {
-        Alert.alert(
-          "Error",
-          "Sorry, location not found",
-          [{ text: "OK" }]
-        );
+        Alert.alert("Error", "Sorry, location not found", [{ text: "OK" }]);
       });
   }
 
@@ -61,14 +57,13 @@ export default function Home() {
       <Stack.Screen
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         options={{
-          headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-              <Image
-                style={{ marginRight: 10 }} 
-                source={require('../../../assets/logo.png')}
-              />
-            </View>
-          )
+          headerTitle: () => (
+            <Image
+              style={{ width: 80, height: 25 }}
+              source={require("../../../assets/logo-small.png")}
+            />
+          ),
+          headerBackTitle: "",
         }}
       />
       <View

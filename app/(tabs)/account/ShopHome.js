@@ -1,7 +1,6 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { useContext } from "react";
-import MapView from "react-native-maps";
-import { Redirect, Stack, useRouter, Link } from "expo-router";
+import { Redirect, useRouter, Link } from "expo-router";
 import {
   registerForPushNotificationsAsync,
   setNotificationsHandler,
@@ -11,13 +10,12 @@ import Button from "../../components/Button";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import { MapContext } from "../../contexts/MapContext";
 import { getShopById } from "../../../src/api/backEndApi";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function ShopHome() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
-  const { region, setRegion } = useContext(MapContext);
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(Notifications.Notification);
   const notificationListener = useRef(Notifications.Subscription);
@@ -72,52 +70,16 @@ export default function ShopHome() {
   }
 
   return (
-    <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: false, headerLeft: () => (
-          <View style={{ flexDirection: 'row' }} >
-            <Image
-              style={{ marginRight: 10 }} 
-              source={require('../../../assets/logo.png')}
-            />
-          </View>
-        ) }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
+    <ScreenContainer>
       {!user.isLoggedIn ? (
         <Redirect href={"/account"} />
       ) : (
-        <View style={styles.pageContainer}>
+        <>
           <Text style={styles.bold25}>{shop.shop_name}</Text>
           <Text style={styles.text16}>
             {shop.address}
             {"\n"}
           </Text>
-          {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
-          {/* <Text>
-          Title: {notification && notification.request.content.title}{" "}
-        </Text>
-        <Text>Body: {notification && notification.request.content.body}</Text>
-        <Text>
-          Data:{" "}
-          {notification && JSON.stringify(notification.request.content.data)}
-        </Text>
-      </View> */}
-          {/* <Button
-          title="Press to Send Notification"
-          onPress={async () => {
-            await sendPushNotification(expoPushToken);
-          }}
-        /> */}
-          {/* <Button
-            title="Agree to push notifications"
-            onPress={() => setUpPushNotifications()}
-          /> */}
           <Text>{"\n"}</Text>
           <Link
             style={styles.button}
@@ -157,32 +119,13 @@ export default function ShopHome() {
           }
           <Text>{"\n"}</Text>
           <Button title="Log Out" onPress={() => logoutUser()} />
-        </View>
+        </>
       )}
-    </>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   text15: {
     fontSize: 15,
     textAlign: "center",

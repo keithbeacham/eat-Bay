@@ -6,25 +6,19 @@ import {
   ScrollView,
   Alert,
   Pressable,
-  Image,
 } from "react-native";
-import { Stack, Link, useRouter } from "expo-router";
-import Button from "../../components/Button";
-import MapView from "react-native-maps";
 import {
   getReservationsByUserId,
   deleteReservationById,
-  patchFoodQuantity
+  patchFoodQuantity,
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
-import { MapContext } from "../../contexts/MapContext";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function ViewReservations() {
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user, setUser } = useContext(UserContext);
-  const router = useRouter();
-  const { region, setRegion } = useContext(MapContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,12 +31,10 @@ export default function ViewReservations() {
   function deleteReservation(reservationId, foodId) {
     deleteReservationById(reservationId, foodId)
       .then(() => {
-        return patchFoodQuantity(foodId, 1)
+        return patchFoodQuantity(foodId, 1);
       })
       .then((response) => {
-        Alert.alert("Success", "Reservation deleted", [
-          { text: "OK"},
-        ]);
+        Alert.alert("Success", "Reservation deleted", [{ text: "OK" }]);
         const updatedReservations = [...reservations].filter(
           (reservation) => reservation.reservation_id != reservationId
         );
@@ -50,34 +42,14 @@ export default function ViewReservations() {
       })
       .catch((error) => {
         Alert.alert("Error", "There was a problem deleting the reservation", [
-          { text: "OK"},
+          { text: "OK" },
         ]);
       });
   }
 
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{
-          headerShown: true,
-          title: false,
-          headerLeft: () => (
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                style={{ marginRight: 10 }}
-                source={require("../../../assets/logo.png")}
-              />
-            </View>
-          ),
-        }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         <Text style={styles.bold25}>Reserved Items{"\n"}</Text>
         <ScrollView>
           {isLoading ? (
@@ -103,7 +75,10 @@ export default function ViewReservations() {
                     style={styles.button}
                     key={"buttonKey"}
                     onPress={() =>
-                      deleteReservation(reservation.reservation_id, reservation.food_id)
+                      deleteReservation(
+                        reservation.reservation_id,
+                        reservation.food_id
+                      )
                     }
                   >
                     <Text style={styles.buttonText}>Delete</Text>
@@ -113,32 +88,12 @@ export default function ViewReservations() {
             })
           )}
         </ScrollView>
-      </View>
+      </ScreenContainer>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "scroll",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   reservationBox: {
     flex: 1,
     justifyContent: "center",

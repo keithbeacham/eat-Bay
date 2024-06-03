@@ -1,21 +1,17 @@
-import { View, Text, StyleSheet, ScrollView, Alert, Image } from "react-native";
-import { Stack, Redirect, useLocalSearchParams } from "expo-router";
-import MapView from "react-native-maps";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import Button from "../../components/Button";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import {
   getReservationsByShopId,
   patchReservationByReservationId,
 } from "../../../src/api/backEndApi";
-import { MapContext } from "../../contexts/MapContext";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function SellFood() {
   let params = {};
-  const { region, setRegion } = useContext(MapContext);
   const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [shop_id, setShopId] = useState();
-  const [shop_name, setShopName] = useState();
 
   params = useLocalSearchParams();
 
@@ -51,20 +47,7 @@ export default function SellFood() {
 
   return (
     <>
-      <Stack.Screen options={{ headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-              <Image
-                style={{ marginRight: 10 }} 
-                source={require('../../../assets/logo.png')}
-              />
-            </View>
-          ) }} />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         <Text style={styles.bold25}>{params.title}</Text>
         <Text>{params.address}</Text>
         <Text style={styles.bold16}>Current Reservations{"\n"}</Text>
@@ -99,31 +82,12 @@ export default function SellFood() {
             })
           )}
         </ScrollView>
-      </View>
+      </ScreenContainer>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   reservationBox: {
     flex: 1,
     justifyContent: "center",

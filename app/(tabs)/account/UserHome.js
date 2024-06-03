@@ -13,6 +13,7 @@ import MapView from "react-native-maps";
 import * as Notifications from "expo-notifications";
 import { useState, useEffect, useRef } from "react";
 import { patchUserById } from "../../../src/api/backEndApi";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function UserHome() {
   const router = useRouter();
@@ -71,17 +72,15 @@ export default function UserHome() {
     if (!allowNotifications) {
       setExpoPushToken("");
     }
-    //console.log("in UserHome, pushToken>", expoPushToken);
-    // currently only allowing editing of push token, name and password
-    const body = {}
+    const body = {};
     if (expoPushToken) {
-      body.push_token = expoPushToken
+      body.push_token = expoPushToken;
     }
     if (userName) {
-      body.name = userName
+      body.name = userName;
     }
     if (password) {
-      body.password = password
+      body.password = password;
     }
     patchUserById(user.user_id, body)
       .then(() => {
@@ -95,7 +94,6 @@ export default function UserHome() {
           "Something has gone wrong, please try again later",
           [{ text: "OK" }]
         );
-        //console.log("in userhome, patchUserById>", err);
       });
   }
 
@@ -109,29 +107,11 @@ export default function UserHome() {
   }
 
   return (
-    <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{
-          headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-              <Image
-                style={{ marginRight: 10 }}
-                source={require('../../../assets/logo.png')}
-              />
-            </View>
-          )
-        }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
+    <ScreenContainer>
       {!user.isLoggedIn ? (
         <Redirect href={"/account"} />
       ) : (
-        <View style={styles.pageContainer}>
+        <>
           <Text style={styles.bold25}>Account</Text>
           <Text></Text>
           {/* <Text>Your Expo push token: {expoPushToken}</Text> */}
@@ -189,9 +169,9 @@ export default function UserHome() {
           />
           <Text style={{ fontSize: 5 }}>{"\n"}</Text>
           <Button title="Log Out" onPress={() => logoutUser()} />
-        </View>
+        </>
       )}
-    </>
+    </ScreenContainer>
   );
 }
 

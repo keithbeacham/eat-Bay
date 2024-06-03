@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, TextInput, Alert, Image } from "react-native";
-import { Stack, Redirect, useRouter, useLocalSearchParams } from "expo-router";
+import { Text, StyleSheet, TextInput, Alert } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import Button from "../../components/Button";
-import MapView from "react-native-maps";
 import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { MapContext } from "../../contexts/MapContext";
@@ -10,10 +9,10 @@ import {
   postFoodItem,
 } from "../../../src/api/backEndApi";
 import { sendNotifications } from "../../../src/notifications";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function AddFood() {
   const { user, setUser } = useContext(UserContext);
-  const { region, setRegion } = useContext(MapContext);
   const shop = useLocalSearchParams();
   const [itemname, setItemName] = useState("");
   const [itemdesc, setItemDesc] = useState("");
@@ -55,25 +54,7 @@ export default function AddFood() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerShown: true,
-          title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-              <Image
-                style={{ marginRight: 10 }} 
-                source={require('../../../assets/logo.png')}
-              />
-            </View>
-          ),
-        }}
-      />
-      {/* <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      /> */}
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         <Text style={styles.bold25}>Add food item</Text>
         <Text>Fill in the fields below to add a new food item{"\n"}</Text>
         <>
@@ -109,31 +90,12 @@ export default function AddFood() {
             }}
           />
         </>
-      </View>
+      </ScreenContainer>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   foodItem: {
     flex: 1,
     justifyContent: "center",

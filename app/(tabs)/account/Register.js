@@ -1,16 +1,14 @@
-import { Text, View, StyleSheet, TextInput, Image } from "react-native";
-import { Redirect, Stack, useRouter } from "expo-router";
+import { Text, StyleSheet, TextInput } from "react-native";
+import { useRouter } from "expo-router";
 import { useContext, useMemo, useState } from "react";
 import Button from "../../components/Button";
-import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
-import { MapContext } from "../../contexts/MapContext";
 import { RadioGroup } from "react-native-radio-buttons-group";
+import ScreenContainer from "../../components/ScreenContainer";
 
 export default function Register() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
-  const { region, setRegion } = useContext(MapContext);
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -65,23 +63,7 @@ export default function Register() {
 
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{ headerShown: true, title: false, headerLeft: () => (
-          <View style={{ flexDirection: 'row' }} >
-            <Image
-              style={{ marginRight: 10 }} 
-              source={require('../../../assets/logo.png')}
-            />
-          </View>
-        ) }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         <Text style={styles.bold30}>Register</Text>
         <RadioGroup
           radioButtons={radioButtons}
@@ -119,31 +101,12 @@ export default function Register() {
           secureTextEntry={true}
         />
         <Button title="Create Account" onPress={() => createAccount()} />
-      </View>
+      </ScreenContainer>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   text15: {
     fontSize: 15,
     textAlign: "center",
