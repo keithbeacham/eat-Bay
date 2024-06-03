@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView, Alert } from "react-native";
-import { Stack, Link, useLocalSearchParams, useRouter } from "expo-router";
-import MapView from "react-native-maps";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import {
   deleteFollowerByUserId,
-  deleteFoodById,
   getFollowersByShopId,
   getFoodByShopId,
   getUserById,
@@ -12,13 +10,13 @@ import {
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
-import { MapContext } from "../../contexts/MapContext";
+import ScreenContainer from "../../components/ScreenContainer";
+import FoodItem from "../../components/FoodItem";
 import Button from "../../components/Button";
-
-//import { Image } from "expo-image";
 
 export default function ViewFood() {
   let params = {};
+  const router = useRouter();
   const [shopName, setShopName] = useState("");
   const [address, setAddress] = useState("");
   const [pickUpTimes, setPickUpTimes] = useState("");
@@ -28,8 +26,7 @@ export default function ViewFood() {
   const [likeButtonSelected, setLikeButtonSelected] = useState(false);
   const [viewOrEditFoodItem, setViewOrEditFoodItem] =
     useState("/home/ViewFood");
-  const router = useRouter();
-  const { region, setRegion } = useContext(MapContext);
+  const [reload, setReload] = useState(true);
 
   params = useLocalSearchParams();
   useEffect(() => {
@@ -53,7 +50,7 @@ export default function ViewFood() {
         });
       }
     });
-  }, []);
+  }, [reload]);
 
   function userLikesShop() {
     if (likeButtonSelected) {
@@ -90,17 +87,6 @@ export default function ViewFood() {
         });
     }
   }
-
-  function deleteFoodItem(foodItem) {
-    deleteFoodById(foodItem.food_id).then(() => {
-      setIsLoading(true);
-      getFoodByShopId(params.shop_id).then((foods) => {
-        setFoodItems(foods);
-        setIsLoading(false);
-      });
-    });
-  }
-
   function editFoodItem(foodItem) {
     router.push({
       pathname: "/home/EditFood",
@@ -110,30 +96,15 @@ export default function ViewFood() {
       },
     });
   }
+  function deleteFoodItem(foodItem) {
+    deleteFoodById(foodItem.food_id).then(() => {
+      setReload((currentState) => (currentState ? false : true));
+    });
+  }
 
   return (
     <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{
-          headerShown: true,
-          title: false,
-          headerLeft: () => (
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                style={{ marginRight: 10 }}
-                source={require("../../../assets/logo.png")}
-              />
-            </View>
-          ),
-        }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
+      <ScreenContainer>
         {user.isLoggedIn && user.type === "customer" ? (
           <View style={styles.likeButton}>
             <LikeButton
@@ -166,25 +137,8 @@ export default function ViewFood() {
                   }}
                   style={styles.foodItem}
                 >
-                  <View style={styles.imageContainer}>
-                    <Image
-                      source={{ uri: foodItem.picture_url }}
-                      style={styles.image}
-                    />
-                  </View>
-                  <Text>{"\n"}</Text>
-                  <Text style={styles.bold20}>
-                    {foodItem.item_name}
-                  </Text>
-                  <Text style={styles.text15}>
-                    {"\n"}
-                    {foodItem.item_description}
-                    {"\n"}
-                  </Text>
-                  <Text style={styles.bold16}>
-                    {"\n"}
-                    {foodItem.quantity} available
-                  </Text>
+
+                  <FoodItem foodItem={foodItem} />
                   {user.type === "customer" ? null : (
                     <View style={styles.shopButtons}>
                       <Button
@@ -204,30 +158,12 @@ export default function ViewFood() {
             })
           )}
         </ScrollView>
-      </View>
+      </ScreenContainer>
     </>
   );
 }
+
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   shopName: {
     fontWeight: "bold",
     fontSize: 25,
@@ -240,10 +176,7 @@ const styles = StyleSheet.create({
     right: "5%",
   },
   foodItem: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    textAlign: "center",
     backgroundColor: "rgba(228,219,223,0.6)",
     margin: 10,
     padding: 15,
@@ -265,13 +198,6 @@ const styles = StyleSheet.create({
   bold16: {
     fontWeight: "bold",
     fontSize: 16,
-  },
-  imageContainer: {
-    flex: 1,
-  },
-  image: {
-    width: 150,
-    height: 150,
   },
   listContainer: {
     flex: 1,

@@ -1,35 +1,32 @@
-import { Text, View, StyleSheet, Alert, Image } from "react-native";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { View, StyleSheet, Alert, Text } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { getFoodByFoodId, postReservation, patchFoodQuantity } from "../../../src/api/backEndApi";
+import {
+  getFoodByFoodId,
+  postReservation,
+  patchFoodQuantity,
+} from "../../../src/api/backEndApi";
 import Button from "../../components/Button";
-import MapView from "react-native-maps";
 import { UserContext } from "../../contexts/UserContext";
-import { MapContext } from "../../contexts/MapContext";
+import ScreenContainer from "../../components/ScreenContainer";
+import FoodItem from "../../components/FoodItem";
 
 export default function ViewFood() {
   const { food_id, shop_id } = useLocalSearchParams();
-  const [foodItemName, setFoodItemName] = useState("");
-  const [foodItemDescription, setFoodItemDescription] = useState("");
-  const [foodItemQuantity, setFoodItemQuantity] = useState(0);
-  const [foodPictureUrl, setFoodPictureUrl] = useState();
+  const [foodItem, setFoodItem] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
-  const { region, setRegion } = useContext(MapContext);
 
   useEffect(() => {
+    setIsLoading(true);
     getFoodByFoodId(food_id).then((food_item) => {
-      setFoodItemName(food_item.item_name);
-      setFoodItemDescription(food_item.item_description);
-      setFoodItemQuantity(food_item.quantity);
-      setFoodPictureUrl(food_item.picture_url);
+      setFoodItem(food_item);
+      setIsLoading(false);
     });
   }, []);
 
   function loginToReserve() {
-    setUser((currentUser) => {
-      return { ...currentUser, cameFromFood: true };
-    });
     router.push("/(tabs)/account");
   }
 
@@ -37,54 +34,28 @@ export default function ViewFood() {
     if (user.isLoggedIn && user.type === "customer") {
       postReservation(shop_id, food_id, user.user_id)
         .then(() => {
-          return patchFoodQuantity(food_id, -1)
+          return patchFoodQuantity(food_id, -1);
         })
         .then(() => {
-          Alert.alert("Success", "Reservation added", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
+          Alert.alert("Success", "Reservation added", [{ text: "OK" }]);
           router.replace("/home/Reservations");
         })
         .catch((error) => {
           Alert.alert("Error", "There was a problem creating the reservation", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
+            { text: "OK" },
           ]);
         });
     }
   }
   return (
-    <>
-      <Stack.Screen
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        options={{
-          headerShown: true, title: false, headerLeft: () => (
-            <View style={{ flexDirection: 'row' }} >
-              <Image
-                style={{ marginRight: 10 }}
-                source={require('../../../assets/logo.png')}
-              />
-            </View>
-          )
-        }}
-      />
-      <MapView
-        style={styles.map}
-        provider={MapView.PROVIDER_GOOGLE}
-        initialRegion={region}
-      />
-      <View style={styles.pageContainer}>
-        <Image source={{ uri: foodPictureUrl }} style={styles.image} />
-        <Text style={styles.bold20}>
-          {foodItemName}
-        </Text>
-        <Text style={styles.text15}>
-          {foodItemDescription}
-          {"\n"}
-        </Text>
-        <Text style={styles.bold16}>
-          {foodItemQuantity} available
-          {"\n"}
-        </Text>
+      <ScreenContainer>
+        <View style={styles.foodItem}>
+          {isLoading ? (
+            <Text>loading...</Text>
+          ) : (
+            <FoodItem foodItem={foodItem} />
+          )}
+        </View>
         {user.type === "shop" ? null : user.isLoggedIn ? (
           <Button title="Reserve Item" onPress={() => reserveFoodItem()} />
         ) : (
@@ -93,31 +64,11 @@ export default function ViewFood() {
             onPress={() => loginToReserve()}
           />
         )}
-      </View>
-    </>
+      </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  map: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-  },
-  pageContainer: {
-    position: "absolute",
-    top: "5%",
-    left: "10%",
-    width: "80%",
-    height: "90%",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.8)",
-    padding: 10,
-    borderRadius: 10,
-  },
   text15: {
     fontSize: 15,
     textAlign: "center",
@@ -138,5 +89,14 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+  foodItem: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    backgroundColor: "rgba(228,219,223,0.6)",
+    margin: 10,
+    padding: 15,
   },
 });
