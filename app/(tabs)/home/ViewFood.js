@@ -1,4 +1,4 @@
-import { Text, StyleSheet, Alert, Image } from "react-native";
+import { View, StyleSheet, Alert, Text } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
@@ -9,29 +9,24 @@ import {
 import Button from "../../components/Button";
 import { UserContext } from "../../contexts/UserContext";
 import ScreenContainer from "../../components/ScreenContainer";
+import FoodItem from "../../components/FoodItem";
 
 export default function ViewFood() {
   const { food_id, shop_id } = useLocalSearchParams();
-  const [foodItemName, setFoodItemName] = useState("");
-  const [foodItemDescription, setFoodItemDescription] = useState("");
-  const [foodItemQuantity, setFoodItemQuantity] = useState(0);
-  const [foodPictureUrl, setFoodPictureUrl] = useState();
+  const [foodItem, setFoodItem] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
+    setIsLoading(true);
     getFoodByFoodId(food_id).then((food_item) => {
-      setFoodItemName(food_item.item_name);
-      setFoodItemDescription(food_item.item_description);
-      setFoodItemQuantity(food_item.quantity);
-      setFoodPictureUrl(food_item.picture_url);
+      setFoodItem(food_item);
+      setIsLoading(false);
     });
   }, []);
 
   function loginToReserve() {
-    setUser((currentUser) => {
-      return { ...currentUser, cameFromFood: true };
-    });
     router.push("/(tabs)/account");
   }
 
@@ -42,14 +37,12 @@ export default function ViewFood() {
           return patchFoodQuantity(food_id, -1);
         })
         .then(() => {
-          Alert.alert("Success", "Reservation added", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
+          Alert.alert("Success", "Reservation added", [{ text: "OK" }]);
           router.replace("/home/Reservations");
         })
         .catch((error) => {
           Alert.alert("Error", "There was a problem creating the reservation", [
-            { text: "OK", onPress: () => console.log("OK Pressed") },
+            { text: "OK" },
           ]);
         });
     }
@@ -57,19 +50,13 @@ export default function ViewFood() {
   return (
     <>
       <ScreenContainer>
-        <Image source={{ uri: foodPictureUrl }} style={styles.image} />
-        <Text style={styles.bold25}>
-          {foodItemName}
-          {"\n"}
-        </Text>
-        <Text style={styles.text15}>
-          {foodItemDescription}
-          {"\n"}
-        </Text>
-        <Text style={styles.bold16}>
-          {foodItemQuantity} remaining
-          {"\n"}
-        </Text>
+        <View style={styles.foodItem}>
+          {isLoading ? (
+            <Text>loading...</Text>
+          ) : (
+            <FoodItem foodItem={foodItem} />
+          )}
+        </View>
         {user.type === "shop" ? null : user.isLoggedIn ? (
           <Button title="Reserve Item" onPress={() => reserveFoodItem()} />
         ) : (
@@ -100,5 +87,14 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+  foodItem: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    backgroundColor: "rgba(228,219,223,0.6)",
+    margin: 10,
+    padding: 15,
   },
 });

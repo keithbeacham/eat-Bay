@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import {
   deleteFollowerByUserId,
-  deleteFoodById,
   getFollowersByShopId,
   getFoodByShopId,
   getUserById,
@@ -11,14 +10,13 @@ import {
 } from "../../../src/api/backEndApi";
 import { UserContext } from "../../contexts/UserContext";
 import LikeButton from "../../components/LikeButton";
-import { MapContext } from "../../contexts/MapContext";
-import Button from "../../components/Button";
 import ScreenContainer from "../../components/ScreenContainer";
-
-//import { Image } from "expo-image";
+import FoodItem from "../../components/FoodItem";
+import Button from "../../components/Button";
 
 export default function ViewFood() {
   let params = {};
+  const router = useRouter();
   const [shopName, setShopName] = useState("");
   const [address, setAddress] = useState("");
   const [pickUpTimes, setPickUpTimes] = useState("");
@@ -28,7 +26,7 @@ export default function ViewFood() {
   const [likeButtonSelected, setLikeButtonSelected] = useState(false);
   const [viewOrEditFoodItem, setViewOrEditFoodItem] =
     useState("/home/ViewFood");
-  const router = useRouter();
+  const [reload, setReload] = useState(true);
 
   params = useLocalSearchParams();
   useEffect(() => {
@@ -52,7 +50,7 @@ export default function ViewFood() {
         });
       }
     });
-  }, []);
+  }, [reload]);
 
   function userLikesShop() {
     if (likeButtonSelected) {
@@ -89,17 +87,6 @@ export default function ViewFood() {
         });
     }
   }
-
-  function deleteFoodItem(foodItem) {
-    deleteFoodById(foodItem.food_id).then(() => {
-      setIsLoading(true);
-      getFoodByShopId(params.shop_id).then((foods) => {
-        setFoodItems(foods);
-        setIsLoading(false);
-      });
-    });
-  }
-
   function editFoodItem(foodItem) {
     router.push({
       pathname: "/home/EditFood",
@@ -107,6 +94,11 @@ export default function ViewFood() {
         food_id: foodItem.food_id,
         shop_id: params.shop_id,
       },
+    });
+  }
+  function deleteFoodItem(foodItem) {
+    deleteFoodById(foodItem.food_id).then(() => {
+      setReload((currentState) => (currentState ? false : true));
     });
   }
 
@@ -145,25 +137,7 @@ export default function ViewFood() {
                   }}
                   style={styles.foodItem}
                 >
-                  <View style={styles.imageContainer}>
-                    <Image
-                      source={{ uri: foodItem.picture_url }}
-                      style={styles.image}
-                    />
-                  </View>
-                  <Text>{"\n"}</Text>
-                  <Text style={styles.bold20}>
-                    {"\n"}
-                    {foodItem.item_name}
-                  </Text>
-                  <Text style={styles.text15}>
-                    {"\n"}
-                    {foodItem.item_description}
-                  </Text>
-                  <Text style={styles.bold16}>
-                    {"\n"}
-                    {foodItem.quantity} available
-                  </Text>
+                  <FoodItem foodItem={foodItem} />
                   {user.type === "customer" ? null : (
                     <View style={styles.shopButtons}>
                       <Button
@@ -187,6 +161,7 @@ export default function ViewFood() {
     </>
   );
 }
+
 const styles = StyleSheet.create({
   shopName: {
     fontWeight: "bold",
@@ -200,10 +175,7 @@ const styles = StyleSheet.create({
     right: "5%",
   },
   foodItem: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    textAlign: "center",
     backgroundColor: "rgba(228,219,223,0.6)",
     margin: 10,
     padding: 15,
@@ -225,13 +197,6 @@ const styles = StyleSheet.create({
   bold16: {
     fontWeight: "bold",
     fontSize: 16,
-  },
-  imageContainer: {
-    flex: 1,
-  },
-  image: {
-    width: 150,
-    height: 150,
   },
   listContainer: {
     flex: 1,

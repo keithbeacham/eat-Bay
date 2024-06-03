@@ -14,7 +14,7 @@ We have included map and user contexts to allow for a smooth user journey.
 Expo push notifications have been integrated into the app.
 
 Keith:
-On the map view, red pins indicate a shop with food available and yellow means the shop have no food spare. 
+As you can see, the app's front page is a map and red pins indicate a shop with food available and yellow means the shop have no food spare. 
 
 There is a map search bar which accepts both postcodes and location names. Let's go for London. I can then zoom in and select a shop. Let's go for this one!
 
