@@ -43,7 +43,6 @@ export default function Index() {
   }
 
   return (
-    <>
       <ScreenContainer>
         <Text style={styles.bold25}>Login or Register{"\n"}</Text>
         {user.isLoggedIn ? (
@@ -77,7 +76,6 @@ export default function Index() {
           </>
         )}
       </ScreenContainer>
-    </>
   );
 }
 

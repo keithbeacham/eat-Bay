@@ -137,6 +137,7 @@ export default function ViewFood() {
                   }}
                   style={styles.foodItem}
                 >
+
                   <FoodItem foodItem={foodItem} />
                   {user.type === "customer" ? null : (
                     <View style={styles.shopButtons}>
@@ -147,7 +148,7 @@ export default function ViewFood() {
                       />
                       <Button
                         style={{ margin: 10 }}
-                        title={"  Edit  "}
+                        title={"Edit"}
                         onPress={() => editFoodItem(foodItem)}
                       />
                     </View>

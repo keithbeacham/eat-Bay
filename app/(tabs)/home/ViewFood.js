@@ -48,7 +48,6 @@ export default function ViewFood() {
     }
   }
   return (
-    <>
       <ScreenContainer>
         <View style={styles.foodItem}>
           {isLoading ? (
@@ -66,7 +65,6 @@ export default function ViewFood() {
           />
         )}
       </ScreenContainer>
-    </>
   );
 }
 
@@ -78,6 +76,10 @@ const styles = StyleSheet.create({
   bold25: {
     fontWeight: "bold",
     fontSize: 25,
+  },
+  bold20: {
+    fontWeight: "bold",
+    fontSize: 20,
   },
   bold16: {
     fontWeight: "bold",

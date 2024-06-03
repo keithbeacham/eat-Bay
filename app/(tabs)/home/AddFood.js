@@ -53,7 +53,6 @@ export default function AddFood() {
   }
 
   return (
-    <>
       <ScreenContainer>
         <Text style={styles.bold25}>Add food item</Text>
         <Text>Fill in the fields below to add a new food item{"\n"}</Text>
@@ -91,7 +90,6 @@ export default function AddFood() {
           />
         </>
       </ScreenContainer>
-    </>
   );
 }
 

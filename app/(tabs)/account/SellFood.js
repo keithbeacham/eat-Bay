@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(228,219,223,0.6)",
-    margin: 10,
     padding: 5,
+    marginBottom: 15,
     width: "100%",
   },
   text15: {

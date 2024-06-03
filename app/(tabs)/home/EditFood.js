@@ -42,9 +42,9 @@ export default function EditFood() {
     });
   }
   return (
-    <>
       <ScreenContainer>
         <Text style={styles.bold25}>Edit Food Item {"\n"}</Text>
+
         <FoodItem foodItem={foodItem} />
         <View style={styles.shopButtons}>
           <Button
@@ -59,7 +59,6 @@ export default function EditFood() {
           />
         </View>
       </ScreenContainer>
-    </>
   );
 }
 
